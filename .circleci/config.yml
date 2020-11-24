@@ -8,7 +8,7 @@ workflows:
       - architect/push-to-app-catalog:
           context: "architect"
           name: "package and push aws-ebs-csi-driver-app chart"
-          app_catalog: "aws-app-collection"
+          app_catalog: "giantswarm-collection"
           app_catalog_test: "giantswarm-test-catalog"
           chart: "aws-ebs-csi-driver-app"
           # Trigger job on git tag.
