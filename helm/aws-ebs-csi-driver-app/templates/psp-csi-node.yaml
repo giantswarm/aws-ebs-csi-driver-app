@@ -3,12 +3,13 @@ kind: PodSecurityPolicy
 metadata:
   name: ebs-csi-node
 spec:
-  allowPrivilegeEscalation: false
+  allowPrivilegeEscalation: true
   fsGroup:
     ranges:
     - max: 65535
       min: 1
     rule: MustRunAs
+  privileged: true
   runAsUser:
     ranges:
     - max: 65535
