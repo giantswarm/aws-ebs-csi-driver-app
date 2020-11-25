@@ -10,7 +10,6 @@ spec:
   selector:
     matchLabels:
       app: ebs-csi-node
-      {{- include "labels.selector" . | nindent 6 }}
   template:
     metadata:
       labels:

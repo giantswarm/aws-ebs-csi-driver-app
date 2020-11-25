@@ -13,7 +13,6 @@ spec:
   selector:
     matchLabels:
       app: ebs-snapshot-controller
-      {{- include "labels.selector" . | nindent 6 }}
   template:
     metadata:
       labels:
