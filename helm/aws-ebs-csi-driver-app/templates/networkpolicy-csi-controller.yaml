@@ -8,6 +8,6 @@ spec:
   - {}
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: aws-ebs-csi-driver
+      app.kubernetes.io/name: {{ .Values.name | quote }}
   policyTypes:
   - Egress
