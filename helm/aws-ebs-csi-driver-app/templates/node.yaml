@@ -31,6 +31,10 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       serviceAccountName: ebs-csi-node-sa
+      securityContext:
+        fsGroup: 0
+        runAsGroup: 0
+        runAsUser: 0
       hostNetwork: true
       priorityClassName: system-node-critical
       tolerations:
