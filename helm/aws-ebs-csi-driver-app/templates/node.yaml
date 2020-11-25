@@ -30,6 +30,7 @@ spec:
                 - fargate
       nodeSelector:
         kubernetes.io/os: linux
+      serviceAccountName: ebs-csi-node-sa
       hostNetwork: true
       priorityClassName: system-node-critical
       tolerations:
