@@ -8,6 +8,6 @@ spec:
   - {}
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Values.name | quote }}
+      app.kubernetes.io/name: {{ .Values.name | quote }}
   policyTypes:
   - Egress
