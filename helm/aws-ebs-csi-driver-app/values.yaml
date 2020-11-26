@@ -4,7 +4,7 @@
 
 name: aws-ebs-csi-driver
 
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: quay.io/giantswarm/aws-ebs-csi-driver
