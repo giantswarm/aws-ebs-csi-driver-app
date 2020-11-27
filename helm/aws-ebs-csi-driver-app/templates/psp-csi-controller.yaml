@@ -14,6 +14,10 @@ spec:
     - max: 65535
       min: 1000
     rule: MustRunAs
+  hostNetwork: true
+  hostPorts:
+  - max: 9808
+    min: 9808
   seLinux:
     rule: RunAsAny
   supplementalGroups:
