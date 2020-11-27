@@ -37,11 +37,6 @@ spec:
         runAsUser: 0
       hostNetwork: true
       priorityClassName: system-node-critical
-      tolerations:
-        - operator: Exists
-        {{- with .Values.node.tolerations }}
-{{ toYaml . | indent 8 }}
-        {{- end }}
       containers:
         - name: ebs-plugin
           securityContext:
