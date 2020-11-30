@@ -8,28 +8,28 @@ replicaCount: 1
 
 image:
   repository: quay.io/giantswarm/aws-ebs-csi-driver
-  tag: "v0.7.0"
+  tag: "v0.7.1"
   pullPolicy: IfNotPresent
 
 sidecars:
   provisionerImage:
     repository: quay.io/giantswarm/csi-provisioner
-    tag: "v1.6.0"
+    tag: "v2.0.4"
   attacherImage:
     repository: quay.io/giantswarm/csi-attacher
-    tag: "v1.2.0"
+    tag: "v3.0.2"
   snapshotterImage:
     repository: quay.io/giantswarm/csi-snapshotter
-    tag: "v2.1.1"
+    tag: "v3.0.2"
   livenessProbeImage:
     repository: quay.io/giantswarm/livenessprobe
-    tag: "v1.1.0"
+    tag: "v2.1.0"
   resizerImage:
     repository: quay.io/giantswarm/csi-resizer
-    tag: "v0.3.0"
+    tag: "v1.0.1"
   nodeDriverRegistrarImage:
     repository: quay.io/giantswarm/csi-node-driver-registrar
-    tag: "v1.1.0"
+    tag: "v2.0.1"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -38,10 +38,10 @@ fullnameOverride: ""
 podAnnotations: {}
 
 # True if enable volume scheduling for dynamic volume provisioning
-enableVolumeScheduling: false
+enableVolumeScheduling: true
 
 # True if enable volume resizing
-enableVolumeResizing: false
+enableVolumeResizing: true
 
 # True if enable volume snapshot
 enableVolumeSnapshot: false
