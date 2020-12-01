@@ -4,7 +4,7 @@ metadata:
   name: ebs-csi
 provisioner: ebs.csi.aws.com
 volumeBindingMode: WaitForFirstConsumer
-allowVolumeExpansion: {{ .Values.enableVolumeScheduling | quote }}
+allowVolumeExpansion: {{ .Values.enableVolumeScheduling }}
 reclaimPolicy: Delete
 parameters:
   type: gp2
