@@ -7,5 +7,5 @@ volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: {{ .Values.enableVolumeScheduling }}
 reclaimPolicy: Delete
 parameters:
-  type: gp2
+  type: gp3
   encrypted: "true"
