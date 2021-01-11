@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changes
+
+- Update CSI images to align with upstream.
+  - aws-ebs-csi-driver v0.8.1
+  - csi-provisioner v2.1.0
+  - csi-attacher v3.1.0
+  - csi-snapshotter v3.0.3
+  - csi-resizer v1.1.0
+  - livenessprobe v2.2.0
+  - csi-node-driver-registrar v2.1.0
+
 ## [1.1.0] - 2020-12-17
 
 ## [1.0.0] - 2020-12-02

@@ -8,28 +8,28 @@ replicaCount: 1
 
 image:
   repository: quay.io/giantswarm/aws-ebs-csi-driver
-  tag: "v0.8.0"
+  tag: "v0.8.1"
   pullPolicy: IfNotPresent
 
 sidecars:
   provisionerImage:
     repository: quay.io/giantswarm/csi-provisioner
-    tag: "v2.0.4"
+    tag: "v2.1.0"
   attacherImage:
     repository: quay.io/giantswarm/csi-attacher
-    tag: "v3.0.2"
+    tag: "v3.1.0"
   snapshotterImage:
     repository: quay.io/giantswarm/csi-snapshotter
-    tag: "v3.0.2"
+    tag: "v3.0.3"
   livenessProbeImage:
     repository: quay.io/giantswarm/livenessprobe
-    tag: "v2.1.0"
+    tag: "v2.2.0"
   resizerImage:
     repository: quay.io/giantswarm/csi-resizer
-    tag: "v1.0.1"
+    tag: "v1.1.0"
   nodeDriverRegistrarImage:
     repository: quay.io/giantswarm/csi-node-driver-registrar
-    tag: "v2.0.1"
+    tag: "v2.1.0"
 
 imagePullSecrets: []
 nameOverride: ""
