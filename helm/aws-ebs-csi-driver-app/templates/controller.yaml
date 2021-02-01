@@ -104,6 +104,7 @@ spec:
             - --extra-create-metadata
             {{- end}}
             - --leader-election=true
+            - --default-fstype=ext4
           env:
             - name: ADDRESS
               value: /var/lib/csi/sockets/pluginproxy/csi.sock
