@@ -14,3 +14,12 @@ rules:
   - ebs-csi-node
   verbs:
   - use
+{{- if .Values.enableVolumeLimit }}
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - patch
+{{ end }}
