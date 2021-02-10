@@ -58,7 +58,7 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
-      {{ end }}
+      {{- end }}
       containers:
         - name: ebs-plugin
           securityContext:
@@ -71,7 +71,7 @@ spec:
             - --v=5
             {{- if .Values.enableVolumeLimit }}
             --volume-attach-limit=$(EBS_LIMIT)
-            {{ end }}
+            {{- end }}
           env:
             - name: CSI_ENDPOINT
               value: unix:/csi/csi.sock
@@ -80,7 +80,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.labels['giantswarm.io/aws-ebs-limit']
-            {{ end }}
+            {{- end }}
           volumeMounts:
             - name: kubelet-dir
               mountPath: /var/lib/kubelet
