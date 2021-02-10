@@ -70,7 +70,7 @@ spec:
             - --logtostderr
             - --v=5
             {{- if .Values.enableVolumeLimit }}
-            --volume-attach-limit=$(EBS_LIMIT)
+            - --volume-attach-limit=$(EBS_LIMIT)
             {{- end }}
           env:
             - name: CSI_ENDPOINT
