@@ -51,13 +51,13 @@ spec:
             memory: 50Mi
         env:
           - name: POD_NAME
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.name
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
           - name: POD_NAMESPACE
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.namespace
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
       {{ end }}
       containers:
         - name: ebs-plugin
@@ -77,10 +77,9 @@ spec:
               value: unix:/csi/csi.sock
             {{- if .Values.enableVolumeLimit }}
             - name: EBS_LIMIT
-            valueFrom:
-              fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.labels['giantswarm.io/aws-ebs-limit']
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['giantswarm.io/aws-ebs-limit']
             {{ end }}
           volumeMounts:
             - name: kubelet-dir
