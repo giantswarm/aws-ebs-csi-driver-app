@@ -11,6 +11,11 @@ image:
   tag: "v0.9.0"
   pullPolicy: IfNotPresent
 
+init:
+  repository: quay.io/giantswarm/aws-ebs-csi-volume-limiter
+  tag: "v0.0.1"
+  pullPolicy: IfNotPresent
+
 sidecars:
   provisionerImage:
     repository: quay.io/giantswarm/csi-provisioner
@@ -36,6 +41,9 @@ nameOverride: ""
 fullnameOverride: ""
 
 podAnnotations: {}
+
+# True if enable ebs volume limits per instance type
+enableVolumeLimit: false
 
 # True if enable volume scheduling for dynamic volume provisioning
 enableVolumeScheduling: true

@@ -37,6 +37,28 @@ spec:
         runAsUser: 0
       hostNetwork: true
       priorityClassName: system-node-critical
+      {{- if .Values.enableVolumeLimit }}
+      initContainers:
+      - image:  {{ .Values.init.repository }}:{{ .Values.init.tag }}
+        imagePullPolicy: IfNotPresent
+        name: ebs-init
+        resources:
+          limits:
+            cpu: 10m
+            memory: 50Mi
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+      {{- end }}
       containers:
         - name: ebs-plugin
           securityContext:
@@ -47,9 +69,18 @@ spec:
             - --endpoint=$(CSI_ENDPOINT)
             - --logtostderr
             - --v=5
+            {{- if .Values.enableVolumeLimit }}
+            --volume-attach-limit=$(EBS_LIMIT)
+            {{- end }}
           env:
             - name: CSI_ENDPOINT
               value: unix:/csi/csi.sock
+            {{- if .Values.enableVolumeLimit }}
+            - name: EBS_LIMIT
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['giantswarm.io/aws-ebs-limit']
+            {{- end }}
           volumeMounts:
             - name: kubelet-dir
               mountPath: /var/lib/kubelet

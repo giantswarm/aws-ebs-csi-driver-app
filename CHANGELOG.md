@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Optional EBS Volume Limit
+
 ## [1.4.0] - 2021-02-05
 
 ### Changes
