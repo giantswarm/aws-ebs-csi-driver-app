@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Enable EBS volume limit by default.
+- Updated image aws-ebs-csi-volume-limiter 0.1.0.
+
 ## [1.5.0] - 2021-02-10
 
 ### Added
 
-- Optional EBS Volume Limit
+- Optional EBS volume limit.
 
 ## [1.4.0] - 2021-02-05
 
