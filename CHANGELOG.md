@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Rename storage class to `gp3` and set it as default.
+
 ## [1.6.0] - 2021-02-11
 
 ### Changed
