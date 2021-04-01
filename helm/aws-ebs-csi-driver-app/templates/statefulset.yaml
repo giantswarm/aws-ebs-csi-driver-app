@@ -20,9 +20,21 @@ spec:
         {{- include "labels.common" . | nindent 8 }}
     spec:
       serviceAccountName: ebs-snapshot-controller
+      nodeSelector:
+        kubernetes.io/os: linux
+        {{- with .Values.nodeSelector }}
+{{ toYaml . | indent 8 }}
+        {{- end }}
+      priorityClassName: {{ .Values.priorityClassName | default "system-cluster-critical" }}
+      {{- with .Values.affinity }}
+      affinity: {{ toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: snapshot-controller
-          image: quay.io/k8scsi/snapshot-controller:v3.0.3
+          image: {{ printf "%s:%s" .Values.snapshotController.repository .Values.snapshotController.tag }} 
+          {{- with .Values.resources }}
+          resources: {{ toYaml . | nindent 12 }}
+          {{- end }}
           args:
             - --v=5
             - --leader-election=false

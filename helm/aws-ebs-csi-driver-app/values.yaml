@@ -36,6 +36,10 @@ sidecars:
     repository: docker.io/giantswarm/csi-node-driver-registrar
     tag: "v2.1.0"
 
+snapshotController:
+  repository: docker.io/giantswarm/snapshot-controller
+  tag: "v3.0.3"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
