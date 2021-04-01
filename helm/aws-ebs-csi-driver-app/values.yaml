@@ -66,11 +66,26 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-nodeSelector: {}
-
-tolerations: []
-
 affinity: {}
+priorityClassName: ""
+nodeSelector: {}
+tolerateAllTaints: true
+tolerations: []
+affinity: {}
+
+# TSCs without the label selector stanza
+#
+# Example:
+#
+# topologySpreadConstraints:
+#  - maxSkew: 1
+#    topologyKey: topology.kubernetes.io/zone
+#    whenUnsatisfiable: ScheduleAnyway
+#  - maxSkew: 1
+#    topologyKey: kubernetes.io/hostname
+#    whenUnsatisfiable: ScheduleAnyway
+
+topologySpreadConstraints: []
 
 # Extra volume tags to attach to each dynamically provisioned volume.
 # ---
@@ -92,9 +107,17 @@ clusterID: "test-cluster"
 # region: us-east-1
 region: ""
 
+# Additonal environment variables for the controller
+controller:
+  extraVars: {}
+
 node:
+  priorityClassName: ""
+  nodeSelector: {}
   podAnnotations: {}
+  tolerateAllTaints: false
   tolerations: []
+  resources: {}
 
 serviceAccount:
   controller:

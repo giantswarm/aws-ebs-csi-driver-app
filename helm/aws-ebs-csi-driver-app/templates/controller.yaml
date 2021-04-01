@@ -32,10 +32,25 @@ spec:
       affinity: {{ toYaml . | nindent 8 }}
       {{- end }}
       tolerations:
+        {{- if .Values.tolerateAllTaints }}
         - operator: Exists
-      {{- with .Values.tolerations }}
+        {{- else }}
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - operator: Exists
+          effect: NoExecute
+          tolerationSeconds: 300
+        {{- end }}
+        {{- with .Values.tolerations }}
 {{ toYaml . | indent 8 }}
       {{- end }}
+{{- if .Values.topologySpreadConstraints }}
+{{- $tscLabelSelector := dict "labelSelector" ( dict "matchLabels" ( dict "app" "ebs-csi-controller" ) ) }}
+      topologySpreadConstraints:
+        {{- range .Values.topologySpreadConstraints }}
+        - {{ mergeOverwrite . $tscLabelSelector | toJson }}
+        {{- end }}
+{{- end }}
       containers:
         - name: ebs-plugin
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -73,6 +88,12 @@ spec:
             {{- if .Values.region }}
             - name: AWS_REGION
               value: {{ .Values.region }}
+            {{- end }}
+            {{- if .Values.controller.extraVars }}
+            {{- range $key, $val :=  .Values.controller.extraVars }}
+            - name: {{ $key }}
+              value: "{{ $val }}"
+            {{- end }}
             {{- end }}
           volumeMounts:
             - name: socket-dir
