@@ -8,7 +8,7 @@ replicaCount: 1
 
 image:
   repository: docker.io/giantswarm/aws-ebs-csi-driver
-  tag: "v0.9.1"
+  tag: "v0.10.0"
   pullPolicy: IfNotPresent
 
 init:
@@ -19,7 +19,7 @@ init:
 sidecars:
   provisionerImage:
     repository: docker.io/giantswarm/csi-provisioner
-    tag: "v2.1.0"
+    tag: "v2.1.1"
   attacherImage:
     repository: docker.io/giantswarm/csi-attacher
     tag: "v3.1.0"
@@ -35,6 +35,10 @@ sidecars:
   nodeDriverRegistrarImage:
     repository: docker.io/giantswarm/csi-node-driver-registrar
     tag: "v2.1.0"
+
+snapshotController:
+  repository: docker.io/giantswarm/snapshot-controller
+  tag: "v3.0.3"
 
 imagePullSecrets: []
 nameOverride: ""
