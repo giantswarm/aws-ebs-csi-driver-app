@@ -66,7 +66,6 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-affinity: {}
 priorityClassName: ""
 nodeSelector: {}
 tolerateAllTaints: true
