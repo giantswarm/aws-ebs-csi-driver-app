@@ -7,33 +7,33 @@ name: aws-ebs-csi-driver
 replicaCount: 1
 
 image:
-  repository: quay.io/giantswarm/aws-ebs-csi-driver
-  tag: "v0.9.0"
+  repository: docker.io/giantswarm/aws-ebs-csi-driver
+  tag: "v0.9.1"
   pullPolicy: IfNotPresent
 
 init:
-  repository: quay.io/giantswarm/aws-ebs-csi-volume-limiter
+  repository: docker.io/giantswarm/aws-ebs-csi-volume-limiter
   tag: "0.1.0"
   pullPolicy: IfNotPresent
 
 sidecars:
   provisionerImage:
-    repository: quay.io/giantswarm/csi-provisioner
+    repository: docker.io/giantswarm/csi-provisioner
     tag: "v2.1.0"
   attacherImage:
-    repository: quay.io/giantswarm/csi-attacher
+    repository: docker.io/giantswarm/csi-attacher
     tag: "v3.1.0"
   snapshotterImage:
-    repository: quay.io/giantswarm/csi-snapshotter
+    repository: docker.io/giantswarm/csi-snapshotter
     tag: "v3.0.3"
   livenessProbeImage:
-    repository: quay.io/giantswarm/livenessprobe
+    repository: docker.io/giantswarm/livenessprobe
     tag: "v2.2.0"
   resizerImage:
-    repository: quay.io/giantswarm/csi-resizer
+    repository: docker.io/giantswarm/csi-resizer
     tag: "v1.1.0"
   nodeDriverRegistrarImage:
-    repository: quay.io/giantswarm/csi-node-driver-registrar
+    repository: docker.io/giantswarm/csi-node-driver-registrar
     tag: "v2.1.0"
 
 imagePullSecrets: []
@@ -66,11 +66,25 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+priorityClassName: ""
 nodeSelector: {}
-
+tolerateAllTaints: true
 tolerations: []
-
 affinity: {}
+
+# TSCs without the label selector stanza
+#
+# Example:
+#
+# topologySpreadConstraints:
+#  - maxSkew: 1
+#    topologyKey: topology.kubernetes.io/zone
+#    whenUnsatisfiable: ScheduleAnyway
+#  - maxSkew: 1
+#    topologyKey: kubernetes.io/hostname
+#    whenUnsatisfiable: ScheduleAnyway
+
+topologySpreadConstraints: []
 
 # Extra volume tags to attach to each dynamically provisioned volume.
 # ---
@@ -92,9 +106,17 @@ clusterID: "test-cluster"
 # region: us-east-1
 region: ""
 
+# Additonal environment variables for the controller
+controller:
+  extraVars: {}
+
 node:
+  priorityClassName: ""
+  nodeSelector: {}
   podAnnotations: {}
+  tolerateAllTaints: false
   tolerations: []
+  resources: {}
 
 serviceAccount:
   controller:
