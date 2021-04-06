@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update aws-ebs-csi-driver to v0.10.0.
+- Update csi-provisioner v2.1.1.
+- Update snapshot-controller v3.0.3.
+
 ## [1.7.1] - 2021-02-19
 
 ## [1.7.0] - 2021-02-17
