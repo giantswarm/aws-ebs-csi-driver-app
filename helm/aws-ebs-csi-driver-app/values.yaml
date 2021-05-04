@@ -8,7 +8,7 @@ replicaCount: 1
 
 image:
   repository: docker.io/giantswarm/aws-ebs-csi-driver
-  tag: "v0.10.0"
+  tag: "v1.0.0"
   pullPolicy: IfNotPresent
 
 init:
@@ -112,6 +112,7 @@ region: ""
 
 # Additonal environment variables for the controller
 controller:
+  httpEndpoint: ""
   extraVars: {}
 
 node:
