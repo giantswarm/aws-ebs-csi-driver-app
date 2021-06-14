@@ -42,7 +42,6 @@ snapshotController:
   podAnnotations: {}
   podLabels: {}
 
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
