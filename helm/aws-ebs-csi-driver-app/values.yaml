@@ -8,7 +8,7 @@ replicaCount: 1
 
 image:
   repository: docker.io/giantswarm/aws-ebs-csi-driver
-  tag: "v1.0.0"
+  tag: "v1.1.0"
   pullPolicy: IfNotPresent
 
 init:
@@ -39,6 +39,9 @@ sidecars:
 snapshotController:
   repository: docker.io/giantswarm/snapshot-controller
   tag: "v3.0.3"
+  podAnnotations: {}
+  podLabels: {}
+
 
 imagePullSecrets: []
 nameOverride: ""
