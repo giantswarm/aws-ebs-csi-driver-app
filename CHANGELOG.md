@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add pod annotations and labels to snapshot-controller.
+
+### Changed
+
+- Update aws-ebs-csi-driver to v1.1.0.
+- Rename file statefulset to snapshot-controller.
+
 ## [2.0.0] - 2021-05-04
 
 ### Changed
