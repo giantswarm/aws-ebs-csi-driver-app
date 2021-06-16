@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2021-06-16
+
 ### Added
 
 - Add pod annotations and labels to snapshot-controller.
@@ -103,7 +105,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v1.8.1...v2.0.0
 [1.8.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v1.7.1...v1.8.1
 [1.7.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v1.7.0...v1.7.1
