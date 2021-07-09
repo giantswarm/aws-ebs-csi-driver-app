@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- CRD for snapshot-controller.
+
+### Changed
+
+- Update aws-ebs-csi-driver to v1.1.1.
+- Reduce default log level to 2.
+- Default volume resizing.
+
 ## [2.1.0] - 2021-06-16
 
 ### Added
