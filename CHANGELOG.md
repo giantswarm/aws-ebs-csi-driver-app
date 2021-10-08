@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Move CRD's to template.
+
 ## [2.6.0] - 2021-10-08
 
 ### Added
