@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump aws-ebs-csi-driver version to `v1.3.0`
+- Change VolumeSnapshotter CRDs storage version from v1beta1 to v1.
+
 ## [2.3.1] - 2021-08-18
 
 ### Fixed
