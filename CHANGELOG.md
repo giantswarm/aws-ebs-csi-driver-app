@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add common labels to allow helm operating on CRD's.
+
 ## [2.5.0] - 2021-10-08
 
 ### Changed
