@@ -129,3 +129,14 @@ serviceAccount:
     annotations: {}
   snapshot:
     annotations: {}
+
+global:
+  image:
+    registry: docker.io
+  securityContext:
+    # global.securityContext.groupID
+    groupID: 1000
+    # global.securityContext.userID
+    userID: 1000
+    # global.securityContext.runAsNonRoot
+    runAsNonRoot: true

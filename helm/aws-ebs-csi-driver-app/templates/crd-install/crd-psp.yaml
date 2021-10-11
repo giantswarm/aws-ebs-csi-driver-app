@@ -1,0 +1,37 @@
+{{- if .Values.enableVolumeSnapshot }}
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ template "ebs.name.crdInstall" . }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-6"
+    {{- include "annotations.CRDInstall" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+    {{- include "labels.common" . | nindent 4 }}
+    role: "{{ template "ebs.CRDInstallSelector" . }}"
+spec:
+  privileged: false
+  runAsUser:
+    rule: MustRunAsNonRoot
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: 'MustRunAs'
+    ranges:
+      - min: 1
+        max: 65535
+  volumes:
+  - 'configMap'
+  - 'secret'
+  hostPID: false
+  hostIPC: false
+  hostNetwork: false
+  fsGroup:
+    rule: 'MustRunAs'
+    ranges:
+      - min: 1
+        max: 65535
+  readOnlyRootFilesystem: false
+{{- end }}

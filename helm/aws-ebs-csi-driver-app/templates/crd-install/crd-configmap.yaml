@@ -1,0 +1,51 @@
+{{- if .Values.enableVolumeSnapshot }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotclasses
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-5"
+    {{- include "annotations.CRDInstall" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+    {{- include "labels.common" . | nindent 4 }}
+data:
+  clusterissuers.yaml: |
+{{ tpl ( .Files.Get "files/volumesnapshotclasses.yaml" ) . | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotcontents
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-5"
+    {{- include "annotations.CRDInstall" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+    {{- include "labels.common" . | nindent 4 }}
+    role: "{{ template "ebs.CRDInstallSelector" . }}"
+data:
+  issuers.yaml: |
+{{ tpl ( .Files.Get "files/volumesnapshotcontents.yaml" ) . | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "ebs.name.crdInstall" . }}-volumesnapshots
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-5"
+    {{- include "annotations.CRDInstall" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+    {{- include "labels.common" . | nindent 4 }}
+    role: "{{ template "ebs.CRDInstallSelector" . }}"
+data:
+  orders.yaml: |
+{{ tpl ( .Files.Get "files/volumesnapshots.yaml" ) . | indent 4 }}
+{{- end }}

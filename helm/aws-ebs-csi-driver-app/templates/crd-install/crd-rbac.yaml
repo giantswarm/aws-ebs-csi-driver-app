@@ -1,0 +1,62 @@
+{{- if .Values.enableVolumeSnapshot }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "ebs.name.crdInstall" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-3"
+    {{- include "annotations.CRDInstall" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+    {{- include "labels.common" . | nindent 4 }}
+    role: "{{ template "ebs.CRDInstallSelector" . }}"
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+- apiGroups:
+  - policy
+  resources:
+  - podsecuritypolicies
+  resourceNames:
+  - {{ template "ebs.name.crdInstall" . }}
+  verbs:
+  - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "ebs.name.crdInstall" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-2"
+    {{- include "annotations.CRDInstall" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+    {{- include "labels.common" . | nindent 4 }}
+    role: "{{ template "ebs.CRDInstallSelector" . }}"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ template "ebs.name.crdInstall" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "ebs.name.crdInstall" . }}
+    namespace: {{ .Release.Namespace | quote }}
+{{- end }}

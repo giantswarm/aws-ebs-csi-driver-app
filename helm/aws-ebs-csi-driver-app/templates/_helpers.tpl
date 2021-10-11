@@ -22,6 +22,24 @@ giantswarm.io/service-type: "managed"
 helm.sh/chart: {{ include "chart" . | quote }}
 {{- end -}}
 
+{{- define "annotations.CRDInstall" -}}
+"helm.sh/hook": "pre-install,pre-upgrade"
+"helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+{{- end -}}
+
+{{- define "ebs.name" -}}
+{{- default .Chart.Name .Values.global.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "ebs.name.crdInstall" -}}
+{{- printf "%s-%s" ( include "ebs.name" . ) "crd-install" | replace "+" "_" | trimSuffix "-" -}}
+{{- end -}}
+
+{{/* Create a label which can be used to select any orphaned crd-install hook resources */}}
+{{- define "ebs.CRDInstallSelector" -}}
+{{- printf "%s" "crd-install-hook" -}}
+{{- end -}}
+
 {{/*
 Convert the `--extra-volume-tags` command line arg from a map.
 */}}
