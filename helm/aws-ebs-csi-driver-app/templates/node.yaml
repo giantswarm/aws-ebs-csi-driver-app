@@ -15,9 +15,8 @@ spec:
       labels:
         app: ebs-csi-node
         {{- include "labels.common" . | nindent 8 }}
-      {{- if .Values.node.podAnnotations }}
-      annotations: {{ toYaml .Values.node.podAnnotations | nindent 8 }}
-      {{- end }}
+      annotations:
+        releaseRevision: {{ .Release.Revision | quote }}
     spec:
       affinity:
         nodeAffinity:
