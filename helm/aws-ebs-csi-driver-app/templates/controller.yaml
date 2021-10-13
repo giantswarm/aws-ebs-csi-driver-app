@@ -8,17 +8,19 @@ metadata:
     {{- include "labels.common" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: ebs-csi-controller
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: ebs-csi-controller
         {{- include "labels.common" . | nindent 8 }}
-      {{- if .Values.podAnnotations }}
-      annotations: {{ toYaml .Values.podAnnotations | nindent 8 }}
-      {{- end }}
+      annotations:
+        releaseRevision: {{ .Release.Revision | quote }}
     spec:
       hostNetwork: true
       nodeSelector:

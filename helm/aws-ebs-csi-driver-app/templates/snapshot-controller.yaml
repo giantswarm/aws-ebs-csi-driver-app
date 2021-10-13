@@ -15,15 +15,14 @@ spec:
       app: ebs-snapshot-controller
   template:
     metadata:
+      annotations:
+        releaseRevision: {{ .Release.Revision | quote }}
       labels:
         app: ebs-snapshot-controller
         {{- include "labels.common" . | nindent 8 }}
         {{- if .Values.snapshotController.podLabels }}
         {{- toYaml .Values.snapshotController.podLabels | nindent 8 }}
         {{- end }}
-      {{- if .Values.snapshotController.podAnnotations }}
-      annotations: {{ toYaml .Values.snapshotController.podAnnotations | nindent 8 }}
-      {{- end }}
     spec:
       serviceAccountName: ebs-snapshot-controller
       nodeSelector:

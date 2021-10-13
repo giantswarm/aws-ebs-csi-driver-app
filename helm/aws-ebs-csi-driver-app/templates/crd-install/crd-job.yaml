@@ -1,0 +1,71 @@
+{{- if .Values.enableVolumeSnapshot }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "ebs.name.crdInstall" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-1"
+    {{- include "annotations.CRDInstall" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+    {{- include "labels.common" . | nindent 4 }}
+    role: "{{ template "ebs.CRDInstallSelector" . }}"
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+        {{- include "labels.common" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ template "ebs.name.crdInstall" . }}
+      securityContext:
+        runAsUser: {{ .Values.global.securityContext.userID }}
+        runAsGroup: {{ .Values.global.securityContext.groupID }}
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: kubectl
+        image: "{{ .Values.global.image.registry }}/giantswarm/docker-kubectl:latest"
+        imagePullPolicy: "IfNotPresent"
+        command:
+        - sh
+        - -c
+        - |
+          set -o errexit ; set -o xtrace ; set -o nounset
+
+          kubectl apply --server-side=true --field-manager='kubectl-client-side-apply' --force-conflicts -f /data/ 2>&1
+        volumeMounts:
+        - name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotclasses
+          mountPath: /data/volumesnapshotclasses.yaml
+          subPath: volumesnapshotclasses.yaml
+        - name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotcontents
+          mountPath: /data/volumesnapshotcontents.yaml
+          subPath: volumesnapshotcontents.yaml
+        - name: {{ template "ebs.name.crdInstall" . }}-volumesnapshots
+          mountPath: /data/volumesnapshots.yaml
+          subPath: volumesnapshots.yaml
+      volumes:
+      - name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotclasses
+        configMap:
+          name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotclasses
+          items:
+          - key: volumesnapshotclasses.yaml
+            path: volumesnapshotclasses.yaml
+      - name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotcontents
+        configMap:
+          name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotcontents
+          items:
+          - key: volumesnapshotcontents.yaml
+            path: volumesnapshotcontents.yaml
+      - name: {{ template "ebs.name.crdInstall" . }}-volumesnapshots
+        configMap:
+          name: {{ template "ebs.name.crdInstall" . }}-volumesnapshots
+          items:
+          - key: volumesnapshots.yaml
+            path: volumesnapshots.yaml
+      restartPolicy: OnFailure
+  backoffLimit: 10
+{{- end }}

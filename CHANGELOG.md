@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Pre-Hook for snapshot CRDs.
+
 ## [2.6.1] - 2021-10-08
 
 ### Fixed

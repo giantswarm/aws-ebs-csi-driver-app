@@ -39,14 +39,11 @@ sidecars:
 snapshotController:
   repository: docker.io/giantswarm/snapshot-controller
   tag: "v4.2.1"
-  podAnnotations: {}
   podLabels: {}
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
-podAnnotations: {}
 
 # True if enable ebs volume limits per instance type
 enableVolumeLimit: true
@@ -118,7 +115,6 @@ controller:
 node:
   priorityClassName: ""
   nodeSelector: {}
-  podAnnotations: {}
   tolerateAllTaints: false
   tolerations: []
   resources: {}
@@ -129,3 +125,14 @@ serviceAccount:
     annotations: {}
   snapshot:
     annotations: {}
+
+global:
+  image:
+    registry: docker.io
+  securityContext:
+    # global.securityContext.groupID
+    groupID: 1000
+    # global.securityContext.userID
+    userID: 1000
+    # global.securityContext.runAsNonRoot
+    runAsNonRoot: true
