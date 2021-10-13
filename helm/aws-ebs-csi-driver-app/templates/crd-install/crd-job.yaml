@@ -29,8 +29,7 @@ spec:
       containers:
       - name: kubectl
         image: "{{ .Values.global.image.registry }}/giantswarm/docker-kubectl:latest"
-        image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
-        imagePullPolicy: "{{ .Values.kubectlImage.pullPolicy }}"
+        imagePullPolicy: "IfNotPresent"
         command:
         - sh
         - -c
@@ -69,4 +68,4 @@ spec:
             path: volumesnapshots.yaml
       restartPolicy: OnFailure
   backoffLimit: 10
-  {{- end }}
+{{- end }}
