@@ -42,7 +42,7 @@ spec:
           mountPath: /data/volumesnapshotclasses.yaml
           subPath: volumesnapshotclasses.yaml
         - name: {{ template "ebs.name.crdInstall" . }}-volumesnapshotcontents
-          mountPath: /data/volumesnapshotclasses.yaml
+          mountPath: /data/volumesnapshotcontents.yaml
           subPath: volumesnapshotcontents.yaml
         - name: {{ template "ebs.name.crdInstall" . }}-volumesnapshots
           mountPath: /data/volumesnapshots.yaml
