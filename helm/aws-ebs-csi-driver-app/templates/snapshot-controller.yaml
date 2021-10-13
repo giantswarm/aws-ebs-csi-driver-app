@@ -1,6 +1,6 @@
 {{- if .Values.enableVolumeSnapshot }}
 #Snapshot controller
-kind: StatefulSet
+kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: ebs-snapshot-controller
@@ -8,8 +8,10 @@ metadata:
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
-  serviceName: ebs-snapshot-controller
+  revisionHistoryLimit: 3
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: ebs-snapshot-controller
@@ -49,11 +51,12 @@ spec:
         {{- end }}
       containers:
         - name: snapshot-controller
-          image: {{ printf "%s:%s" .Values.snapshotController.repository .Values.snapshotController.tag }} 
+          image: {{ printf "%s:%s" .Values.snapshotController.repository .Values.snapshotController.tag }}
           {{- with .Values.resources }}
           resources: {{ toYaml . | nindent 12 }}
           {{- end }}
           args:
             - --v={{ .Values.controller.logLevel }}
             - --leader-election=false
+          imagePullPolicy: IfNotPresent
 {{- end }}
