@@ -52,11 +52,11 @@ spec:
       containers:
         - name: snapshot-controller
           image: {{ printf "%s:%s" .Values.snapshotController.repository .Values.snapshotController.tag }}
+          imagePullPolicy: IfNotPresent
           {{- with .Values.resources }}
           resources: {{ toYaml . | nindent 12 }}
           {{- end }}
           args:
             - --v={{ .Values.controller.logLevel }}
             - --leader-election=false
-          imagePullPolicy: IfNotPresent
 {{- end }}
