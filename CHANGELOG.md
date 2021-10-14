@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Bump aws-ebs-csi-driver version to `v1.4.0`.
 - Pre-Hook for snapshot CRDs.
 - Use deployment for external-snapshot-controller.
 
