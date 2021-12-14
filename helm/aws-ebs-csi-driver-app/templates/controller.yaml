@@ -71,7 +71,7 @@ spec:
             - --k8s-tag-cluster-id={{ .Values.clusterID }}
             {{- end }}
             {{- if .Values.controller.httpEndpoint }}
-            - --http-endpoint={{ .Values.controller.httpEndpoint }}
+            - --http-endpoint=:{{ .Values.controller.httpEndpoint }}
             {{- end }}
             - --logtostderr
             - --v={{ .Values.controller.logLevel }}

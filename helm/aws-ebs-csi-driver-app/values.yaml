@@ -108,7 +108,7 @@ region: ""
 
 # Additonal environment variables for the controller
 controller:
-  httpEndpoint: ":8000"
+  httpEndpoint: "8000"
   extraVars: {}
   logLevel: 2
 
