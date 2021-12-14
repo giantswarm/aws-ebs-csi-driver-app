@@ -9,9 +9,9 @@ metadata:
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/path: "/metrics"
-    prometheus.io/port: {{ .Values.controller.httpEndpoint }}
+    prometheus.io/port: "{{ .Values.controller.httpEndpoint }}"
 spec:
   ports:
   - port: {{ .Values.controller.httpEndpoint }}
   selector:
-    {{- include "labels.selector" . | nindent 4 }}
+    app: ebs-csi-controller
