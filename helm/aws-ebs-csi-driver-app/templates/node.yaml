@@ -28,7 +28,7 @@ spec:
                 values:
                 - fargate
       nodeSelector:
-        kubernetes.io/os: linux
+        kubernetes.io/role: worker
         {{- with .Values.node.nodeSelector }}
 {{ toYaml . | indent 8 }}
         {{- end }}
