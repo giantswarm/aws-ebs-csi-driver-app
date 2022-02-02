@@ -115,7 +115,7 @@ controller:
 node:
   priorityClassName: ""
   nodeSelector: {}
-  tolerateAllTaints: false
+  tolerateAllTaints: true
   tolerations: []
   resources: {}
   logLevel: 2
