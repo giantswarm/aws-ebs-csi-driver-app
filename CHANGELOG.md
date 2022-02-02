@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.8.1] - 2022-02-02
+
 ### Fixed
 
 - Use node selector according to control-plane and nodepool labels.
@@ -179,7 +181,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.8.0...HEAD
+[Unreleased]: https://github.com/giantswarm/giantswarm/compare/v2.8.1...HEAD
+[2.8.1]: https://github.com/giantswarm/giantswarm/compare/v2.8.0...v2.8.1
 [2.8.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.7.1...v2.8.0
 [2.7.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.7.0...v2.7.1
 [2.7.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.6.1...v2.7.0
