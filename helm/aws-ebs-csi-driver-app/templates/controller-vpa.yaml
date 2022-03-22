@@ -1,0 +1,35 @@
+{{ if .Capabilities.APIVersions.Has "autoscaling.k8s.io/v1" }}
+{{ if .Values.verticalPodAutoscaler.enabled }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: ebs-csi-controller
+  namespace: kube-system
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  resourcePolicy:
+    containerPolicies:
+    - containerName: ebs-plugin
+      controlledValues: RequestsAndLimits
+      mode: Auto
+    - containerName: csi-provisioner
+      controlledValues: RequestsAndLimits
+      mode: Auto
+    - containerName: csi-attacher
+      controlledValues: RequestsAndLimits
+      mode: Auto
+    - containerName: csi-resizer
+      controlledValues: RequestsAndLimits
+      mode: Auto
+    - containerName: liveness-probe
+      controlledValues: RequestsAndLimits
+      mode: Auto
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name:  ebs-csi-controller
+  updatePolicy:
+    updateMode: Auto
+{{ end }}
+{{ end }}
