@@ -1,5 +1,5 @@
 # Controller Service
-kind: Daemonset
+kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: ebs-csi-controller
