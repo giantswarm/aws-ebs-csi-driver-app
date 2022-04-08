@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.10.0] - 2022-04-08
+
 ### Added
 
 - Also push to control-plane app catalog.
@@ -191,7 +193,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.9.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.10.0...HEAD
+[2.10.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.8.1...v2.9.0
 [2.8.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.8.0...v2.8.1
 [2.8.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.7.1...v2.8.0
