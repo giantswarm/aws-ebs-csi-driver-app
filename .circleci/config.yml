@@ -15,3 +15,13 @@ workflows:
             # Trigger the job also on git tag.
             tags:
               only: /^v.*/
+
+      - architect/push-to-app-catalog:
+          name: "push-to-control-plane-app-catalog"
+          app_catalog: "control-plane-catalog"
+          app_catalog_test: "control-plane-test-catalog"
+          chart: "aws-ebs-csi-driver-app"
+          filters:
+            # Trigger the job also on git tag.
+            tags:
+              only: /^v.*/
