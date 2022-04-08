@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Run `controller` as daemonset on all nodes.
+
+### Added
+
+- Allow specifying `driverMode` for the `controller` component.
+
 ## [2.10.0] - 2022-04-08
 
 ### Added

@@ -108,6 +108,8 @@ region: ""
 
 # Additonal environment variables for the controller
 controller:
+  # can be "controller", "node" or "all".
+  driverMode: controller
   httpEndpoint: "8000"
   extraVars: {}
   logLevel: 2

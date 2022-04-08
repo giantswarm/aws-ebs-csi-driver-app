@@ -1,5 +1,5 @@
 # Controller Service
-kind: Deployment
+kind: Daemonset
 apiVersion: apps/v1
 metadata:
   name: ebs-csi-controller
@@ -59,7 +59,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             {{- if ne .Release.Name "kustomize" }}
-            - controller
+            - {{ .Values.controller.driverMode }}
             {{- else }}
             # - {all,controller,node} # specify the driver mode
             {{- end }}
