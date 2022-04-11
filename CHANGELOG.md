@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Run `controller` as daemonset on all nodes.
+- Run `controller` as daemonset on all master nodes.
+- Bump aws-ebs-csi-driver version to `v1.5.1`.
 
 ### Added
 
