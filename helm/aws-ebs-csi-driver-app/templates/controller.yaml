@@ -22,7 +22,6 @@ spec:
       annotations:
         releaseRevision: {{ .Release.Revision | quote }}
     spec:
-      hostNetwork: true
       nodeSelector:
         kubernetes.io/os: linux
         {{- with .Values.nodeSelector }}
