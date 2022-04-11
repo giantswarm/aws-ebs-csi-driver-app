@@ -4,8 +4,6 @@
 
 name: aws-ebs-csi-driver
 
-replicaCount: 1
-
 image:
   repository: docker.io/giantswarm/aws-ebs-csi-driver
   tag: "v1.5.0"
@@ -108,6 +106,8 @@ region: ""
 
 # Additonal environment variables for the controller
 controller:
+  # can be "controller", "node" or "all".
+  driverMode: controller
   httpEndpoint: "8000"
   extraVars: {}
   logLevel: 2

@@ -1,5 +1,5 @@
 # Controller Service
-kind: Deployment
+kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: ebs-csi-controller
@@ -7,7 +7,6 @@ metadata:
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -59,7 +58,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             {{- if ne .Release.Name "kustomize" }}
-            - controller
+            - {{ .Values.controller.driverMode }}
             {{- else }}
             # - {all,controller,node} # specify the driver mode
             {{- end }}
