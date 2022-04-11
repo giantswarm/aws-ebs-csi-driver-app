@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Revert `controller` to be a deployment with 2 replicas by default.
+- Relax `nodeSelector` for both `controller` and `node` in order for `node` to run on all nodes and `controller` to run on any node.
+
 ## [2.11.0] - 2022-04-11
 
 ### Changed
