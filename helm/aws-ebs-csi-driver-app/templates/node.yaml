@@ -37,6 +37,7 @@ spec:
         fsGroup: 0
         runAsGroup: 0
         runAsUser: 0
+      hostNetwork: true
       priorityClassName: {{ .Values.node.priorityClassName | default "system-node-critical" }}
       tolerations:
         {{- if .Values.node.tolerateAllTaints }}
