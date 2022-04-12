@@ -18,6 +18,7 @@ spec:
       annotations:
         releaseRevision: {{ .Release.Revision | quote }}
     spec:
+      hostNetwork: {{ .Values.node.hostNetwork }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -27,11 +28,12 @@ spec:
                 operator: NotIn
                 values:
                 - fargate
+{{- if gt (len (keys .Values.controller.nodeSelector)) 0 }}
       nodeSelector:
-        kubernetes.io/os: linux
         {{- with .Values.node.nodeSelector }}
 {{ toYaml . | indent 8 }}
         {{- end }}
+{{- end }}
       serviceAccountName: ebs-csi-node-sa
       securityContext:
         fsGroup: 0

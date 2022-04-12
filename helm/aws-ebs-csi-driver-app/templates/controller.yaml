@@ -22,11 +22,13 @@ spec:
       annotations:
         releaseRevision: {{ .Release.Revision | quote }}
     spec:
+      hostNetwork: {{ .Values.controller.hostNetwork }}
+{{- if gt (len (keys .Values.controller.nodeSelector)) 0 }}
       nodeSelector:
-        kubernetes.io/os: linux
-        {{- with .Values.nodeSelector }}
+        {{- with .Values.controller.nodeSelector }}
 {{ toYaml . | indent 8 }}
         {{- end }}
+{{- end }}
       serviceAccountName: ebs-csi-controller-sa
       priorityClassName: system-cluster-critical
       {{- with .Values.affinity }}

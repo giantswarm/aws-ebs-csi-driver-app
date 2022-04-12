@@ -65,7 +65,6 @@ resources: {}
   #   memory: 128Mi
 
 priorityClassName: ""
-nodeSelector: {}
 tolerateAllTaints: true
 tolerations: []
 affinity: {}
@@ -106,14 +105,19 @@ region: ""
 
 # Additonal environment variables for the controller
 controller:
+  hostNetwork: true
+  nodeSelector:
+    kubernetes.io/role: master
   replicas: 2
   httpEndpoint: "8000"
   extraVars: {}
   logLevel: 2
 
 node:
+  hostNetwork: true
   priorityClassName: ""
-  nodeSelector: {}
+  nodeSelector:
+    kubernetes.io/role: worker
   tolerateAllTaints: true
   tolerations: []
   resources: {}
