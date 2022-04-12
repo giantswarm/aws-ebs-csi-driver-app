@@ -18,7 +18,6 @@ spec:
       annotations:
         releaseRevision: {{ .Release.Revision | quote }}
     spec:
-      hostNetwork: {{ .Values.node.hostNetwork }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -41,7 +40,7 @@ spec:
         fsGroup: 0
         runAsGroup: 0
         runAsUser: 0
-      hostNetwork: true
+      hostNetwork: {{ .Values.node.hostNetwork }}
       priorityClassName: {{ .Values.node.priorityClassName | default "system-node-critical" }}
       tolerations:
         {{- if .Values.node.tolerateAllTaints }}
