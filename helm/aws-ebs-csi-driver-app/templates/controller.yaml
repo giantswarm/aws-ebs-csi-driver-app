@@ -109,6 +109,7 @@ spec:
           ports:
             - name: healthz
               containerPort: 9808
+              hostPort: null
               protocol: TCP
           livenessProbe:
             httpGet:
