@@ -23,11 +23,13 @@ spec:
         releaseRevision: {{ .Release.Revision | quote }}
     spec:
       hostNetwork: {{ .Values.controller.hostNetwork }}
-{{- if gt (len (keys .Values.controller.nodeSelector)) 0 }}
       nodeSelector:
+{{- if gt (len (keys .Values.controller.nodeSelector)) 0 }}
         {{- with .Values.controller.nodeSelector }}
 {{ toYaml . | indent 8 }}
         {{- end }}
+{{- else }}
+        kubernetes.io/role: master
 {{- end }}
       serviceAccountName: ebs-csi-controller-sa
       priorityClassName: system-cluster-critical

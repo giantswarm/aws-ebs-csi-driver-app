@@ -106,8 +106,7 @@ region: ""
 # Additonal environment variables for the controller
 controller:
   hostNetwork: true
-  nodeSelector:
-    kubernetes.io/role: master
+  nodeSelector: {}
   replicas: 1
   httpEndpoint: "8000"
   extraVars: {}
@@ -116,8 +115,7 @@ controller:
 node:
   hostNetwork: true
   priorityClassName: ""
-  nodeSelector:
-    kubernetes.io/role: worker
+  nodeSelector: {}
   tolerateAllTaints: true
   tolerations: []
   resources: {}
