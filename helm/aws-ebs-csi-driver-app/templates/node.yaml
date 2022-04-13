@@ -28,17 +28,20 @@ spec:
                 values:
                 - fargate
       nodeSelector:
-        kubernetes.io/role: worker
+{{- if gt (len (keys .Values.controller.nodeSelector)) 0 }}
         {{- with .Values.node.nodeSelector }}
 {{ toYaml . | indent 8 }}
         {{- end }}
+{{- else }}
+        kubernetes.io/role: worker
+{{- end }}
       serviceAccountName: ebs-csi-node-sa
       securityContext:
         fsGroup: 0
         runAsGroup: 0
         runAsUser: 0
-      hostNetwork: true
-      priorityClassName: {{ .Values.node.priorityClassName | default "system-node-critical" }} 
+      hostNetwork: {{ .Values.node.hostNetwork }}
+      priorityClassName: {{ .Values.node.priorityClassName | default "system-node-critical" }}
       tolerations:
         {{- if .Values.node.tolerateAllTaints }}
         - operator: Exists

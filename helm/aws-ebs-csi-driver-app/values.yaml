@@ -65,7 +65,6 @@ resources: {}
   #   memory: 128Mi
 
 priorityClassName: ""
-nodeSelector: {}
 tolerateAllTaints: true
 tolerations: []
 affinity: {}
@@ -106,13 +105,15 @@ region: ""
 
 # Additonal environment variables for the controller
 controller:
-  # can be "controller", "node" or "all".
-  driverMode: controller
+  hostNetwork: true
+  nodeSelector: {}
+  replicas: 1
   httpEndpoint: "8000"
   extraVars: {}
   logLevel: 2
 
 node:
+  hostNetwork: true
   priorityClassName: ""
   nodeSelector: {}
   tolerateAllTaints: true

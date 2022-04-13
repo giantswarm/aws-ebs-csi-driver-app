@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Revert `controller` to be a deployment.
+- Allow specifying `nodeSelector` and `hostNetwork` for `controller` and `node`.
+
 ## [2.11.0] - 2022-04-11
 
 ### Changed
