@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.13.0] - 2022-04-25
+
 ## [2.12.0] - 2022-04-13
 
 ### Changed
@@ -211,7 +213,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.12.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.13.0...HEAD
+[2.13.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.9.0...v2.10.0
