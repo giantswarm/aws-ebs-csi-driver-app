@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-ebs-csi-driver-user-values
+  namespace: r5q6p
+data:
+  values: |
+    enableVolumeSnapshot: "true"
+
