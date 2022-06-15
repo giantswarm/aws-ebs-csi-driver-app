@@ -39,7 +39,6 @@ snapshotController:
   tag: "v4.2.1"
   podLabels: {}
 
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
