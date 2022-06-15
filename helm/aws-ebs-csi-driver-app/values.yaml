@@ -6,7 +6,7 @@ name: aws-ebs-csi-driver
 
 image:
   repository: docker.io/giantswarm/aws-ebs-csi-driver
-  tag: "v1.6.0"
+  tag: "v1.6.2"
   pullPolicy: IfNotPresent
 
 init:
@@ -39,7 +39,6 @@ snapshotController:
   tag: "v4.2.1"
   podLabels: {}
 
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
