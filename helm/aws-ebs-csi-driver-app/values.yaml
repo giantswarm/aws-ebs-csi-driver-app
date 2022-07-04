@@ -5,37 +5,37 @@
 name: aws-ebs-csi-driver
 
 image:
-  repository: docker.io/giantswarm/aws-ebs-csi-driver
+  repository: giantswarm/aws-ebs-csi-driver
   tag: "v1.6.2"
   pullPolicy: IfNotPresent
 
 init:
-  repository: docker.io/giantswarm/aws-ebs-csi-volume-limiter
+  repository: giantswarm/aws-ebs-csi-volume-limiter
   tag: "0.1.0"
   pullPolicy: IfNotPresent
 
 sidecars:
   provisionerImage:
-    repository: docker.io/giantswarm/csi-provisioner
+    repository: giantswarm/csi-provisioner
     tag: "v3.1.0"
   attacherImage:
-    repository: docker.io/giantswarm/csi-attacher
+    repository: giantswarm/csi-attacher
     tag: "v3.4.0"
   snapshotterImage:
-    repository: docker.io/giantswarm/csi-snapshotter
+    repository: giantswarm/csi-snapshotter
     tag: "v4.2.1"
   livenessProbeImage:
-    repository: docker.io/giantswarm/livenessprobe
+    repository: giantswarm/livenessprobe
     tag: "v2.6.0"
   resizerImage:
-    repository: docker.io/giantswarm/csi-resizer
+    repository: giantswarm/csi-resizer
     tag: "v1.3.0"
   nodeDriverRegistrarImage:
-    repository: docker.io/giantswarm/csi-node-driver-registrar
+    repository: giantswarm/csi-node-driver-registrar
     tag: "v2.5.0"
 
 snapshotController:
-  repository: docker.io/giantswarm/snapshot-controller
+  repository: giantswarm/snapshot-controller
   tag: "v4.2.1"
   podLabels: {}
 

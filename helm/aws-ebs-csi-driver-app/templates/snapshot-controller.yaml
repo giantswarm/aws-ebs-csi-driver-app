@@ -51,7 +51,7 @@ spec:
         {{- end }}
       containers:
         - name: snapshot-controller
-          image: {{ printf "%s:%s" .Values.snapshotController.repository .Values.snapshotController.tag }}
+          image: {{ printf "%s/%s:%s" .Values.global.image.registry .Values.snapshotController.repository .Values.snapshotController.tag }}
           imagePullPolicy: IfNotPresent
           {{- with .Values.resources }}
           resources: {{ toYaml . | nindent 12 }}
