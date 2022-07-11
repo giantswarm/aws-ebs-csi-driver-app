@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump aws-ebs-csi-driver version to `v1.8.0`.
+
 ## [2.15.0] - 2022-07-04
 
 ### Changed
