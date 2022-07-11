@@ -6,7 +6,7 @@ name: aws-ebs-csi-driver
 
 image:
   repository: giantswarm/aws-ebs-csi-driver
-  tag: "v1.6.2"
+  tag: "v1.8.0"
   pullPolicy: IfNotPresent
 
 init:
