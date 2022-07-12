@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.16.0] - 2022-07-12
+
 ### Changed
 
 - Bump aws-ebs-csi-driver version to `v1.8.0`.
@@ -230,7 +232,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.15.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.16.0...HEAD
+[2.16.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.15.0...v2.16.0
 [2.15.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.14.0...v2.15.0
 [2.14.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.13.0...v2.14.0
 [2.13.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.12.0...v2.13.0
