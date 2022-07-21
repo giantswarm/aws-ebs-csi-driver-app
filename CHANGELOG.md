@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.16.1] - 2022-07-21
+
 ### Fixed
 
 - Changing controller `httpEndpoint` to `8610` because of overlapping ports.
@@ -236,7 +238,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.16.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.16.1...HEAD
+[2.16.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.16.0...v2.16.1
 [2.16.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.15.0...v2.16.0
 [2.15.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.14.0...v2.15.0
 [2.14.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.13.0...v2.14.0
