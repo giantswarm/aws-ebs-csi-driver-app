@@ -6,7 +6,7 @@ name: aws-ebs-csi-driver
 
 image:
   repository: giantswarm/aws-ebs-csi-driver
-  tag: "v1.8.0"
+  tag: "v1.12.1"
   pullPolicy: IfNotPresent
 
 init:
@@ -23,20 +23,20 @@ sidecars:
     tag: "v3.4.0"
   snapshotterImage:
     repository: giantswarm/csi-snapshotter
-    tag: "v4.2.1"
+    tag: "v6.0.1"
   livenessProbeImage:
     repository: giantswarm/livenessprobe
     tag: "v2.6.0"
   resizerImage:
     repository: giantswarm/csi-resizer
-    tag: "v1.3.0"
+    tag: "v1.4.0"
   nodeDriverRegistrarImage:
     repository: giantswarm/csi-node-driver-registrar
-    tag: "v2.5.0"
+    tag: "v2.5.1"
 
 snapshotController:
   repository: giantswarm/snapshot-controller
-  tag: "v4.2.1"
+  tag: "v6.1.1"
   podLabels: {}
 
 nameOverride: ""

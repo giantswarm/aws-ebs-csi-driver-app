@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Add short names for Volume Snapshot CRDs.
+- Update aws-ebs-csi-driver version to `v1.12.1`.
+- Update csi-snapshotter version to `v6.0.1`.
+- Update csi-resizer version to `v1.4.0`.
+- Update csi-node-driver-registrar version to `v2.5.1`.
+- Update snapshot-controller version to `v6.1.1`.
+
 ## [2.16.1] - 2022-07-21
 
 ### Fixed
