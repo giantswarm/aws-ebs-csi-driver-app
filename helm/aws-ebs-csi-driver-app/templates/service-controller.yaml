@@ -7,9 +7,7 @@ metadata:
     {{- include "labels.common" . | nindent 4 }}
     giantswarm.io/monitoring: "true"
   annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: "/metrics"
-    prometheus.io/port: "{{ .Values.controller.httpEndpoint }}"
+    giantswarm.io/monitoring-port: "{{ .Values.controller.httpEndpoint }}"
 spec:
   ports:
   - port: {{ .Values.controller.httpEndpoint }}
