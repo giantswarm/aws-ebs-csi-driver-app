@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix scraping monitoring port.
 
+### Added
+
+- Support for running behind a proxy.
+  - `HTTP_PROXY`,`HTTPS_PROXY` and `NO_PROXY` are set as environment variables in `deployment/ebs-plugin` if defined in `values.yaml`.
+- Support for using `cluster-apps-operator` specific `cluster.proxy` values.
+
 ## [2.18.0] - 2022-11-16
 
 ### Changed
