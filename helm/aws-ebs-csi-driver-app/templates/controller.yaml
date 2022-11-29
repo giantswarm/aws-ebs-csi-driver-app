@@ -1,5 +1,5 @@
 # Controller Service
-{{- $proxy := deepCopy .Values.cluster.proxy |  mustMerge .Values.proxy -}}
+{{- $proxy := deepCopy .Values.cluster.proxy |  mustMerge .Values.proxy }}
 kind: Deployment
 apiVersion: apps/v1
 metadata:
