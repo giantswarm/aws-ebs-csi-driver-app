@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed image version of ebs-snapshotter.
+
 ## [2.19.0] - 2022-11-29
 
 ### Fixed
