@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.20.0] - 2023-01-17
+
 ### Changed
 
 - Updated ebs-csi-driver to `v1.15` and updated sidecar images.
@@ -277,7 +279,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.19.1...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.20.0...HEAD
+[2.20.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.19.1...v2.20.0
 [2.19.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.19.0...v2.19.1
 [2.19.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.18.0...v2.19.0
 [2.18.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.17.0...v2.18.0
