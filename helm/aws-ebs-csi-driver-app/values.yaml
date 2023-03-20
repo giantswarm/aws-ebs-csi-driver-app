@@ -152,3 +152,6 @@ cluster:
     noProxy:
     http:
     https:
+
+ciliumNetworkPolicy:
+  enabled: false

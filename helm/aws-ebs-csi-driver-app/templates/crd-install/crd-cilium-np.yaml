@@ -1,0 +1,24 @@
+{{- if .Values.enableVolumeSnapshot }}
+{{- if .Values.ciliumNetworkPolicy.enabled }}
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ template "ebs.name.crdInstall" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-7"
+    {{- include "annotations.CRDInstall" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+    {{- include "labels.common" . | nindent 4 }}
+    role: "{{ template "ebs.CRDInstallSelector" . }}"
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: "{{ template "ebs.name.crdInstall" . }}"
+  egress:
+    - toEntities:
+        - kube-apiserver
+{{- end }}
+{{- end }}
