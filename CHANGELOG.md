@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.20.1] - 2023-03-22
+
 ### Added
 
 - Add `node-role.kubernetes.io/control-plane` to crd install jobs toleration.
@@ -283,7 +285,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.20.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.20.1...HEAD
+[2.20.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.20.0...v2.20.1
 [2.20.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.19.1...v2.20.0
 [2.19.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.19.0...v2.19.1
 [2.19.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.18.0...v2.19.0
