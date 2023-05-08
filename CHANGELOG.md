@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump `snapshot-controller` to 6.2.1.
+- Align `snapthot-controller` deployment to upstream.
+- Add PDB for `snapthot-controller`.
+
 ## [2.21.1] - 2023-04-26
 
 ### Fixed

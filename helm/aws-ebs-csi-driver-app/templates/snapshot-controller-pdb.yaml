@@ -1,0 +1,16 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: ebs-snapshot-controller
+  namespace: kube-system
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: ebs-snapshot-controller
+      {{- include "labels.common" . | nindent 6 }}
+      {{- if .Values.snapshotController.podLabels }}
+      {{- toYaml .Values.snapshotController.podLabels | nindent 6 }}
+      {{- end }}
