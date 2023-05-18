@@ -9,12 +9,19 @@ metadata:
     {{- include "labels.common" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 3
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       app: ebs-snapshot-controller
+  # the snapshot controller won't be marked as ready if the v1 CRDs are unavailable
+  # in #504 the snapshot-controller will exit after around 7.5 seconds if it
+  # can't find the v1 CRDs so this value should be greater than that
+  minReadySeconds: 15
   template:
     metadata:
       annotations:
@@ -58,5 +65,5 @@ spec:
           {{- end }}
           args:
             - --v={{ .Values.controller.logLevel }}
-            - --leader-election=false
+            - --leader-election=true
 {{- end }}
