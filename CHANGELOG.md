@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.22.0] - 2023-05-18
+
 ### Changed
 
 - Bump `snapshot-controller` to 6.2.1.
@@ -303,7 +305,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.21.1...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.22.0...HEAD
+[2.22.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.21.1...v2.22.0
 [2.21.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.21.0...v2.21.1
 [2.21.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.20.1...v2.21.0
 [2.20.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.20.0...v2.20.1
