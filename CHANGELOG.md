@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.23.0] - 2023-05-30
+
 ### Changed
 
 - Make sure `node` doesn't run on control plane nodes.
@@ -309,7 +311,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.22.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.23.0...HEAD
+[2.23.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.22.0...v2.23.0
 [2.22.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.21.1...v2.22.0
 [2.21.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.21.0...v2.21.1
 [2.21.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.20.1...v2.21.0
