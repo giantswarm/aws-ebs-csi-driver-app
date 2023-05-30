@@ -29,8 +29,6 @@ spec:
         {{- with .Values.controller.nodeSelector }}
 {{ toYaml . | indent 8 }}
         {{- end }}
-{{- else }}
-        kubernetes.io/role: master
 {{- end }}
       serviceAccountName: ebs-csi-controller-sa
       priorityClassName: system-cluster-critical

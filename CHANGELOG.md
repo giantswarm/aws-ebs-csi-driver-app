@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Make sure `node` doesn't run on control plane nodes.
+
 ## [2.22.0] - 2023-05-18
 
 ### Changed

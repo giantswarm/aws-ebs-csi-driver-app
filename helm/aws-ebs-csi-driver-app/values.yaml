@@ -105,7 +105,8 @@ region: ""
 # Additonal environment variables for the controller
 controller:
   hostNetwork: true
-  nodeSelector: {}
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
   replicas: 1
   httpEndpoint: "8610"
   extraVars: {}
