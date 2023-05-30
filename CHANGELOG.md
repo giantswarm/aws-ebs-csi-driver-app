@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Check ebs-node node selector instead of ebs-controller node selector.
+
 ## [2.22.0] - 2023-05-18
 
 ### Changed

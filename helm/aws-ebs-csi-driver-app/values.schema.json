@@ -20,13 +20,13 @@
                     "type": "object",
                     "properties": {
                         "http": {
-                            "type": ["null", "string"]
+                            "type": "null"
                         },
                         "https": {
-                            "type": ["null", "string"]
+                            "type": "null"
                         },
                         "noProxy": {
-                            "type": ["null", "string"]
+                            "type": "null"
                         }
                     }
                 }
@@ -170,13 +170,13 @@
             "type": "object",
             "properties": {
                 "http": {
-                    "type": ["null", "string"]
+                    "type": "null"
                 },
                 "https": {
-                    "type": ["null", "string"]
+                    "type": "null"
                 },
                 "noProxy": {
-                    "type": ["null", "string"]
+                    "type": "null"
                 }
             }
         },

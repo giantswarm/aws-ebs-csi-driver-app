@@ -28,7 +28,7 @@ spec:
                 values:
                 - fargate
       nodeSelector:
-{{- if gt (len (keys .Values.controller.nodeSelector)) 0 }}
+{{- if gt (len (keys .Values.node.nodeSelector)) 0 }}
         {{- with .Values.node.nodeSelector }}
 {{ toYaml . | indent 8 }}
         {{- end }}
