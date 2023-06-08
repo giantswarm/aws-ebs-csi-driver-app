@@ -1,5 +1,4 @@
 {{- if .Values.enableVolumeSnapshot }}
-{{ if .Capabilities.APIVersions.Has "autoscaling.k8s.io/v1" }}
 {{ if .Values.verticalPodAutoscaler.enabled }}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -20,6 +19,5 @@ spec:
     name:  ebs-snapshot-controller
   updatePolicy:
     updateMode: Auto
-{{ end }}
 {{ end }}
 {{ end }}

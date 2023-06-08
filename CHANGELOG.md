@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Always install the VPA CR if `verticalPodAutoscaler.enabled` is true, no matter if the VPA CRD is present or not.
+
 ## [2.23.0] - 2023-05-30
 
 ### Changed
