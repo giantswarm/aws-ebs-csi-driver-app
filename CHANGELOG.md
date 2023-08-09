@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated ebs-csi-driver to `v1.21.0` and updated sidecar images.
+
 ## [2.24.0] - 2023-06-12
 
 ### Changed
