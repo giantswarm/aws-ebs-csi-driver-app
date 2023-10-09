@@ -158,4 +158,3 @@ cluster:
 
 ciliumNetworkPolicy:
   enabled: false
-
