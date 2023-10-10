@@ -137,6 +137,8 @@ global:
     userID: 1000
     # global.securityContext.runAsNonRoot
     runAsNonRoot: true
+  podSecurityStandards:
+    enforced: false
 
 verticalPodAutoscaler:
   enabled: true

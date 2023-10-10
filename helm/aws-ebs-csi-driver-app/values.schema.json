@@ -100,6 +100,14 @@
                             "type": "integer"
                         }
                     }
+                },
+                "podSecurityStandards": {
+                    "type": "object",
+                    "properties": {
+                        "enforced": {
+                            "type": "boolean"
+                        }
+                    }
                 }
             }
         },
