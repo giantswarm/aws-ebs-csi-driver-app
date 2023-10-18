@@ -6,6 +6,7 @@ metadata:
   labels:
     {{- include "labels.common" . | nindent 4 }}
 rules:
+{{- if not .Values.global.podSecurityStandards.enforced }}
 - apiGroups:
   - policy
   resources:
@@ -14,6 +15,7 @@ rules:
   - ebs-csi-node
   verbs:
   - use
+{{- end }}
 {{- if .Values.enableVolumeLimit }}
 - apiGroups:
   - ""
