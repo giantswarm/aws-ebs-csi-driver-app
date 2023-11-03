@@ -38,7 +38,7 @@ spec:
         - |
           set -o errexit ; set -o xtrace ; set -o nounset
 
-          kubectl delete storageclass {{ .Values.removeStotageClassJob.storageClassName }} --ignore-not-found=true 2>&1
+          kubectl delete storageclass {{ .Values.removeStorageClassJob.storageClassName }} --ignore-not-found=true 2>&1
       restartPolicy: OnFailure
   backoffLimit: 10
 {{- end }}
