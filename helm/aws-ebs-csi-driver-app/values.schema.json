@@ -215,7 +215,7 @@
                 }
             }
         },
-	"removeStotageClassJob": {
+	"removeStorageClassJob": {
             "type": "object",
             "properties": {
 	      "enabled": {

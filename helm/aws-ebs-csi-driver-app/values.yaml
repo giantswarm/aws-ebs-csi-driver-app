@@ -127,7 +127,7 @@ serviceAccount:
   snapshot:
     annotations: {}
 
-removeStotageClassJob:
+removeStorageClassJob:
   enabled: false
   storageClassName: gp2
 
