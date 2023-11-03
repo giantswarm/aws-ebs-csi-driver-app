@@ -9,6 +9,6 @@ metadata:
     "helm.sh/hook": "pre-install,pre-upgrade"
     "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
   labels:
-    app.kubernetes.io/component: "{{ template "ebs.name" . }}"-remove-sc-job
+    app.kubernetes.io/component: {{ template "ebs.name" . }}-remove-sc-job
     {{- include "labels.common" . | nindent 4 }}
 {{- end }}
