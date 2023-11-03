@@ -1,0 +1,14 @@
+{{- if .Values.removeStorageClassJob.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ template "ebs.name" . }}-remove-sc-job
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+  labels:
+    app.kubernetes.io/component: {{ template "ebs.name" . }}-remove-sc-job
+    {{- include "labels.common" . | nindent 4 }}
+{{- end }}

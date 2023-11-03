@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add a job that removes a gp2 storage class for EKS.
+
 ## [2.27.0] - 2023-10-26
 
 ### Fixed

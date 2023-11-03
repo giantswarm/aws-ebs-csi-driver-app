@@ -215,6 +215,17 @@
                 }
             }
         },
+	"removeStorageClassJob": {
+            "type": "object",
+            "properties": {
+	      "enabled": {
+		"type": "boolean"
+	      },
+	      "storageClassName": {
+		"type": "string"
+	      }
+	    }
+	},
         "sidecars": {
             "type": "object",
             "properties": {

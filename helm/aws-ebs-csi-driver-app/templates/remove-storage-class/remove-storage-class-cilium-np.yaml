@@ -1,0 +1,24 @@
+{{- if .Values.removeStorageClassJob.enabled }}
+{{- if .Values.ciliumNetworkPolicy.enabled }}
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ template "ebs.name" . }}-remove-sc-job
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-7"
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+  labels:
+    app.kubernetes.io/component: {{ template "ebs.name" . }}-remove-sc-job
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: {{ template "ebs.name" . }}-remove-sc-job
+  egress:
+    - toEntities:
+        - kube-apiserver
+{{- end }}
+{{- end }}

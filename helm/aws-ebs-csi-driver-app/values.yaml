@@ -127,6 +127,10 @@ serviceAccount:
   snapshot:
     annotations: {}
 
+removeStorageClassJob:
+  enabled: false
+  storageClassName: gp2
+
 global:
   image:
     registry: docker.io
