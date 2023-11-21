@@ -133,7 +133,7 @@ removeStorageClassJob:
 
 global:
   image:
-    registry: docker.io
+    registry: quay.io
   securityContext:
     # global.securityContext.groupID
     groupID: 1000
