@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.28.1] - 2023-12-20
+
 ### Changed
 
 - Configure `gsoci.azurecr.io` as the default container image registry.
@@ -349,7 +351,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.28.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.28.1...HEAD
+[2.28.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.28.0...v2.28.1
 [2.28.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.27.0...v2.28.0
 [2.27.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.26.0...v2.27.0
 [2.26.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.25.0...v2.26.0
