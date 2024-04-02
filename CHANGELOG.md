@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
+### Removed
 
-- Use ServiceMonitor for monitoring.
+- Remove legacy monitoring labels.
 
 ## [2.28.1] - 2023-12-20
 
