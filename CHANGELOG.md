@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- Remove unused service for controller.
+- Add `Port` definition for metrics port in controller.
+
 ## [2.29.0] - 2024-04-02
 
 ### Removed

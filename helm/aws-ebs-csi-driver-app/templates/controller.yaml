@@ -128,6 +128,11 @@ spec:
               containerPort: 9808
               hostPort: null
               protocol: TCP
+            {{- if .Values.controller.httpEndpoint }}
+            - name: metrics
+              containerPort: {{ .Values.controller.httpEndpoint }}
+              protocol: TCP
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /healthz
