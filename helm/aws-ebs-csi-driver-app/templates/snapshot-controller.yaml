@@ -1,7 +1,7 @@
 {{- if .Values.enableVolumeSnapshot }}
 #Snapshot controller
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: ebs-snapshot-controller
   namespace: kube-system
