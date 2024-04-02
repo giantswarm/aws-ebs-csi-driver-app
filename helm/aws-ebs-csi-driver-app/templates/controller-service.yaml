@@ -5,11 +5,9 @@ metadata:
   namespace: kube-system
   labels:
     {{- include "labels.common" . | nindent 4 }}
-    giantswarm.io/monitoring: "true"
-  annotations:
-    giantswarm.io/monitoring-port: "{{ .Values.controller.httpEndpoint }}"
 spec:
   ports:
-  - port: {{ .Values.controller.httpEndpoint }}
+  - name: http
+    port: {{ .Values.controller.httpEndpoint }}
   selector:
     app: ebs-csi-controller
