@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.30.1] - 2024-04-11
+
 ### Fixed
 
 - Disable PSPs for CRD job when `podSecurityStandards` are enforced. 
@@ -368,7 +370,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.30.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.30.1...HEAD
+[2.30.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.30.0...v2.30.1
 [2.30.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.29.0...v2.30.0
 [2.29.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.28.1...v2.29.0
 [2.28.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.28.0...v2.28.1
