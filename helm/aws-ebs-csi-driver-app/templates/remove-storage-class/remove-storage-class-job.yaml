@@ -31,7 +31,7 @@ spec:
       containers:
       - name: kubectl
         image: "{{ .Values.global.image.registry }}/giantswarm/docker-kubectl:latest"
-        imagePullPolicy: "IfNotPresent"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
         - sh
         - -c
