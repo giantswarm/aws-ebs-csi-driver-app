@@ -58,7 +58,7 @@ spec:
       {{- if .Values.enableVolumeLimit }}
       initContainers:
       - image:  "{{ .Values.global.image.registry }}/{{ .Values.init.repository }}:{{ .Values.init.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: ebs-init
         resources:
           limits:
