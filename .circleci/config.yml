@@ -6,24 +6,32 @@ workflows:
   version: 2
   build:
     jobs:
-      - architect/push-to-app-catalog:
-          context: architect
-          name: push-to-default-app-catalog
-          app_catalog: "default-catalog"
-          app_catalog_test: "default-test-catalog"
-          chart: "aws-ebs-csi-driver-app"
-          filters:
+    - architect/push-to-app-catalog:
+        context: architect
+        name: push-to-default-app-catalog
+        app_catalog: default-catalog
+        app_catalog_test: default-test-catalog
+        chart: aws-ebs-csi-driver-app
+        filters:
             # Trigger the job also on git tag.
-            tags:
-              only: /^v.*/
+          tags:
+            only: /^v.*/
 
-      - architect/push-to-app-catalog:
-          context: architect
-          name: "push-to-control-plane-app-catalog"
-          app_catalog: "control-plane-catalog"
-          app_catalog_test: "control-plane-test-catalog"
-          chart: "aws-ebs-csi-driver-app"
-          filters:
+          branches:
+            ignore:
+            - main
+            - master
+    - architect/push-to-app-catalog:
+        context: architect
+        name: push-to-control-plane-app-catalog
+        app_catalog: control-plane-catalog
+        app_catalog_test: control-plane-test-catalog
+        chart: aws-ebs-csi-driver-app
+        filters:
             # Trigger the job also on git tag.
-            tags:
-              only: /^v.*/
+          tags:
+            only: /^v.*/
+          branches:
+            ignore:
+            - main
+            - master
