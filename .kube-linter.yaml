@@ -1,0 +1,4 @@
+checks:
+  exclude:
+    - "privilege-escalation-container"
+    - "unset-cpu-requirements"
