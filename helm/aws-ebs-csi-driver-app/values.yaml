@@ -22,7 +22,12 @@ sidecars:
     additionalArgs: []
     # Grant additional permissions to external-provisioner
     additionalClusterRoleRules:
-    resources: {}
+    resources:
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        memory: 256Mi
     # Tune leader lease election for csi-provisioner.
     # Leader election is on by default.
     leaderElection:
@@ -59,7 +64,12 @@ sidecars:
     additionalArgs: []
     # Grant additional permissions to external-attacher
     additionalClusterRoleRules: []
-    resources: {}
+    resources:
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        memory: 256Mi
     securityContext:
       seccompProfile:
         type: RuntimeDefault
@@ -91,7 +101,12 @@ sidecars:
       tag: "v2.14.0"
     # Additional parameters provided by livenessprobe.
     additionalArgs: []
-    resources: {}
+    resources:
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        memory: 256Mi
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
@@ -116,7 +131,12 @@ sidecars:
     additionalArgs: []
     # Grant additional permissions to external-resizer
     additionalClusterRoleRules: []
-    resources: {}
+    resources:
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        memory: 256Mi
     securityContext:
       seccompProfile:
         type: RuntimeDefault
@@ -131,7 +151,12 @@ sidecars:
     logLevel: 2
     # Additional parameters provided by node-driver-registrar.
     additionalArgs: []
-    resources: {}
+    resources:
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        memory: 256Mi
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
@@ -161,7 +186,12 @@ sidecars:
     logLevel: 2
     # Additional parameters provided by volume-modifier-for-k8s.
     additionalArgs: []
-    resources: {}
+    resources:
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        memory: 256Mi
     securityContext:
       seccompProfile:
         type: RuntimeDefault
