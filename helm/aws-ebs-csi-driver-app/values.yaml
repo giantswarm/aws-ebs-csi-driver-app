@@ -88,7 +88,12 @@ sidecars:
     additionalArgs: []
     # Grant additional permissions to csi-snapshotter
     additionalClusterRoleRules: []
-    resources: {}
+    resources: 
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        memory: 256Mi
     securityContext:
       seccompProfile:
         type: RuntimeDefault
