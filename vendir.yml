@@ -9,8 +9,17 @@ directories:
           ref: "master"
         includePaths:
           - charts/aws-ebs-csi-driver/**/*
+  - path: vendor-snapshotter
+    contents:
+      - path: external-snapshotter-upstream
+        git:
+          url: https://github.com/kubernetes-csi/external-snapshotter
+          ref: "master"
+        includePaths:
+          - deploy/kubernetes/**/*
+          - client/config/crd/**/*
   - path: helm/aws-ebs-csi-driver-app/templates
     contents:
       - path: .
         directory:
-          path: vendor/ebs-csi-driver-upstream/charts/aws-ebs-csi-driver
+          path: vendor/ebs-csi-driver-upstream/charts/aws-ebs-csi-driver/templates

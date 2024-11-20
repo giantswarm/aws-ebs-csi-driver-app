@@ -2,12 +2,20 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'Merge pull request #2227 from kubernetes-sigs/dependabot/go_modules/misc-dependencies-0cf01bf6dc...'
-      sha: 73e68021e929c929cc4f2cf124bc99725330e520
+      commitTitle: add network policy
+      sha: fec5762fc6c93c0d8fb36ce9635a5d929fc89a33
     path: ebs-csi-driver-upstream
   path: vendor
 - contents:
+  - git:
+      commitTitle: 'Merge pull request #1199 from leonardoce/remove-pvvolumesnapshotcontentlist...'
+      sha: 9cb9f0f1a7059f9af97f16173ac9aab912a2b989
+      tags:
+      - v8.1.0-29-g9cb9f0f1
+    path: external-snapshotter-upstream
+  path: vendor-snapshotter
+- contents:
   - directory: {}
     path: .
-  path: helm/aws-ebs-csi-driver-app
+  path: helm/aws-ebs-csi-driver-app/templates
 kind: LockConfig
