@@ -27,6 +27,7 @@ sidecars:
         cpu: 10m
         memory: 40Mi
       limits:
+        cpu: 100m
         memory: 256Mi
     # Tune leader lease election for csi-provisioner.
     # Leader election is on by default.
@@ -69,6 +70,7 @@ sidecars:
         cpu: 10m
         memory: 40Mi
       limits:
+        cpu: 100m
         memory: 256Mi
     securityContext:
       seccompProfile:
@@ -93,6 +95,7 @@ sidecars:
         cpu: 10m
         memory: 40Mi
       limits:
+        cpu: 100m
         memory: 256Mi
     securityContext:
       seccompProfile:
@@ -111,6 +114,7 @@ sidecars:
         cpu: 10m
         memory: 40Mi
       limits:
+        cpu: 100m
         memory: 256Mi
     securityContext:
       readOnlyRootFilesystem: true
@@ -141,6 +145,7 @@ sidecars:
         cpu: 10m
         memory: 40Mi
       limits:
+        cpu: 100m
         memory: 256Mi
     securityContext:
       seccompProfile:
@@ -161,6 +166,7 @@ sidecars:
         cpu: 10m
         memory: 40Mi
       limits:
+        cpu: 100m
         memory: 256Mi
     securityContext:
       readOnlyRootFilesystem: true
@@ -196,6 +202,7 @@ sidecars:
         cpu: 10m
         memory: 40Mi
       limits:
+        cpu: 100m
         memory: 256Mi
     securityContext:
       seccompProfile:
@@ -309,6 +316,7 @@ controller:
       cpu: 10m
       memory: 40Mi
     limits:
+      cpu: 100m
       memory: 256Mi
   serviceAccount:
     # A service account will be created for you if set to true. Set to false if you want to use your own.
@@ -417,6 +425,7 @@ node:
       cpu: 10m
       memory: 40Mi
     limits:
+      cpu: 100m
       memory: 256Mi
   revisionHistoryLimit: 10
   probeDirVolume:
