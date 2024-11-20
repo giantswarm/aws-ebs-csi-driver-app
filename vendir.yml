@@ -1,0 +1,16 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+directories:
+  - path: vendor
+    contents:
+      - path: ebs-csi-driver-upstream
+        git:
+          url: https://github.com/giantswarm/aws-ebs-csi-driver-upstream
+          ref: "master"
+        includePaths:
+          - charts/aws-ebs-csi-driver/**/*
+  - path: helm/aws-ebs-csi-driver-app/templates
+    contents:
+      - path: .
+        directory:
+          path: vendor/ebs-csi-driver-upstream/charts/aws-ebs-csi-driver

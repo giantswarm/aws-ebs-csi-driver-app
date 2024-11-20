@@ -1,178 +1,46 @@
-# Node Service
-kind: DaemonSet
-apiVersion: apps/v1
-metadata:
-  name: ebs-csi-node
-  namespace: kube-system
-  labels:
-    {{- include "labels.common" . | nindent 4 }}
-spec:
-  selector:
-    matchLabels:
-      app: ebs-csi-node
-  template:
-    metadata:
-      labels:
-        app: ebs-csi-node
-        {{- include "labels.common" . | nindent 8 }}
-      annotations:
-        releaseRevision: {{ .Release.Revision | quote }}
-    spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: eks.amazonaws.com/compute-type
-                operator: NotIn
-                values:
-                - fargate
-              - key: node-role.kubernetes.io/control-plane
-                operator: DoesNotExist
-      nodeSelector:
-{{- if gt (len (keys .Values.node.nodeSelector)) 0 }}
-        {{- with .Values.node.nodeSelector }}
-{{ toYaml . | indent 8 }}
-        {{- end }}
+{{$defaultArgs := dict
+  "NodeName" "ebs-csi-node"
+}}
+{{- include "node" (deepCopy $ | mustMerge $defaultArgs) -}}
+{{- range $name, $values := .Values.additionalDaemonSets }}
+{{$args := dict
+  "NodeName" (printf "ebs-csi-node-%s" $name)
+  "Values" (dict
+    "node" (deepCopy $.Values.node | mustMerge $values)
+  )
+}}
+{{- include "node" (deepCopy $ | mustMerge $args) -}}
 {{- end }}
-      serviceAccountName: ebs-csi-node-sa
-      securityContext:
-        fsGroup: 0
-        runAsGroup: 0
-        runAsUser: 0
-      hostNetwork: {{ .Values.node.hostNetwork }}
-      priorityClassName: {{ .Values.node.priorityClassName | default "system-node-critical" }}
-      tolerations:
-        {{- if .Values.node.tolerateAllTaints }}
-        - operator: Exists
-        {{- else }}
-        - key: CriticalAddonsOnly
-          operator: Exists
-        - operator: Exists
-          effect: NoExecute
-          tolerationSeconds: 300
-        {{- end }}
-        {{- with .Values.node.tolerations }}
-{{ toYaml . | indent 8 }}
-        {{- end }}
-      {{- if .Values.enableVolumeLimit }}
-      initContainers:
-      - image:  "{{ .Values.global.image.registry }}/{{ .Values.init.repository }}:{{ .Values.init.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        name: ebs-init
-        resources:
-          limits:
-            cpu: 10m
-            memory: 50Mi
-          requests:
-            cpu: 10m
-            memory: 50Mi
-        env:
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: POD_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-      {{- end }}
-      containers:
-        - name: ebs-plugin
-          securityContext:
-            privileged: true
-          image: "{{ .Values.global.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          args:
-            - node
-            - --endpoint=$(CSI_ENDPOINT)
-            - --logtostderr
-            - --v=5
-            {{- if .Values.enableVolumeLimit }}
-            - --volume-attach-limit=$(EBS_LIMIT)
-            {{- end }}
-          env:
-            - name: CSI_ENDPOINT
-              value: unix:/csi/csi.sock
-            - name: CSI_NODE_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: spec.nodeName
-            {{- if .Values.enableVolumeLimit }}
-            - name: EBS_LIMIT
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.labels['giantswarm.io/aws-ebs-limit']
-            {{- end }}
-          volumeMounts:
-            - name: kubelet-dir
-              mountPath: /var/lib/kubelet
-              mountPropagation: "Bidirectional"
-            - name: plugin-dir
-              mountPath: /csi
-            - name: device-dir
-              mountPath: /dev
-          ports:
-            - name: healthz
-              containerPort: 9808
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: healthz
-            initialDelaySeconds: 10
-            timeoutSeconds: 3
-            periodSeconds: 10
-            failureThreshold: 5
-          {{- if .Values.node.resources }}
-          {{- with .Values.node.resources }}
-          resources: {{ toYaml . | nindent 12 }}
-          {{- end }}
-          {{- else }}
-          {{- with .Values.resources }}
-          resources: {{ toYaml . | nindent 12 }}
-          {{- end }}
-          {{- end }}
-        - name: node-driver-registrar
-          image: {{ printf "%s/%s:%s" .Values.global.image.registry .Values.sidecars.nodeDriverRegistrarImage.repository .Values.sidecars.nodeDriverRegistrarImage.tag }}
-          args:
-            - --csi-address=$(ADDRESS)
-            - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
-            - --v={{ .Values.node.logLevel }}
-          lifecycle:
-            preStop:
-              exec:
-                command: ["/bin/sh", "-c", "rm -rf /registration/ebs.csi.aws.com-reg.sock /csi/csi.sock"]
-          env:
-            - name: ADDRESS
-              value: /csi/csi.sock
-            - name: DRIVER_REG_SOCK_PATH
-              value: /var/lib/kubelet/plugins/ebs.csi.aws.com/csi.sock
-          volumeMounts:
-            - name: plugin-dir
-              mountPath: /csi
-            - name: registration-dir
-              mountPath: /registration
-        - name: liveness-probe
-          image: {{ printf "%s/%s:%s" .Values.global.image.registry .Values.sidecars.livenessProbeImage.repository .Values.sidecars.livenessProbeImage.tag }}
-          args:
-            - --csi-address=/csi/csi.sock
-          volumeMounts:
-            - name: plugin-dir
-              mountPath: /csi
-      volumes:
-        - name: kubelet-dir
-          hostPath:
-            path: /var/lib/kubelet
-            type: Directory
-        - name: plugin-dir
-          hostPath:
-            path: /var/lib/kubelet/plugins/ebs.csi.aws.com/
-            type: DirectoryOrCreate
-        - name: registration-dir
-          hostPath:
-            path: /var/lib/kubelet/plugins_registry/
-            type: Directory
-        - name: device-dir
-          hostPath:
-            path: /dev
-            type: Directory
+{{- if .Values.a1CompatibilityDaemonSet }}
+{{$args := dict
+  "NodeName" "ebs-csi-node-a1compat"
+  "Values" (dict
+    "image" (dict
+      "tag" (printf "%s-a1compat" (default (printf "v%s" .Chart.AppVersion) (.Values.image.tag | toString)))
+    )
+    "node" (dict
+      "affinity" (dict
+        "nodeAffinity" (dict
+          "requiredDuringSchedulingIgnoredDuringExecution" (dict
+            "nodeSelectorTerms" (list
+              (dict "matchExpressions" (list
+                (dict
+                  "key" "eks.amazonaws.com/compute-type"
+                  "operator" "NotIn"
+                  "values" (list "fargate" "auto" "hybrid")
+                )
+                (dict
+                  "key" "node.kubernetes.io/instance-type"
+                  "operator" "In"
+                  "values" (list "a1.medium" "a1.large" "a1.xlarge" "a1.2xlarge" "a1.4xlarge")
+                )
+              ))
+            )
+          )
+        )
+      )
+    )
+  )
+}}
+{{- include "node" (deepCopy $ | mustMerge $args) -}}
+{{- end }}

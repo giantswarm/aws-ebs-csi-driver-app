@@ -1,0 +1,13 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'Merge pull request #2227 from kubernetes-sigs/dependabot/go_modules/misc-dependencies-0cf01bf6dc...'
+      sha: 73e68021e929c929cc4f2cf124bc99725330e520
+    path: ebs-csi-driver-upstream
+  path: vendor
+- contents:
+  - directory: {}
+    path: .
+  path: helm/aws-ebs-csi-driver-app
+kind: LockConfig
