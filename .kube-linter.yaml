@@ -3,3 +3,5 @@ checks:
     - "privilege-escalation-container"
     - "unset-cpu-requirements"
     - "sensitive-host-mounts"
+    - "run-as-non-root"
+    - "privileged-container"
