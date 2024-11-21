@@ -79,7 +79,7 @@ sidecars:
       allowPrivilegeEscalation: false
   snapshotter:
     # Enables the snapshotter sidecar even if the snapshot CRDs are not installed
-    forceEnable: true
+    forceEnable: false
     env: []
     image:
       pullPolicy: IfNotPresent

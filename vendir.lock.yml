@@ -8,10 +8,10 @@ directories:
   path: vendor
 - contents:
   - git:
-      commitTitle: 'Merge pull request #1200 from leonardoce/remove-PVCVolumeSnapshotRefList...'
-      sha: 3c799961b6c6dd2a0b31fedadbc47863dca40845
+      commitTitle: 'Merge pull request #1186 from yati1998/webhook...'
+      sha: 0708ea1467ed6dc89cebd8c13671410d83aa3e96
       tags:
-      - v8.1.0-35-g3c799961
+      - v8.1.0-37-g0708ea14
     path: external-snapshotter-upstream
   path: vendor-snapshotter
 - contents:
