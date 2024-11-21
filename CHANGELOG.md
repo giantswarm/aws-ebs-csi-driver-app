@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change to use ImagePullPolicy as specified via values.
 
+### Added
+
+- Add a default volumesnapshotclass
+
 ## [2.30.1] - 2024-04-11
 
 ### Fixed
