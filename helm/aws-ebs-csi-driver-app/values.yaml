@@ -539,7 +539,7 @@ volumeSnapshotClasses: []
 # Use old CSIDriver without an fsGroupPolicy set
 # Intended for use with older clusters that cannot easily replace the CSIDriver object
 # This parameter should always be false for new installations
-useOldCSIDriver: false
+useOldCSIDriver: true
 # Deploy EBS CSI Driver without controller and associated resources
 nodeComponentOnly: false
 helmTester:
