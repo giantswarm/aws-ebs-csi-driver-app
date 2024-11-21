@@ -2,16 +2,16 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: add network policy
-      sha: fec5762fc6c93c0d8fb36ce9635a5d929fc89a33
+      commitTitle: remove selector labels
+      sha: ddfa5de3731241f6d474a4af493f87b30791a063
     path: ebs-csi-driver-upstream
   path: vendor
 - contents:
   - git:
-      commitTitle: 'Merge pull request #1199 from leonardoce/remove-pvvolumesnapshotcontentlist...'
-      sha: 9cb9f0f1a7059f9af97f16173ac9aab912a2b989
+      commitTitle: 'Merge pull request #1200 from leonardoce/remove-PVCVolumeSnapshotRefList...'
+      sha: 3c799961b6c6dd2a0b31fedadbc47863dca40845
       tags:
-      - v8.1.0-29-g9cb9f0f1
+      - v8.1.0-35-g3c799961
     path: external-snapshotter-upstream
   path: vendor-snapshotter
 - contents:
