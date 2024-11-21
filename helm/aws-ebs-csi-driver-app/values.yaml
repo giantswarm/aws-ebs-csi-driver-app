@@ -517,11 +517,11 @@ storageClasses:
 
 defaultStorageClass:
   enabled: false
-volumeSnapshotClasses:
-- name: ebs-vsc
-  annotations:
-    snapshot.storage.kubernetes.io/is-default-class: "true"
-  deletionPolicy: Delete
+volumeSnapshotClasses: []
+# - name: ebs-vsc
+#   annotations:
+#     snapshot.storage.kubernetes.io/is-default-class: "true"
+#   deletionPolicy: Delete
 
 # Use old CSIDriver without an fsGroupPolicy set
 # Intended for use with older clusters that cannot easily replace the CSIDriver object
