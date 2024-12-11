@@ -2,16 +2,16 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: remove selector labels
-      sha: ddfa5de3731241f6d474a4af493f87b30791a063
+      commitTitle: Merge branch 'kubernetes-sigs:master' into master
+      sha: 1600b9675f50729553928a9e8a8e36ebf772f6c1
     path: ebs-csi-driver-upstream
   path: vendor
 - contents:
   - git:
-      commitTitle: 'Merge pull request #1186 from yati1998/webhook...'
-      sha: 0708ea1467ed6dc89cebd8c13671410d83aa3e96
+      commitTitle: 'Merge pull request #1152 from manishym/snapshotter_panic_in_volumegroupsnapshot_processing_1123...'
+      sha: 0f215370c7ca3eeef4ab7028824d3bc66e1f63bd
       tags:
-      - v8.1.0-37-g0708ea14
+      - client/v8.2.0
     path: external-snapshotter-upstream
   path: vendor-snapshotter
 - contents:
