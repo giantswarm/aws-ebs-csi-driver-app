@@ -27,9 +27,9 @@ help: ## Display this help.
 build:
 	@vendir sync
 	@cp kustomization-snapshotter.yaml vendor-snapshotter/kustomization.yaml
-	@kubectl kustomize vendor-snapshotter/ > helm/aws-ebs-csi-driver-app/templates/snapshotter-crds.yaml
+	@kubectl kustomize vendor-snapshotter/ > helm/aws-ebs-csi-driver-app/templates/external-snapshotter.yaml
 
 clean:
 	@rm -rf ./vendor-snapshotter
 	@rm -rf ./vendor
-	@rm helm/aws-ebs-csi-driver-app/templates/snapshotter-crds.yaml
+	@rm helm/aws-ebs-csi-driver-app/templates/external-snapshotter.yaml
