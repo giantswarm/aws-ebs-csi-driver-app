@@ -105,9 +105,5 @@ Recommended daemonset tolerations
 {{- end -}}
 
 {{- define "giantswarm.irsa.annotation" -}}
-{{- if (or (eq .Values.region "cn-north-1") (eq .Values.region "cn-northwest-1"))}}
-eks.amazonaws.com/role-arn: arn:aws-cn:iam::{{ .Values.accountID }}:role/{{ .Values.clusterID }}-ebs-csi-driver-role
-{{- else }}
-eks.amazonaws.com/role-arn: arn:aws:iam::{{ .Values.accountID }}:role/{{ .Values.clusterID }}-ebs-csi-driver-role
-{{- end -}}
+eks.amazonaws.com/role-arn: {{ .Values.clusterID }}-ebs-csi-driver-role
 {{- end -}}
