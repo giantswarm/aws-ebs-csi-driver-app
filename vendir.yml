@@ -16,7 +16,6 @@ directories:
           url: https://github.com/kubernetes-csi/external-snapshotter
           ref: "master"
         includePaths:
-          - deploy/kubernetes/**/*
           - client/config/crd/**/*
   - path: helm/aws-ebs-csi-driver-app/templates
     contents:
