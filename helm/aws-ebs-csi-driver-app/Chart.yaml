@@ -5,7 +5,7 @@ description: A Helm chart for AWS EBS CSI Driver
 icon: https://s.giantswarm.io/app-icons/aws/1/dark.svg
 annotations:
   application.giantswarm.io/team: "phoenix"
-version: 0.0.0
+version: 3.0.0
 kubeVersion: ">=1.17.0-0"
 home: https://github.com/giantswarm/aws-ebs-csi-driver-app
 sources:
