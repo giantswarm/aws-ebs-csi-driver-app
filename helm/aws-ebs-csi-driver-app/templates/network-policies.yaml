@@ -11,3 +11,4 @@ spec:
       app.kubernetes.io/name: {{ .Values.name | quote }}
   policyTypes:
   - Egress
+---

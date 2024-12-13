@@ -2,53 +2,104 @@
 {{/*
 Expand the name of the chart.
 */}}
+{{- define "aws-ebs-csi-driver.name" -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "aws-ebs-csi-driver.fullname" -}}
+{{- if .Values.fullnameOverride -}}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "chart" -}}
+{{- define "aws-ebs-csi-driver.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "labels.common" -}}
-app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-app.kubernetes.io/name: {{ .Values.name | quote }}
-app.kubernetes.io/instance: {{ .Release.Name | quote }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- define "aws-ebs-csi-driver.labels" -}}
+application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 giantswarm.io/service-type: "managed"
-helm.sh/chart: {{ include "chart" . | quote }}
-{{- end -}}
-
-{{- define "annotations.CRDInstall" -}}
-"helm.sh/hook": "pre-install,pre-upgrade"
-"helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
-{{- end -}}
-
-{{- define "ebs.name" -}}
-{{- default .Chart.Name .Values.global.name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{- define "ebs.name.crdInstall" -}}
-{{- printf "%s-%s" ( include "ebs.name" . ) "crd-install" | replace "+" "_" | trimSuffix "-" -}}
-{{- end -}}
-
-{{/* Create a label which can be used to select any orphaned crd-install hook resources */}}
-{{- define "ebs.CRDInstallSelector" -}}
-{{- printf "%s" "crd-install-hook" -}}
+{{ include "aws-ebs-csi-driver.selectorLabels" . }}
+{{- if ne .Release.Name "kustomize" }}
+helm.sh/chart: {{ include "aws-ebs-csi-driver.chart" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/component: csi-driver
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+{{- if .Values.customLabels }}
+{{ toYaml .Values.customLabels }}
+{{- end }}
 {{- end -}}
 
 {{/*
-Convert the `--extra-volume-tags` command line arg from a map.
+Common selector labels
 */}}
-{{- define "extra-volume-tags" -}}
+{{- define "aws-ebs-csi-driver.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "aws-ebs-csi-driver.name" . }}
+{{- if ne .Release.Name "kustomize" }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+{{- end -}}
+
+{{/*
+Convert the `--extra-tags` command line arg from a map.
+*/}}
+{{- define "aws-ebs-csi-driver.extra-volume-tags" -}}
 {{- $result := dict "pairs" (list) -}}
-{{- range $key, $value := .Values.extraVolumeTags -}}
-{{- $noop := printf "%s=%s" $key $value | append $result.pairs | set $result "pairs" -}}
+{{- range $key, $value := .Values.controller.extraVolumeTags -}}
+{{- $noop := printf "%s=%v" $key $value | append $result.pairs | set $result "pairs" -}}
 {{- end -}}
 {{- if gt (len $result.pairs) 0 -}}
-{{- printf "%s=%s" "- --extra-volume-tags" (join "," $result.pairs) -}}
+{{- printf "- \"--extra-tags=%s\"" (join "," $result.pairs) -}}
 {{- end -}}
+{{- end -}}
+
+{{/*
+Handle http proxy env vars
+*/}}
+{{- define "aws-ebs-csi-driver.http-proxy" -}}
+- name: HTTP_PROXY
+  value: {{ .Values.proxy.http_proxy | quote }}
+- name: HTTPS_PROXY
+  value: {{ .Values.proxy.http_proxy | quote }}
+- name: NO_PROXY
+  value: {{ .Values.proxy.no_proxy | quote }}
+{{- end -}}
+
+{{/*
+Recommended daemonset tolerations
+*/}}
+{{- define "aws-ebs-csi-driver.daemonset-tolerations" -}}
+# Prevents stateful workloads from being scheduled to node before CSI Driver reports volume attachment limit
+- key: "ebs.csi.aws.com/agent-not-ready"
+  operator: "Exists"
+# Prevents undesired eviction by Cluster Autoscalar
+- key: "ToBeDeletedByClusterAutoscaler"
+  operator: Exists
+# Prevents undesired eviction by v1 Karpenter
+- key: "karpenter.sh/disrupted"
+  operator: Exists
+# Prevents undesired eviction by v1beta1 Karpenter
+- key: "karpenter.sh/disruption"
+  operator: Exists
 {{- end -}}

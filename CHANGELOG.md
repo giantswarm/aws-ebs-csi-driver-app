@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Change to use ImagePullPolicy as specified via values.
+- Upgrade to release v1.37.0
+- Enable Volume Snapshotter by default
+- Switch to Helm managed CRDs
 
 ## [2.30.1] - 2024-04-11
 

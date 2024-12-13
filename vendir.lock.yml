@@ -1,0 +1,21 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: update IRSA SA annotation
+      sha: 69e3d767f762fbb0d81932d2ed8395d81286c8ad
+    path: ebs-csi-driver-upstream
+  path: vendor
+- contents:
+  - git:
+      commitTitle: 'Merge pull request #1152 from manishym/snapshotter_panic_in_volumegroupsnapshot_processing_1123...'
+      sha: 0f215370c7ca3eeef4ab7028824d3bc66e1f63bd
+      tags:
+      - client/v8.2.0
+    path: external-snapshotter-upstream
+  path: vendor-snapshotter
+- contents:
+  - directory: {}
+    path: .
+  path: helm/aws-ebs-csi-driver-app/templates
+kind: LockConfig

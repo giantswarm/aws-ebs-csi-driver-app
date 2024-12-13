@@ -1,0 +1,11 @@
+checks:
+  exclude:
+    - "privilege-escalation-container"
+    - "unset-cpu-requirements"
+    - "sensitive-host-mounts"
+    - "run-as-non-root"
+    - "privileged-container"
+    - "unset-memory-requirements"
+    - "no-anti-affinity"
+    - "no-read-only-root-fs"
+    - "non-existent-service-account"
