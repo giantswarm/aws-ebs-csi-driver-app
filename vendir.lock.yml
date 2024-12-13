@@ -2,8 +2,8 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: Merge branch 'kubernetes-sigs:master' into master
-      sha: 1600b9675f50729553928a9e8a8e36ebf772f6c1
+      commitTitle: add IRSA annotation
+      sha: 784c80ad18ed5ddc1ad2a0e2586a5a2cd352528f
     path: ebs-csi-driver-upstream
   path: vendor
 - contents:

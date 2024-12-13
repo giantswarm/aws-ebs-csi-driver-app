@@ -22,3 +22,10 @@ patches:
       - op: add
         path: /metadata/annotations/helm.sh~1resource-policy
         value: keep
+  - target:
+      kind: Deployment
+      name: snapshot-controller
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccountName
+        value: ebs-csi-controller-sa

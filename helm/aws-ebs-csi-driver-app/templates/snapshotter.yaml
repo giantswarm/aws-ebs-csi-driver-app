@@ -2019,4 +2019,4 @@ spec:
         image: gsoci.azurecr.io/giantswarm/snapshot-controller:v8.0.1
         imagePullPolicy: IfNotPresent
         name: snapshot-controller
-      serviceAccountName: snapshot-controller
+      serviceAccountName: ebs-csi-controller-sa
