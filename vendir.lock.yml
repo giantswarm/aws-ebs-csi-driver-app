@@ -2,8 +2,8 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: add IRSA annotation
-      sha: 784c80ad18ed5ddc1ad2a0e2586a5a2cd352528f
+      commitTitle: update IRSA SA annotation
+      sha: 69e3d767f762fbb0d81932d2ed8395d81286c8ad
     path: ebs-csi-driver-upstream
   path: vendor
 - contents:
