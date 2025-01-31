@@ -23,13 +23,3 @@ include Makefile.*.mk
 .PHONY: help
 help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z%\\\/_0-9-]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
-
-build:
-	@vendir sync
-	@cp kustomization-snapshotter.yaml vendor-snapshotter/kustomization.yaml
-	@kubectl kustomize vendor-snapshotter/ > helm/aws-ebs-csi-driver-app/templates/external-snapshotter.yaml
-
-clean:
-	@rm -rf ./vendor-snapshotter
-	@rm -rf ./vendor
-	@rm helm/aws-ebs-csi-driver-app/templates/external-snapshotter.yaml
