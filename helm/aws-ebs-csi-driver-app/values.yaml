@@ -40,6 +40,9 @@ sidecars:
       # renewDeadline: "10s"
       # retryPeriod: "5s"
     securityContext:
+      capabilities:
+        drop:
+          - ALL
       seccompProfile:
         type: RuntimeDefault
       readOnlyRootFilesystem: true
@@ -73,6 +76,9 @@ sidecars:
         cpu: 100m
         memory: 256Mi
     securityContext:
+      capabilities:
+        drop:
+          - ALL
       seccompProfile:
         type: RuntimeDefault
       readOnlyRootFilesystem: true
@@ -98,6 +104,9 @@ sidecars:
         cpu: 100m
         memory: 256Mi
     securityContext:
+      capabilities:
+        drop:
+          - ALL
       seccompProfile:
         type: RuntimeDefault
       readOnlyRootFilesystem: true
@@ -117,6 +126,9 @@ sidecars:
         cpu: 100m
         memory: 256Mi
     securityContext:
+      capabilities:
+        drop:
+          - ALL
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
   resizer:
@@ -148,6 +160,9 @@ sidecars:
         cpu: 100m
         memory: 256Mi
     securityContext:
+      capabilities:
+        drop:
+          - ALL
       seccompProfile:
         type: RuntimeDefault
       readOnlyRootFilesystem: true
@@ -169,6 +184,9 @@ sidecars:
         cpu: 100m
         memory: 256Mi
     securityContext:
+      capabilities:
+        drop:
+          - ALL
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
     livenessProbe:
@@ -205,6 +223,9 @@ sidecars:
         cpu: 100m
         memory: 256Mi
     securityContext:
+      capabilities:
+        drop:
+          - ALL
       seccompProfile:
         type: RuntimeDefault
       readOnlyRootFilesystem: true
@@ -350,6 +371,8 @@ controller:
     runAsUser: 1000
     runAsGroup: 1000
     fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
   # Add additional volume mounts on the controller with controller.volumes and controller.volumeMounts
   volumes: []
   # Add additional volumes to be mounted onto the controller:
@@ -364,6 +387,9 @@ controller:
   # ---
   # securityContext on the controller container (see sidecars for securityContext on sidecar containers)
   containerSecurityContext:
+    capabilities:
+      drop:
+        - ALL
     seccompProfile:
       type: RuntimeDefault
     readOnlyRootFilesystem: true
@@ -480,6 +506,9 @@ node:
   # securityContext on the node container (see sidecars for securityContext on sidecar containers)
   # Privileged containers always run as `Unconfined`, which means that they are not restricted by a seccomp profile.
   containerSecurityContext:
+    capabilities:
+      drop:
+        - ALL
     readOnlyRootFilesystem: true
     privileged: true
   initContainers: []
