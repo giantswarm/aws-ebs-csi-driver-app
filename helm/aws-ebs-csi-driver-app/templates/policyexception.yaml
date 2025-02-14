@@ -1,7 +1,7 @@
 apiVersion: policy.giantswarm.io/v1alpha1
 kind: PolicyException
 metadata:
-  name: ebs-csi-controller
+  name: ebs-csi-node
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "aws-ebs-csi-driver.labels" . | nindent 4 }}
@@ -25,45 +25,3 @@ spec:
       - kube-system
       names:
       - ebs-csi-node*
----
-# apiVersion: kyverno.io/v1
-# kind: PolicyException
-# metadata:
-#   name: ebs-csi-exceptions
-# spec:
-#   exceptions:
-#   - policyName: require-non-root-groups
-#     ruleNames:
-#     - autogen-check-runasgroup
-#     - autogen-check-fsgroup
-#   - policyName: disallow-privileged-containers
-#     ruleNames:
-#     - autogen-privileged-containers
-#   - policyName: disallow-host-path
-#     ruleNames:
-#     - autogen-host-path
-#   - policyName: restrict-volume-types
-#     ruleNames:
-#     - autogen-restricted-volumes
-#   - policyName: disallow-privilege-escalation
-#     ruleNames:
-#     - autogen-privilege-escalation
-#   - policyName: require-run-as-non-root-user
-#     ruleNames:
-#     - autogen-run-as-non-root-user
-#   - policyName: require-run-as-nonroot
-#     ruleNames:
-#     - autogen-run-as-non-root
-#   - policyName: restrict-seccomp-strict
-#     ruleNames:
-#     - autogen-check-seccomp-strict
-#   match:
-#     any:
-#     - resources:
-#         kinds:
-#         - Pod
-#         - DaemonSet
-#         namespaces:
-#         - kube-system
-#         names:
-#         - ebs-csi-node*
