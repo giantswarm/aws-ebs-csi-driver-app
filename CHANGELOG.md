@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Harden security context for controller and node.
+
 ## [3.0.0] - 2024-12-13
 
 ### Changed
@@ -20,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Disable PSPs for CRD job when `podSecurityStandards` are enforced. 
+- Disable PSPs for CRD job when `podSecurityStandards` are enforced.
 
 ## [2.30.0] - 2024-04-02
 

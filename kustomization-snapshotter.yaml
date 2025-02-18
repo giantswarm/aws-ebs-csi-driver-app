@@ -30,3 +30,33 @@ patches:
         path: /metadata/annotations
         value:
           eks.amazonaws.com/role-arn: '{{ .Values.clusterID }}-ebs-csi-driver-role'
+  - target:
+      kind: Deployment
+      name: snapshot-controller
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: snapshot-controller
+      spec:
+        template:
+          spec:
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 65534
+              runAsGroup: 65534
+              seccompProfile:
+                type: RuntimeDefault
+            containers:
+              - name: snapshot-controller
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                    - ALL
+                  runAsNonRoot: true
+                  runAsUser: 65534
+                  runAsGroup: 65534
+                  readOnlyRootFilesystem: true
+                  seccompProfile:
+                    type: RuntimeDefault
