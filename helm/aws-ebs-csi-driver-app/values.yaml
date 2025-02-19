@@ -203,7 +203,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/volume-modifier-for-k8s
-      tag: "v0.4.0"
+      tag: "v0.5.1"
     leaderElection:
       enabled: true
       # Optional values to tune lease behavior.
