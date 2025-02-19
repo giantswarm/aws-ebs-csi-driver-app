@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Repository: Some chores. ([#235](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/235))
   - Repository: Add `Makefile.custom.mk`.
+- Chart: Add `snapshot-controller` NetworkPolicy. ([#246](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/246))
+  - Kustomization: Add `snapshot-controller` NetworkPolicy.
 
 ### Changed
 
@@ -28,6 +30,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Chart: Sync to upstream. ([#243](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/243))
   - Chart: Reorder labels.
   - Chart: Fix network policies.
+- Chart: Add `snapshot-controller` NetworkPolicy. ([#246](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/246))
+  - Vendir: Sync to `vendor/external-snapshotter/upstream`.
+  - Kustomization: Set namespace.
+  - Kustomization: Extend common labels.
+  - Kustomization: Extract CRD patches.
+  - Kustomization: Extract service account patches.
+  - Kustomization: Extract deployment patches.
 
 ### Removed
 
