@@ -9,16 +9,13 @@ directories:
       ref: master
       depth: 1
     newRootPath: charts/aws-ebs-csi-driver/templates
-- path: vendor
+- path: vendor/external-snapshotter/upstream
   contents:
-  - path: external-snapshotter
+  - path: .
     git:
       url: https://github.com/kubernetes-csi/external-snapshotter
       ref: master
       depth: 1
     includePaths:
-    - deploy/kubernetes/**/*
     - client/config/crd/**/*
-    ignorePaths:
-    - .gitignore
-    - kustomization.yaml
+    - deploy/kubernetes/**/*
