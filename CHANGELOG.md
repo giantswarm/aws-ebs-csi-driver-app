@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Kustomization: Set namespace.
   - Kustomization: Extend common labels.
   - Kustomization: Extract CRD patches.
+  - Kustomization: Extract service account patches.
 
 ### Removed
 
