@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Repository: Some chores. ([#235](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/235))
+  - Repository: Add `Makefile.custom.mk`.
+
 ### Changed
 
 - Harden security context for controller and node.
