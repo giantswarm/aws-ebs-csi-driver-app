@@ -22,16 +22,17 @@ labels:
   includeTemplates: true
 
 images:
+# Snapshot controller
 - name: registry.k8s.io/sig-storage/snapshot-controller
   newName: gsoci.azurecr.io/giantswarm/snapshot-controller
 
 patches:
-- target:
+# CRDs
+- path: patches/crds/all.yaml
+  target:
+    group: apiextensions.k8s.io
+    version: v1
     kind: CustomResourceDefinition
-  patch: |-
-    - op: add
-      path: /metadata/annotations/helm.sh~1resource-policy
-      value: keep
 - target:
     kind: ServiceAccount
     name: snapshot-controller

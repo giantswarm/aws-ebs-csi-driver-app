@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Vendir: Sync to `vendor/external-snapshotter/upstream`.
   - Kustomization: Set namespace.
   - Kustomization: Extend common labels.
+  - Kustomization: Extract CRD patches.
 
 ### Removed
 
