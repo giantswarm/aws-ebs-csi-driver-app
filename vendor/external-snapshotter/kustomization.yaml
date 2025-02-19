@@ -10,9 +10,15 @@ resources:
 namespace: "{{ .Release.Namespace }}"
 
 labels:
+# Common labels
 - pairs:
-    application.giantswarm.io/team: phoenix
+    helm.sh/chart: aws-ebs-csi-driver-app
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
     giantswarm.io/service-type: managed
+    application.giantswarm.io/team: phoenix
   includeTemplates: true
 
 images:

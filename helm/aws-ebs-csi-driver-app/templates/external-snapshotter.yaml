@@ -6,8 +6,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.15.0
     helm.sh/resource-policy: keep
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: volumegroupsnapshotclasses.groupsnapshot.storage.k8s.io
 spec:
   group: groupsnapshot.storage.k8s.io
@@ -104,8 +109,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.15.0
     helm.sh/resource-policy: keep
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: volumegroupsnapshotcontents.groupsnapshot.storage.k8s.io
 spec:
   group: groupsnapshot.storage.k8s.io
@@ -432,8 +442,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.15.0
     helm.sh/resource-policy: keep
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: volumegroupsnapshots.groupsnapshot.storage.k8s.io
 spec:
   group: groupsnapshot.storage.k8s.io
@@ -675,8 +690,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.15.0
     helm.sh/resource-policy: keep
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: volumesnapshotclasses.snapshot.storage.k8s.io
 spec:
   group: snapshot.storage.k8s.io
@@ -836,8 +856,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.15.0
     helm.sh/resource-policy: keep
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: volumesnapshotcontents.snapshot.storage.k8s.io
 spec:
   group: snapshot.storage.k8s.io
@@ -1379,8 +1404,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.15.0
     helm.sh/resource-policy: keep
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: volumesnapshots.snapshot.storage.k8s.io
 spec:
   group: snapshot.storage.k8s.io
@@ -1806,8 +1836,13 @@ metadata:
   annotations:
     eks.amazonaws.com/role-arn: '{{ .Values.clusterID }}-ebs-csi-driver-role'
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: snapshot-controller
   namespace: '{{ .Release.Namespace }}'
 ---
@@ -1815,8 +1850,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: snapshot-controller-leaderelection
   namespace: '{{ .Release.Namespace }}'
 rules:
@@ -1836,8 +1876,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: snapshot-controller-runner
 rules:
 - apiGroups:
@@ -1960,8 +2005,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: snapshot-controller-leaderelection
   namespace: '{{ .Release.Namespace }}'
 roleRef:
@@ -1977,8 +2027,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: snapshot-controller-role
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -1993,8 +2048,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
   name: snapshot-controller
   namespace: '{{ .Release.Namespace }}'
 spec:
@@ -2011,9 +2071,13 @@ spec:
   template:
     metadata:
       labels:
+        app.kubernetes.io/instance: '{{ .Release.Name }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service }}'
         app.kubernetes.io/name: snapshot-controller
+        app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
         application.giantswarm.io/team: phoenix
         giantswarm.io/service-type: managed
+        helm.sh/chart: aws-ebs-csi-driver-app
     spec:
       containers:
       - args:
