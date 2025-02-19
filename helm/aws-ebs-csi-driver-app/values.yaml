@@ -172,7 +172,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-node-driver-registrar
-      tag: "v2.12.0"
+      tag: "v2.13.0"
     logLevel: 2
     # Additional parameters provided by node-driver-registrar.
     additionalArgs: []
