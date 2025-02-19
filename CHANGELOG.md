@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - ABS: Rework `main.yaml`.
   - CircleCI: Rework `config.yml`.
 
+### Removed
+
+- Repository: Some chores. ([#235](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/235))
+  - Repository: Remove `.nancy-ignore`.
+
 ## [3.0.0] - 2024-12-13
 
 ### Changed
