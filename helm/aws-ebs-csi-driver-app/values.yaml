@@ -16,7 +16,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-provisioner
-      tag: "v5.1.0"
+      tag: "v5.2.0"
     logLevel: 2
     # Additional parameters provided by external-provisioner.
     additionalArgs: []
