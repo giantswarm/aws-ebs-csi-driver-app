@@ -4,7 +4,7 @@
 
 image:
   repository: giantswarm/aws-ebs-csi-driver
-  tag: "v1.40.0"
+  tag: v1.37.0
   pullPolicy: IfNotPresent
 # -- Custom labels to add into metadata
 customLabels: {}

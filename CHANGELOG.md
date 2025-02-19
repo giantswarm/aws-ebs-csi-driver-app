@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Chart: Rework `.kube-linter.yaml`.
   - Vendir: Rework `vendir.yml`.
   - Chart: Rework `Chart.yaml`.
+  - Chart: Revert image to v1.37.0.
 
 ### Removed
 
