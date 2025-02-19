@@ -1,7 +1,7 @@
 apiVersion: v2
 name: aws-ebs-csi-driver-app
 description: A Helm chart for the AWS EBS CSI Driver.
-version: 3.0.0
+version: 3.0.1
 appVersion: 1.37.0
 home: https://github.com/giantswarm/aws-ebs-csi-driver-app
 icon: https://s.giantswarm.io/app-icons/aws/2/dark.svg
