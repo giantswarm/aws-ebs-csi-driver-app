@@ -1809,7 +1809,7 @@ metadata:
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
   name: snapshot-controller
-  namespace: kube-system
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -1818,7 +1818,7 @@ metadata:
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
   name: snapshot-controller-leaderelection
-  namespace: kube-system
+  namespace: '{{ .Release.Namespace }}'
 rules:
 - apiGroups:
   - coordination.k8s.io
@@ -1963,7 +1963,7 @@ metadata:
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
   name: snapshot-controller-leaderelection
-  namespace: kube-system
+  namespace: '{{ .Release.Namespace }}'
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -1971,7 +1971,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: snapshot-controller
-  namespace: kube-system
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -1987,7 +1987,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: snapshot-controller
-  namespace: kube-system
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1996,7 +1996,7 @@ metadata:
     application.giantswarm.io/team: phoenix
     giantswarm.io/service-type: managed
   name: snapshot-controller
-  namespace: kube-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   minReadySeconds: 35
   replicas: 2
