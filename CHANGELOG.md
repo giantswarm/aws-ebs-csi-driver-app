@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Repository: Remove `.nancy-ignore`.
   - Chart: Remove pod `securityContext` from `external-snapshotter`.
   - Chart: Remove `.helmignore`.
+  - Chart: Remove `CHANGELOG.md`.
 
 ## [3.0.0] - 2024-12-13
 
