@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Harden security context for controller and node.
+- Repository: Some chores. ([#235](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/235))
+  - ABS: Rework `main.yaml`.
 
 ## [3.0.0] - 2024-12-13
 

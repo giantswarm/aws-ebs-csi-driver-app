@@ -1,5 +1,4 @@
+chart-dir: helm/aws-ebs-csi-driver-app
 replace-chart-version-with-git: true
 generate-metadata: true
-chart-dir: ./helm/aws-ebs-csi-driver-app
 catalog-base-url: https://giantswarm.github.io/default-catalog/
-#ct-config: ./.circleci/ct-config.yaml
