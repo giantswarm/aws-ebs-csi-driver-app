@@ -136,7 +136,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-resizer
-      tag: "v1.12.0"
+      tag: "v1.13.1"
     # Tune leader lease election for csi-resizer.
     # Leader election is on by default.
     leaderElection:
