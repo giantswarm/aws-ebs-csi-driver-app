@@ -1,0 +1,10 @@
+checks:
+  exclude:
+  - no-anti-affinity
+  - pdb-unhealthy-pod-eviction-policy
+  - privileged-container
+  - privilege-escalation-container
+  - run-as-non-root
+  - sensitive-host-mounts
+  - unset-cpu-requirements
+  - unset-memory-requirements
