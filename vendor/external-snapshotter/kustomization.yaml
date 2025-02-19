@@ -1,0 +1,56 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- client/config/crd
+- deploy/kubernetes/snapshot-controller
+
+labels:
+- pairs:
+    application.giantswarm.io/team: phoenix
+    giantswarm.io/service-type: managed
+  includeTemplates: true
+
+images:
+- name: registry.k8s.io/sig-storage/snapshot-controller
+  newName: gsoci.azurecr.io/giantswarm/snapshot-controller
+
+patches:
+- target:
+    kind: CustomResourceDefinition
+  patch: |-
+    - op: add
+      path: /metadata/annotations/helm.sh~1resource-policy
+      value: keep
+- target:
+    kind: ServiceAccount
+    name: snapshot-controller
+  patch: |-
+    - op: add
+      path: /metadata/annotations
+      value:
+        eks.amazonaws.com/role-arn: '{{ .Values.clusterID }}-ebs-csi-driver-role'
+- target:
+    kind: Deployment
+    name: snapshot-controller
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: snapshot-controller
+    spec:
+      template:
+        spec:
+          containers:
+          - name: snapshot-controller
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 65534
+              runAsGroup: 65534
+              allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop:
+                - ALL
+              readOnlyRootFilesystem: true

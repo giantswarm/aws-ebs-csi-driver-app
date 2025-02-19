@@ -7,9 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Repository: Some chores. ([#235](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/235))
+  - Repository: Add `Makefile.custom.mk`.
+
 ### Changed
 
 - Harden security context for controller and node.
+- Repository: Some chores. ([#235](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/235))
+  - ABS: Rework `main.yaml`.
+  - CircleCI: Rework `config.yml`.
+  - Repository: Rework `README.md`.
+  - Repository: Move `.gitignore` & `kustomization-snapshotter.yaml` to `vendor/external-snapshotter/`.
+  - Chart: Rework `.kube-linter.yaml`.
+  - Vendir: Rework `vendir.yml`.
+  - Chart: Rework `Chart.yaml`.
+  - Chart: Revert image to v1.37.0.
+  - Renovate: Ignore `values.yaml`.
+
+### Removed
+
+- Repository: Some chores. ([#235](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/235))
+  - Repository: Remove `.nancy-ignore`.
+  - Chart: Remove pod `securityContext` from `external-snapshotter`.
+  - Chart: Remove `.helmignore`.
+  - Chart: Remove `CHANGELOG.md`.
 
 ## [3.0.0] - 2024-12-13
 
