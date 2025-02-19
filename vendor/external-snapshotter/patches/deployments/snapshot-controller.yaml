@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snapshot-controller
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: snapshot-controller
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+          runAsGroup: 65534
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
