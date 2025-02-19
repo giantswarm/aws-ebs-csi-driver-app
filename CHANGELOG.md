@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Repository: Rework `README.md`.
   - Repository: Move `.gitignore` & `kustomization-snapshotter.yaml` to `vendor/external-snapshotter/`.
   - Chart: Rework `.kube-linter.yaml`.
+  - Vendir: Rework `vendir.yml`.
 
 ### Removed
 
