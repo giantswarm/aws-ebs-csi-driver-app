@@ -35,8 +35,6 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "aws-ebs-csi-driver.labels" -}}
-application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
-giantswarm.io/service-type: "managed"
 {{ include "aws-ebs-csi-driver.selectorLabels" . }}
 {{- if ne .Release.Name "kustomize" }}
 helm.sh/chart: {{ include "aws-ebs-csi-driver.chart" . }}
@@ -46,6 +44,8 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/component: csi-driver
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
+giantswarm.io/service-type: managed
+application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 {{- if .Values.customLabels }}
 {{ toYaml .Values.customLabels }}
 {{- end }}
