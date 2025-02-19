@@ -6,6 +6,8 @@ resources:
 - upstream/client/config/crd
 # Snapshot controller
 - upstream/deploy/kubernetes/snapshot-controller
+# Network policies
+- bases/networkpolicies/snapshot-controller.yaml
 
 namespace: "{{ .Release.Namespace }}"
 

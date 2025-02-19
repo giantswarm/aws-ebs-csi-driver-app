@@ -2098,3 +2098,26 @@ spec:
           seccompProfile:
             type: RuntimeDefault
       serviceAccountName: snapshot-controller
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: snapshot-controller
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    application.giantswarm.io/team: phoenix
+    giantswarm.io/service-type: managed
+    helm.sh/chart: aws-ebs-csi-driver-app
+  name: snapshot-controller
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  egress:
+  - {}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/name: snapshot-controller
+  policyTypes:
+  - Egress
