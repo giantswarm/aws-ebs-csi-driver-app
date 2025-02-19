@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Repository: Some chores. ([#235](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/235))
   - Repository: Remove `.nancy-ignore`.
+  - Chart: Remove pod `securityContext` from `external-snapshotter`.
 
 ## [3.0.0] - 2024-12-13
 
