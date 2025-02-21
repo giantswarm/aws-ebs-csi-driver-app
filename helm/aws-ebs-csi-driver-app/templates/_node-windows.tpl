@@ -17,7 +17,7 @@ spec:
       app: {{ .NodeName }}
       {{- include "aws-ebs-csi-driver.selectorLabels" . | nindent 6 }}
   updateStrategy:
-    {{ toYaml .Values.node.updateStrategy | nindent 4 }}
+    {{- toYaml .Values.node.updateStrategy | nindent 4 }}
   template:
     metadata:
       labels:
@@ -64,7 +64,7 @@ spec:
       {{- end }}
       containers:
         - name: ebs-plugin
-          image: {{ printf "%s%s:%s" (default "" .Values.image.containerRegistry) .Values.image.repository (default (printf "v%s" .Chart.AppVersion) (toString .Values.image.tag)) }}
+          image: {{ include "aws-ebs-csi-driver.fullImagePath" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.node.windowsHostProcess }}
           command:
@@ -112,6 +112,10 @@ spec:
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
               value: {{ .otelExporterEndpoint }}
             {{- end }}
+            {{- if .Values.fips }}
+            - name: AWS_USE_FIPS_ENDPOINT
+              value: "true"
+            {{- end }}
             {{- with .Values.node.env }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
@@ -155,7 +159,7 @@ spec:
               exec:
                 command: ["/bin/aws-ebs-csi-driver", "pre-stop-hook"]
         - name: node-driver-registrar
-          image: {{ printf "%s%s:%s" (default "" .Values.image.containerRegistry) .Values.sidecars.nodeDriverRegistrar.image.repository .Values.sidecars.nodeDriverRegistrar.image.tag }}
+          image: {{ printf "%s/%s:%s" (default "" .Values.global.image.registry) .Values.sidecars.nodeDriverRegistrar.image.repository .Values.sidecars.nodeDriverRegistrar.image.tag }}
           imagePullPolicy: {{ default .Values.image.pullPolicy .Values.sidecars.nodeDriverRegistrar.image.pullPolicy }}
           {{- if .Values.node.windowsHostProcess }}
           command:
@@ -212,7 +216,7 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
         - name: liveness-probe
-          image: {{ printf "%s%s:%s" (default "" .Values.image.containerRegistry) .Values.sidecars.livenessProbe.image.repository .Values.sidecars.livenessProbe.image.tag }}
+          image: {{ printf "%s/%s:%s" (default "" .Values.global.image.registry) .Values.sidecars.livenessProbe.image.repository .Values.sidecars.livenessProbe.image.tag }}
           imagePullPolicy: {{ default .Values.image.pullPolicy .Values.sidecars.livenessProbe.image.pullPolicy }}
           {{- if .Values.node.windowsHostProcess }}
           command:

@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Chart: Sync to upstream. ([#253](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/253))
+  - Chart: Add FIPS endpoint support.
+  - Chart: Add SELinux support.
+
+### Changed
+
+- Chart: Sync to upstream. ([#253](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/253))
+  - Chart: Consume `global.image.registry`.
+  - Chart: Fix IRSA annotation rendering.
+  - Chart: Bump images.
+
 ## [3.0.1] - 2025-02-19
 
 ### Added

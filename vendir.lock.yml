@@ -3,7 +3,7 @@ directories:
 - contents:
   - git:
       commitTitle: Giant Swarm changes.
-      sha: 1baf90c48fa39f9ac4f9b08c5fdec38857db154b
+      sha: c08709b97d058da013c746171ffbf45b751ab453
     path: .
   path: helm/aws-ebs-csi-driver-app/templates
 - contents:
