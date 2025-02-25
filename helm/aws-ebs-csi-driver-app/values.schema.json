@@ -580,6 +580,9 @@
                         }
                     }
                 },
+                "selinux": {
+                    "type": "boolean"
+                },
                 "serviceAccount": {
                     "type": "object",
                     "properties": {
