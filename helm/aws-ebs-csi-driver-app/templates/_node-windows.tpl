@@ -103,9 +103,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-            {{- if .Values.proxy.http_proxy }}
             {{- include "aws-ebs-csi-driver.http-proxy" . | nindent 12 }}
-            {{- end }}
             {{- with .Values.node.otelTracing }}
             - name: OTEL_SERVICE_NAME
               value: {{ .otelServiceName }}
@@ -189,9 +187,7 @@ spec:
             - name: PLUGIN_REG_DIR
               value: C:\\var\\lib\\kubelet\\plugins_registry\\
           {{- end }}
-            {{- if .Values.proxy.http_proxy }}
             {{- include "aws-ebs-csi-driver.http-proxy" . | nindent 12 }}
-            {{- end }}
             {{- with .Values.sidecars.nodeDriverRegistrar.env }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
