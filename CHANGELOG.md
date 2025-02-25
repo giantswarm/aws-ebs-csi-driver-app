@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.2] - 2025-02-25
+
 ### Added
 
 - Chart: Sync to upstream. ([#253](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/253))
@@ -433,7 +435,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.0.1...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.0.2...HEAD
+[3.0.2]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.30.1...v3.0.0
 [2.30.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v2.30.0...v2.30.1
