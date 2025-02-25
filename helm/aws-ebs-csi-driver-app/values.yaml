@@ -4,12 +4,18 @@
 
 image:
   repository: giantswarm/aws-ebs-csi-driver
+  # Overrides the image tag whose default is v{{ .Chart.AppVersion }}
   tag: v1.40.0
   pullPolicy: IfNotPresent
 # -- Custom labels to add into metadata
 customLabels: {}
 # k8s-app: aws-ebs-csi-driver
 
+# Instruct the AWS SDK to use AWS FIPS endpoints, and deploy container built with BoringCrypto (a FIPS-validated cryptographic library) instead of the Go default
+#
+# The EBS CSI Driver FIPS images have not undergone FIPS certification, and no official guarantee is made about the compliance of these images under the FIPS standard
+# Users relying on these images for FIPS compliance should perform their own independent evaluation
+fips: false
 sidecars:
   provisioner:
     env: []
@@ -230,9 +236,19 @@ sidecars:
         type: RuntimeDefault
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
+# -- Local HTTP proxy settings.
+# These are overridding the global settings below.
 proxy:
-  http_proxy:
-  no_proxy:
+  noProxy: ""
+  http: ""
+  https: ""
+cluster:
+  # -- Global HTTP proxy settings.
+  # These are getting overriden by the local settings above and provided by cluster-apps-operator.
+  proxy:
+    noProxy: ""
+    http: ""
+    https: ""
 imagePullSecrets: []
 nameOverride:
 fullnameOverride:
@@ -277,7 +293,7 @@ controller:
   env: []
   # Use envFrom to reference ConfigMaps and Secrets across all containers in the deployment
   envFrom: []
-  # If set, add pv/pvc metadata to plugin create requests as parameters.
+  # If set, add pv/pvc metadata to plugin create and modify requests as parameters.
   extraCreateMetadata: true
   # Extra volume tags to attach to each dynamically provisioned volume.
   # ---
@@ -418,6 +434,7 @@ node:
   kubeletPath: /var/lib/kubelet
   loggingFormat: text
   logLevel: 2
+  enableMetrics: false
   priorityClassName:
   additionalArgs: []
   affinity:
@@ -546,14 +563,35 @@ storageClasses:
   parameters:
     encrypted: "true"
     type: gp3
+# Add StorageClass resources like:
+# - name: ebs-sc
+#   # annotation metadata
+#   annotations:
+#     storageclass.kubernetes.io/is-default-class: "true"
+#   # label metadata
+#   labels:
+#     my-label-is: supercool
+#   # defaults to WaitForFirstConsumer
+#   volumeBindingMode: WaitForFirstConsumer
+#   # defaults to Delete
+#   reclaimPolicy: Retain
+#   parameters:
+#     encrypted: "true"
 
 defaultStorageClass:
   enabled: false
 volumeSnapshotClasses: []
+# Add VolumeSnapshotClass resources like:
 # - name: ebs-vsc
+#   # annotation metadata
 #   annotations:
 #     snapshot.storage.kubernetes.io/is-default-class: "true"
+#   # label metadata
+#   labels:
+#     my-label-is: supercool
+#   # deletionPolicy must be specified
 #   deletionPolicy: Delete
+#   parameters:
 
 # Use old CSIDriver without an fsGroupPolicy set
 # Intended for use with older clusters that cannot easily replace the CSIDriver object
@@ -564,10 +602,8 @@ nodeComponentOnly: false
 helmTester:
   enabled: true
   # Supply a custom image to the ebs-csi-driver-test pod in helm-tester.yaml
-  image: "us-central1-docker.pkg.dev/k8s-staging-test-infra/images/kubekins-e2e:v20241021-d3a4913879-master"
+  image: "us-central1-docker.pkg.dev/k8s-staging-test-infra/images/kubekins-e2e:v20250212-686cf422c6-master"
 
 global:
   image:
     registry: ""
-
-fips: false

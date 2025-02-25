@@ -85,12 +85,19 @@ Convert the `--extra-tags` command line arg from a map.
 Handle http proxy env vars
 */}}
 {{- define "aws-ebs-csi-driver.http-proxy" -}}
+{{- $proxy := deepCopy .Values.cluster.proxy | mustMerge .Values.proxy }}
+{{- if $proxy.http }}
 - name: HTTP_PROXY
-  value: {{ .Values.proxy.http_proxy | quote }}
+  value: {{ $proxy.http | quote }}
+{{- end}}
+{{- if $proxy.https }}
 - name: HTTPS_PROXY
-  value: {{ .Values.proxy.http_proxy | quote }}
+  value: {{ $proxy.https | quote }}
+{{- end}}
+{{- if $proxy.noProxy }}
 - name: NO_PROXY
-  value: {{ .Values.proxy.no_proxy | quote }}
+  value: {{ $proxy.noProxy | quote }}
+{{- end}}
 {{- end -}}
 
 {{/*

@@ -19,6 +19,25 @@
                 }
             }
         },
+        "cluster": {
+            "type": "object",
+            "properties": {
+                "proxy": {
+                    "type": "object",
+                    "properties": {
+                        "http": {
+                            "type": "string"
+                        },
+                        "https": {
+                            "type": "string"
+                        },
+                        "noProxy": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "controller": {
             "type": "object",
             "properties": {
@@ -480,6 +499,9 @@
                 "enableLinux": {
                     "type": "boolean"
                 },
+                "enableMetrics": {
+                    "type": "boolean"
+                },
                 "enableWindows": {
                     "type": "boolean"
                 },
@@ -656,11 +678,14 @@
         "proxy": {
             "type": "object",
             "properties": {
-                "http_proxy": {
-                    "type": "null"
+                "http": {
+                    "type": "string"
                 },
-                "no_proxy": {
-                    "type": "null"
+                "https": {
+                    "type": "string"
+                },
+                "noProxy": {
+                    "type": "string"
                 }
             }
         },

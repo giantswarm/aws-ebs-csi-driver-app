@@ -102,9 +102,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-            {{- if .Values.proxy.http_proxy }}
             {{- include "aws-ebs-csi-driver.http-proxy" . | nindent 12 }}
-            {{- end }}
             {{- with .Values.node.otelTracing }}
             - name: OTEL_SERVICE_NAME
               value: {{ .otelServiceName }}
@@ -180,9 +178,7 @@ spec:
               value: /csi/csi.sock
             - name: DRIVER_REG_SOCK_PATH
               value: {{ printf "%s/plugins/ebs.csi.aws.com/csi.sock" (trimSuffix "/" .Values.node.kubeletPath) }}
-            {{- if .Values.proxy.http_proxy }}
             {{- include "aws-ebs-csi-driver.http-proxy" . | nindent 12 }}
-            {{- end }}
             {{- with .Values.sidecars.nodeDriverRegistrar.env }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
