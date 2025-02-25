@@ -364,8 +364,24 @@
                 }
             }
         },
+        "fips": {
+            "type": "boolean"
+        },
         "fullnameOverride": {
             "type": "null"
+        },
+        "global": {
+            "type": "object",
+            "properties": {
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         },
         "helmTester": {
             "type": "object",
