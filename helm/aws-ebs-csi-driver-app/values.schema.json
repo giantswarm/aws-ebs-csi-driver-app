@@ -148,6 +148,17 @@
                         "allowPrivilegeEscalation": {
                             "type": "boolean"
                         },
+                        "capabilities": {
+                            "type": "object",
+                            "properties": {
+                                "drop": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
                         "readOnlyRootFilesystem": {
                             "type": "boolean"
                         },
@@ -235,6 +246,9 @@
                         "limits": {
                             "type": "object",
                             "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -273,6 +287,14 @@
                         },
                         "runAsUser": {
                             "type": "integer"
+                        },
+                        "seccompProfile": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     }
                 },
@@ -485,6 +507,17 @@
                 "containerSecurityContext": {
                     "type": "object",
                     "properties": {
+                        "capabilities": {
+                            "type": "object",
+                            "properties": {
+                                "drop": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
                         "privileged": {
                             "type": "boolean"
                         },
@@ -564,6 +597,9 @@
                         "limits": {
                             "type": "object",
                             "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -730,13 +766,48 @@
                             "type": "integer"
                         },
                         "resources": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "securityContext": {
                             "type": "object",
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
+                                },
+                                "capabilities": {
+                                    "type": "object",
+                                    "properties": {
+                                        "drop": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 },
                                 "readOnlyRootFilesystem": {
                                     "type": "boolean"
@@ -774,13 +845,48 @@
                             }
                         },
                         "resources": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "securityContext": {
                             "type": "object",
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
+                                },
+                                "capabilities": {
+                                    "type": "object",
+                                    "properties": {
+                                        "drop": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 },
                                 "readOnlyRootFilesystem": {
                                     "type": "boolean"
@@ -841,13 +947,48 @@
                             "type": "integer"
                         },
                         "resources": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "securityContext": {
                             "type": "object",
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
+                                },
+                                "capabilities": {
+                                    "type": "object",
+                                    "properties": {
+                                        "drop": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 },
                                 "readOnlyRootFilesystem": {
                                     "type": "boolean"
@@ -894,13 +1035,48 @@
                             "type": "integer"
                         },
                         "resources": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "securityContext": {
                             "type": "object",
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
+                                },
+                                "capabilities": {
+                                    "type": "object",
+                                    "properties": {
+                                        "drop": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 },
                                 "readOnlyRootFilesystem": {
                                     "type": "boolean"
@@ -955,13 +1131,48 @@
                             "type": "integer"
                         },
                         "resources": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "securityContext": {
                             "type": "object",
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
+                                },
+                                "capabilities": {
+                                    "type": "object",
+                                    "properties": {
+                                        "drop": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 },
                                 "readOnlyRootFilesystem": {
                                     "type": "boolean"
@@ -1011,13 +1222,48 @@
                             "type": "integer"
                         },
                         "resources": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "securityContext": {
                             "type": "object",
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
+                                },
+                                "capabilities": {
+                                    "type": "object",
+                                    "properties": {
+                                        "drop": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 },
                                 "readOnlyRootFilesystem": {
                                     "type": "boolean"
@@ -1069,13 +1315,48 @@
                             "type": "integer"
                         },
                         "resources": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "securityContext": {
                             "type": "object",
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
+                                },
+                                "capabilities": {
+                                    "type": "object",
+                                    "properties": {
+                                        "drop": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 },
                                 "readOnlyRootFilesystem": {
                                     "type": "boolean"
@@ -1095,7 +1376,40 @@
             }
         },
         "storageClasses": {
-            "type": "array"
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "annotations": {
+                        "type": "object",
+                        "properties": {
+                            "storageclass.kubernetes.io/is-default-class": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "encrypted": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "reclaimPolicy": {
+                        "type": "string"
+                    },
+                    "volumeBindingMode": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "useOldCSIDriver": {
             "type": "boolean"
