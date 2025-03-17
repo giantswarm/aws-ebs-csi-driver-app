@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Chart: Sync to upstream. ([#264](https://github.com/giantswarm/aws-ebs-csi-driver-app/pull/264))
+
 ## [3.0.3] - 2025-02-25
 
 ### Changed

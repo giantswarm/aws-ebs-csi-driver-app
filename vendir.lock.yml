@@ -3,13 +3,13 @@ directories:
 - contents:
   - git:
       commitTitle: Giant Swarm changes.
-      sha: 7bbacacfbb75d4a0863ccb1530286139346d9f71
+      sha: d1042f4eec7c41b78509307bc269779bd296c169
     path: .
   path: helm/aws-ebs-csi-driver-app/templates
 - contents:
   - git:
-      commitTitle: 'Merge pull request #1162 from mjnagel/patch-1...'
-      sha: ba554e3965198005d755aa91855a60abe6492118
+      commitTitle: 'Merge pull request #1256 from huww98/json-log...'
+      sha: 59d72977e7a24ccdfabed3a20720e41beddc8216
     path: .
   path: vendor/external-snapshotter/upstream
 kind: LockConfig
