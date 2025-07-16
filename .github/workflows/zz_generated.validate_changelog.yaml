@@ -18,4 +18,4 @@ permissions:
 
 jobs:
   validate-changelog:
-    uses: giantswarm/github-workflows/.github/workflows/validate-changelog.yaml@f521ed67a6d5dc7ef628138d4bac919f1d3d4079
+    uses: giantswarm/github-workflows/.github/workflows/validate-changelog.yaml@7fbe825b0db0b4499e44dfe227c11bbccd24b7d7
