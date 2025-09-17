@@ -500,7 +500,7 @@ node:
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: "10%"
+      maxUnavailable: "25%"
   hostNetwork: false
   # securityContext on the node pod
   securityContext:
