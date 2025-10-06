@@ -606,4 +606,4 @@ helmTester:
 
 global:
   image:
-    registry: ""
+    registry: "gsoci.azurecr.io"
