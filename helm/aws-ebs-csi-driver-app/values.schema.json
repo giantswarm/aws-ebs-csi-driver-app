@@ -184,6 +184,9 @@
                 "enableMetrics": {
                     "type": "boolean"
                 },
+                "enablePrometheusAnnotations": {
+                    "type": "boolean"
+                },
                 "env": {
                     "type": "array"
                 },
@@ -535,6 +538,12 @@
                 "enableMetrics": {
                     "type": "boolean"
                 },
+                "enablePrometheusAnnotations": {
+                    "type": "boolean"
+                },
+                "metadataSources": {
+                    "type": "array"
+                },
                 "enableWindows": {
                     "type": "boolean"
                 },
@@ -653,6 +662,9 @@
                         "create": {
                             "type": "boolean"
                         },
+                        "disableMutation": {
+                            "type": "boolean"
+                        },
                         "name": {
                             "type": "string"
                         }
@@ -707,6 +719,9 @@
                     "type": "array"
                 }
             }
+        },
+        "debugLogs": {
+            "type": "boolean"
         },
         "nodeComponentOnly": {
             "type": "boolean"

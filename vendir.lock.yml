@@ -2,14 +2,14 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: Giant Swarm changes.
-      sha: d1042f4eec7c41b78509307bc269779bd296c169
+      commitTitle: Merge branch 'kubernetes-sigs:master' into master
+      sha: 88e828c6457b21a7ed22cd326983ef0ea53671f8
     path: .
   path: helm/aws-ebs-csi-driver-app/templates
 - contents:
   - git:
-      commitTitle: 'Merge pull request #1256 from huww98/json-log...'
-      sha: 59d72977e7a24ccdfabed3a20720e41beddc8216
+      commitTitle: 'Merge pull request #1324 from kubernetes-csi/dependabot/github_actions/actions/checkout-5...'
+      sha: 20bb89ad6fe0ab86fb1f30e97026ef5d019060cd
     path: .
   path: vendor/external-snapshotter/upstream
 kind: LockConfig
