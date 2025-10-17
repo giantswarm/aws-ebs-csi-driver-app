@@ -411,6 +411,10 @@
         "fips": {
             "type": "boolean"
         },
+        "nodeAllocatableUpdatePeriodSeconds": {
+            "type": "integer",
+            "minimum": 10
+        },
         "fullnameOverride": {
             "type": "null"
         },
