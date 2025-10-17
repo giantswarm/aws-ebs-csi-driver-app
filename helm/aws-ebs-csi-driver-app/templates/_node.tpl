@@ -82,13 +82,20 @@ spec:
             {{- with .Values.node.volumeAttachLimit }}
             - --volume-attach-limit={{ . }}
             {{- end }}
+            {{- with .Values.node.metadataSources }}
+            - --metadata-sources={{ . }}
+            {{- end }}
             {{- if .Values.node.legacyXFS }}
             - --legacy-xfs=true
             {{- end}}
             {{- with .Values.node.loggingFormat }}
             - --logging-format={{ . }}
             {{- end }}
+            {{- if .Values.debugLogs }}
+            - --v=7
+            {{- else }}
             - --v={{ .Values.node.logLevel }}
+            {{- end }}
             {{- if .Values.node.otelTracing }}
             - --enable-otel-tracing=true
             {{- end}}
@@ -113,6 +120,10 @@ spec:
             - name: AWS_USE_FIPS_ENDPOINT
               value: "true"
             {{- end }}
+            {{- if .Values.node.serviceAccount.disableMutation }}
+            - name: DISABLE_TAINT_WATCHER
+              value: "true"
+            {{- end }}
             {{- with .Values.node.env }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
@@ -131,7 +142,6 @@ spec:
             {{- if .Values.node.selinux }}
             - name: selinux-sysfs
               mountPath: /sys/fs/selinux
-              readOnly: true
             - name: selinux-config
               mountPath: /etc/selinux/config
               readOnly: true
@@ -143,6 +153,11 @@ spec:
             - name: healthz
               containerPort: 9808
               protocol: TCP
+            {{- if .Values.node.enableMetrics }}
+            - name: metrics
+              containerPort: 3302
+              protocol: TCP
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /healthz
@@ -151,6 +166,13 @@ spec:
             timeoutSeconds: 3
             periodSeconds: 10
             failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            timeoutSeconds: 3
+            periodSeconds: 5
+            failureThreshold: 3
           {{- with .Values.node.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -163,13 +185,18 @@ spec:
             preStop:
               exec:
                 command: ["/bin/aws-ebs-csi-driver", "pre-stop-hook"]
+          terminationMessagePolicy: FallbackToLogsOnError
         - name: node-driver-registrar
           image: {{ printf "%s/%s:%s" (default "" .Values.global.image.registry) .Values.sidecars.nodeDriverRegistrar.image.repository .Values.sidecars.nodeDriverRegistrar.image.tag }}
           imagePullPolicy: {{ default .Values.image.pullPolicy .Values.sidecars.nodeDriverRegistrar.image.pullPolicy }}
           args:
             - --csi-address=$(ADDRESS)
             - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+            {{- if .Values.debugLogs }}
+            - --v=7
+            {{- else }}
             - --v={{ .Values.sidecars.nodeDriverRegistrar.logLevel }}
+            {{- end }}
             {{- range .Values.sidecars.nodeDriverRegistrar.additionalArgs }}
             - {{ . }}
             {{- end }}
@@ -205,6 +232,7 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          terminationMessagePolicy: FallbackToLogsOnError
         - name: liveness-probe
           image: {{ printf "%s/%s:%s" (default "" .Values.global.image.registry) .Values.sidecars.livenessProbe.image.repository .Values.sidecars.livenessProbe.image.tag }}
           imagePullPolicy: {{ default .Values.image.pullPolicy .Values.sidecars.livenessProbe.image.pullPolicy }}
@@ -228,6 +256,7 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          terminationMessagePolicy: FallbackToLogsOnError
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- range .Values.imagePullSecrets }}
