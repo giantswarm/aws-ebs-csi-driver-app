@@ -76,6 +76,9 @@ spec:
             {{- with .Values.node.reservedVolumeAttachments }}
             - --reserved-volume-attachments={{ . }}
             {{- end }}
+            {{- with .Values.node.metadataSources }}
+            - --metadata-sources={{ . }}
+            {{- end }}
             {{- with .Values.node.volumeAttachLimit }}
             - --volume-attach-limit={{ . }}
             {{- end }}
@@ -85,7 +88,11 @@ spec:
             {{- with .Values.node.loggingFormat }}
             - --logging-format={{ . }}
             {{- end }}
+            {{- if .Values.debugLogs }}
+            - --v=7
+            {{- else }}
             - --v={{ .Values.node.logLevel }}
+            {{- end }}
             {{- if .Values.node.otelTracing }}
             - --enable-otel-tracing=true
             {{- end}}
@@ -112,6 +119,10 @@ spec:
             {{- end }}
             {{- if .Values.fips }}
             - name: AWS_USE_FIPS_ENDPOINT
+              value: "true"
+            {{- end }}
+            {{- if .Values.node.serviceAccount.disableMutation }}
+            - name: DISABLE_TAINT_WATCHER
               value: "true"
             {{- end }}
             {{- with .Values.node.env }}
@@ -143,6 +154,13 @@ spec:
             timeoutSeconds: 3
             periodSeconds: 10
             failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            timeoutSeconds: 3
+            periodSeconds: 5
+            failureThreshold: 3
           {{- with .Values.node.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -156,6 +174,7 @@ spec:
             preStop:
               exec:
                 command: ["/bin/aws-ebs-csi-driver", "pre-stop-hook"]
+          terminationMessagePolicy: FallbackToLogsOnError
         - name: node-driver-registrar
           image: {{ printf "%s/%s:%s" (default "" .Values.global.image.registry) .Values.sidecars.nodeDriverRegistrar.image.repository .Values.sidecars.nodeDriverRegistrar.image.tag }}
           imagePullPolicy: {{ default .Values.image.pullPolicy .Values.sidecars.nodeDriverRegistrar.image.pullPolicy }}
@@ -169,7 +188,11 @@ spec:
           {{- if .Values.node.windowsHostProcess }}
             - --plugin-registration-path=$(PLUGIN_REG_DIR)
           {{- end }}
+            {{- if .Values.debugLogs }}
+            - --v=7
+            {{- else }}
             - --v={{ .Values.sidecars.nodeDriverRegistrar.logLevel }}
+            {{- end }}
           env:
             - name: ADDRESS
             {{- if .Values.node.windowsHostProcess }}
@@ -211,6 +234,7 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          terminationMessagePolicy: FallbackToLogsOnError
         - name: liveness-probe
           image: {{ printf "%s/%s:%s" (default "" .Values.global.image.registry) .Values.sidecars.livenessProbe.image.repository .Values.sidecars.livenessProbe.image.tag }}
           imagePullPolicy: {{ default .Values.image.pullPolicy .Values.sidecars.livenessProbe.image.pullPolicy }}
@@ -231,6 +255,7 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          terminationMessagePolicy: FallbackToLogsOnError
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- range .Values.imagePullSecrets }}

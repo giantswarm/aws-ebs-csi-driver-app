@@ -5,7 +5,7 @@
 image:
   repository: giantswarm/aws-ebs-csi-driver
   # Overrides the image tag whose default is v{{ .Chart.AppVersion }}
-  tag: v1.41.0
+  tag: v1.51.0
   pullPolicy: IfNotPresent
 # -- Custom labels to add into metadata
 customLabels: {}
@@ -16,13 +16,17 @@ customLabels: {}
 # The EBS CSI Driver FIPS images have not undergone FIPS certification, and no official guarantee is made about the compliance of these images under the FIPS standard
 # Users relying on these images for FIPS compliance should perform their own independent evaluation
 fips: false
+
+# -- Period in seconds for updating node's max attachable volume count via MutableCSINodeAllocatableCount feature gate (Kubernetes 1.33+)
+# Kubernetes enforces a minimum update interval of 10 seconds
+nodeAllocatableUpdatePeriodSeconds: 10
 sidecars:
   provisioner:
     env: []
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-provisioner
-      tag: "v5.2.0"
+      tag: "v5.3.0"
     logLevel: 2
     # Additional parameters provided by external-provisioner.
     additionalArgs: []
@@ -58,7 +62,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-attacher
-      tag: "v4.8.1"
+      tag: "v4.9.0"
     # Tune leader lease election for csi-attacher.
     # Leader election is on by default.
     leaderElection:
@@ -96,7 +100,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-snapshotter
-      tag: "v8.2.1"
+      tag: "v8.3.0"
     logLevel: 2
     # Additional parameters provided by csi-snapshotter.
     additionalArgs: []
@@ -121,7 +125,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/livenessprobe
-      tag: "v2.14.0"
+      tag: "v2.16.0"
     # Additional parameters provided by livenessprobe.
     additionalArgs: []
     resources:
@@ -142,7 +146,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-resizer
-      tag: "v1.13.2"
+      tag: "v1.14.0"
     # Tune leader lease election for csi-resizer.
     # Leader election is on by default.
     leaderElection:
@@ -178,7 +182,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-node-driver-registrar
-      tag: "v2.13.0"
+      tag: "v2.14.0"
     logLevel: 2
     # Additional parameters provided by node-driver-registrar.
     additionalArgs: []
@@ -209,7 +213,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/volume-modifier-for-k8s
-      tag: "v0.5.1"
+      tag: "v0.8.0"
     leaderElection:
       enabled: true
       # Optional values to tune lease behavior.
@@ -307,6 +311,8 @@ controller:
   # The default is empty string, which means metrics endpoint is disabled.
   # ---
   enableMetrics: false
+  # Enable Prometheus annotations on controller pods
+  enablePrometheusAnnotations: false
   serviceMonitor:
     # Enables the ServiceMonitor resource even if the prometheus-operator CRDs are not installed
     forceEnable: false
@@ -435,6 +441,9 @@ node:
   loggingFormat: text
   logLevel: 2
   enableMetrics: false
+  # Enable Prometheus annotations on node pods
+  enablePrometheusAnnotations: false
+  metadataSources: []
   priorityClassName:
   additionalArgs: []
   affinity:
@@ -483,6 +492,7 @@ node:
     ## Enable if EKS IAM for SA is used
     # eks.amazonaws.com/role-arn: arn:<partition>:iam::<account>:role/ebs-csi-role
     automountServiceAccountToken: true
+    disableMutation: false
   # Enable the linux daemonset creation
   enableLinux: true
   enableWindows: false
@@ -597,6 +607,8 @@ volumeSnapshotClasses: []
 # Intended for use with older clusters that cannot easily replace the CSIDriver object
 # This parameter should always be false for new installations
 useOldCSIDriver: true
+# Set maximum verbosity for logs of each container and other recommended debugging parameters such as enabling AWS SDK debug logging
+debugLogs: false
 # Deploy EBS CSI Driver without controller and associated resources
 nodeComponentOnly: false
 helmTester:
