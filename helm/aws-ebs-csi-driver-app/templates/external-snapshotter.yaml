@@ -2703,7 +2703,7 @@ spec:
       - args:
         - --v=5
         - --leader-election=true
-        image: gsoci.azurecr.io/giantswarm/snapshot-controller:v8.2.1
+        image: gsoci.azurecr.io/giantswarm/snapshot-controller:v8.4.0
         imagePullPolicy: IfNotPresent
         name: snapshot-controller
         securityContext:
