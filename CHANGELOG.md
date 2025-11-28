@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Chart: Update AWS EBS CSI Driver from v1.41.0 to v1.51.0.
   - Chart: ⚠️ URGENT: XFS Compatibility Issue - Newly formatted XFS volumes may fail to mount on nodes with older kernels (Amazon Linux 2). Use `node.legacyXFS: true` as workaround.
   - Chart: ⚠️ URGENT: Controller Health Checks - Controller now performs AWS API dry-run checks. Ensure proper IAM permissions and network connectivity.
-  - Chart: ⚠️ URGENT: StorageClass Parameter Deprecation* - `blockExpress` parameter is deprecated for `io2` volumes (now always uses 256,000 IOPS cap).
+  - Chart: ⚠️ URGENT: StorageClass Parameter Deprecation - `blockExpress` parameter is deprecated for `io2` volumes (now always uses 256,000 IOPS cap).
   - Chart: Add support for creating instant, point-in-time copies of EBS volumes within the same Availability Zone.
   - Chart: Add `debugLogs` parameter for maximum verbosity logging and debugging.
   - Chart: Add `metadataSources` configuration option for node metadata handling.
