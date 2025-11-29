@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Introduce bundle chart architecture with Crossplane IAM resources.
+  - Add `aws-ebs-csi-driver-app-bundle` chart that includes:
+    - Crossplane IAM Role with EBS CSI driver permissions
+    - Flux HelmRelease to deploy the workload cluster chart
+    - ConfigMap for values passthrough
+  - Bundle chart is installed on the management cluster and deploys the app chart to the workload cluster
+  - IAM role uses OIDC federation (IRSA) and reads configuration from `<clusterID>-crossplane-config` ConfigMap
+  - Both charts share the same version and are released together
+
+### Changed
+
+- Update CircleCI configuration to push both app and bundle charts
+- Update README with bundle architecture documentation
+
 ## [3.3.0] - 2025-10-22
 
 ### Changed
