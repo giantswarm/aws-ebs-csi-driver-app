@@ -7,4 +7,5 @@ metadata:
     {{- include "aws-ebs-csi-driver-app-bundle.labels" $ | nindent 4 }}
 data:
   values: |
+  {{- include "giantswarm.setValues" . -}}
   {{- (tpl (.Values | toYaml | toString) $) | nindent 4 }}

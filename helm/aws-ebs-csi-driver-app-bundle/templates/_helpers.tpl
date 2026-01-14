@@ -71,3 +71,15 @@ Get trust policy statements for all provided OIDC domains
 }
 {{- end -}}
 {{- end -}}
+
+{{/*
+Set Giant Swarm specific values
+*/}}
+{{- define "giantswarm.setValues" -}}
+{{- $configmap := (lookup "v1" "ConfigMap" .Release.Namespace (printf "%s-crossplane-config" .Values.clusterID)) -}}
+{{- $cmvalues := dict -}}
+{{- if and $configmap $configmap.data $configmap.data.values -}}
+  {{- $cmvalues = fromYaml $configmap.data.values -}}
+{{- end -}}
+{{- $_ := set .Values.controller.serviceAccount.annotations "eks.amazonaws.com/role-arn" (printf "arn:%s:iam::%s:role/%s-ebs-csi-driver-role" $cmvalues.awsPartition $cmvalues.accountID .Values.clusterID) -}}
+{{- end -}}
