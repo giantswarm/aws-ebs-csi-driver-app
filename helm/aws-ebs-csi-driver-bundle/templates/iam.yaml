@@ -9,7 +9,7 @@ metadata:
   name: {{ .Values.clusterID }}-ebs-csi-driver-role
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "aws-ebs-csi-driver-app-bundle.labels" . | nindent 4 }}
+    {{- include "aws-ebs-csi-driver-bundle.labels" . | nindent 4 }}
 spec:
   providerConfigRef:
     name: {{ .Values.clusterID }}
@@ -21,7 +21,7 @@ spec:
       {
         "Version": "2012-10-17",
         "Statement": [
-          {{- include "aws-ebs-csi-driver-app-bundle.trustPolicyStatements" . | nindent 10 }}
+          {{- include "aws-ebs-csi-driver-bundle.trustPolicyStatements" . | nindent 10 }}
         ]
       }
     inlinePolicy:

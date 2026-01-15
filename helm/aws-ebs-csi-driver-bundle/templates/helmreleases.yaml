@@ -1,10 +1,10 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: {{ .Values.clusterID }}-aws-ebs-csi-driver-app
+  name: {{ .Values.clusterID }}-aws-ebs-csi-driver
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "aws-ebs-csi-driver-app-bundle.labels" . | nindent 4 }}
+    {{- include "aws-ebs-csi-driver-bundle.labels" . | nindent 4 }}
 spec:
   url: {{ .Values.ociRepositoryUrl }}
   interval: 1h # Our versions are immutable, so there's no need to check for updates.
@@ -14,10 +14,10 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: {{ .Values.clusterID }}-aws-ebs-csi-driver-app
+  name: {{ .Values.clusterID }}-aws-ebs-csi-driver
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "aws-ebs-csi-driver-app-bundle.labels" . | nindent 4 }}
+    {{- include "aws-ebs-csi-driver-bundle.labels" . | nindent 4 }}
 spec:
   interval: 5m
   install:
@@ -34,9 +34,9 @@ spec:
       namespace: {{ .Release.Namespace }}
   chartRef:
     kind: OCIRepository
-    name: {{ .Values.clusterID }}-aws-ebs-csi-driver-app
+    name: {{ .Values.clusterID }}-aws-ebs-csi-driver
     namespace: {{ .Release.Namespace }}
-  releaseName: aws-ebs-csi-driver-app
+  releaseName: aws-ebs-csi-driver
   targetNamespace: kube-system
   storageNamespace: kube-system
   valuesFrom:

@@ -2,15 +2,15 @@
 
 # aws-ebs-csi-driver
 
-Giant Swarm offers an `aws-ebs-csi-driver-app-bundle` Managed App which can be installed in tenant clusters.
+Giant Swarm offers an `aws-ebs-csi-driver-bundle` Managed App which can be installed in tenant clusters.
 
-Here we define the `aws-ebs-csi-driver-app-bundle`, `aws-ebs-csi-driver-app` charts with their templates and default configuration.
+Here we define the `aws-ebs-csi-driver-bundle`, `aws-ebs-csi-driver-app` charts with their templates and default configuration.
 
 ## Architecture
 
 This repository contains two Helm charts:
 
-- `helm/aws-ebs-csi-driver-app-bundle/`: Main chart installed on the management cluster, contains the workload cluster chart and the required AWS IAM role.
+- `helm/aws-ebs-csi-driver-bundle/`: Main chart installed on the management cluster, contains the workload cluster chart and the required AWS IAM role.
 - `helm/aws-ebs-csi-driver-app/`: Workload cluster chart that contains the actual EBS CSI driver setup.
 
 Users only need to install the bundle chart on the management cluster, which in turn will deploy the workload cluster chart.
@@ -23,7 +23,7 @@ Install the chart on the management cluster using an App CR:
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
-  name: coyote-aws-ebs-csi-driver-app-bundle
+  name: coyote-aws-ebs-csi-driver-bundle
   namespace: org-acme
 spec:
   catalog: default
@@ -33,7 +33,7 @@ spec:
       namespace: org-acme
   kubeConfig:
     inCluster: true
-  name: aws-ebs-csi-driver-app-bundle
+  name: aws-ebs-csi-driver-bundle
   namespace: org-acme
   version: 3.3.0
 ```

@@ -10,7 +10,7 @@
       "enabled": false,
     },
     {
-      "matchFileNames": ["helm/aws-ebs-csi-driver-app-bundle/values.yaml"],
+      "matchFileNames": ["helm/aws-ebs-csi-driver-bundle/values.yaml"],
       "enabled": false,
     },
   ],
