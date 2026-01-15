@@ -17,20 +17,20 @@ workflows:
       - architect/push-to-app-catalog:
           context: architect
           executor: app-build-suite
-          name: package and push aws-ebs-csi-driver-app chart
+          name: package and push aws-ebs-csi-driver chart
           app_catalog: default-catalog
           app_catalog_test: default-test-catalog
-          chart: aws-ebs-csi-driver-app
+          chart: aws-ebs-csi-driver
           <<: *job_filters
 
       - architect/push-to-app-catalog:
           context: architect
           executor: app-build-suite
-          name: package and push aws-ebs-csi-driver-app-bundle chart
+          name: package and push aws-ebs-csi-driver-bundle chart
           app_catalog: default-catalog
           app_catalog_test: default-test-catalog
-          chart: aws-ebs-csi-driver-app-bundle
+          chart: aws-ebs-csi-driver-bundle
           explicit_allow_chart_name_mismatch: true
           requires:
-            - package and push aws-ebs-csi-driver-app chart
+            - package and push aws-ebs-csi-driver chart
           <<: *job_filters
