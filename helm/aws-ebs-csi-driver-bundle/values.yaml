@@ -2,7 +2,7 @@
 clusterID: ""
 bundleNameOverride: ""
 fullBundleNameOverride: ""
-ociRepositoryUrl: oci://gsoci.azurecr.io/charts/giantswarm/aws-ebs-csi-driver-bundle
+ociRepositoryUrl: oci://gsoci.azurecr.io/charts/giantswarm/aws-ebs-csi-driver
 
 # Default values for aws-ebs-csi-driver.
 # This is a YAML-formatted file.
