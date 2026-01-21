@@ -62,7 +62,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-attacher
-      tag: "v4.9.0"
+      tag: "v4.10.0"
     # Tune leader lease election for csi-attacher.
     # Leader election is on by default.
     leaderElection:
