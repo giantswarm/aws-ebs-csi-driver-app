@@ -100,7 +100,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/csi-snapshotter
-      tag: "v8.3.0"
+      tag: "v8.4.0"
     logLevel: 2
     # Additional parameters provided by csi-snapshotter.
     additionalArgs: []
