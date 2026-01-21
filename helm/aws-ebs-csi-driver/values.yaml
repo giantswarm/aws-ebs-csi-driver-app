@@ -125,7 +125,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: giantswarm/livenessprobe
-      tag: "v2.16.0"
+      tag: "v2.17.0"
     # Additional parameters provided by livenessprobe.
     additionalArgs: []
     resources:
