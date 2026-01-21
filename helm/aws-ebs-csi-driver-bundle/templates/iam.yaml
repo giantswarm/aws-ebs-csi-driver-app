@@ -1,0 +1,209 @@
+{{- $configmap := (lookup "v1" "ConfigMap" .Release.Namespace (printf "%s-crossplane-config" .Values.clusterID)) -}}
+{{- $cmvalues := dict -}}
+{{- if and $configmap $configmap.data $configmap.data.values -}}
+  {{- $cmvalues = fromYaml $configmap.data.values -}}
+{{- end -}}
+apiVersion: iam.aws.upbound.io/v1beta1
+kind: Role
+metadata:
+  name: {{ .Values.clusterID }}-ebs-csi-driver-role
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "aws-ebs-csi-driver-bundle.labels" . | nindent 4 }}
+spec:
+  providerConfigRef:
+    name: {{ .Values.clusterID }}
+  forProvider:
+    tags:
+      giantswarm.io/cluster: {{ .Values.clusterID }}
+      sigs.k8s.io/cluster-api-provider-aws/cluster/{{ .Values.clusterID }}: owned
+    assumeRolePolicy: |
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {{- include "aws-ebs-csi-driver-bundle.trustPolicyStatements" . | nindent 10 }}
+        ]
+      }
+    inlinePolicy:
+      - name: ebs-csi-driver-policy
+        policy: |
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:DescribeAvailabilityZones",
+                  "ec2:DescribeInstances",
+                  "ec2:DescribeSnapshots",
+                  "ec2:DescribeTags",
+                  "ec2:DescribeVolumes",
+                  "ec2:DescribeVolumesModifications"
+                ],
+                "Resource": "*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateSnapshot",
+                  "ec2:ModifyVolume"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:AttachVolume",
+                  "ec2:DetachVolume"
+                ],
+                "Resource": [
+                  "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*",
+                  "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:instance/*"
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateVolume",
+                  "ec2:EnableFastSnapshotRestores"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:snapshot/*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateTags"
+                ],
+                "Resource": [
+                  "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*",
+                  "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:snapshot/*"
+                ],
+                "Condition": {
+                  "StringEquals": {
+                    "ec2:CreateAction": [
+                      "CreateVolume",
+                      "CreateSnapshot"
+                    ]
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:DeleteTags"
+                ],
+                "Resource": [
+                  "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*",
+                  "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:snapshot/*"
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateVolume"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*",
+                "Condition": {
+                  "StringLike": {
+                    "aws:RequestTag/ebs.csi.aws.com/cluster": "true"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateVolume"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*",
+                "Condition": {
+                  "StringLike": {
+                    "aws:RequestTag/CSIVolumeName": "*"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:DeleteVolume"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*",
+                "Condition": {
+                  "StringLike": {
+                    "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:DeleteVolume"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*",
+                "Condition": {
+                  "StringLike": {
+                    "ec2:ResourceTag/CSIVolumeName": "*"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:DeleteVolume"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:volume/*",
+                "Condition": {
+                  "StringLike": {
+                    "ec2:ResourceTag/kubernetes.io/created-for/pvc/name": "*"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateSnapshot"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:snapshot/*",
+                "Condition": {
+                  "StringLike": {
+                    "aws:RequestTag/CSIVolumeSnapshotName": "*"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateSnapshot"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:snapshot/*",
+                "Condition": {
+                  "StringLike": {
+                    "aws:RequestTag/ebs.csi.aws.com/cluster": "true"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:DeleteSnapshot"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:snapshot/*",
+                "Condition": {
+                  "StringLike": {
+                    "ec2:ResourceTag/CSIVolumeSnapshotName": "*"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:DeleteSnapshot"
+                ],
+                "Resource": "arn:{{ $cmvalues.awsPartition }}:ec2:*:*:snapshot/*",
+                "Condition": {
+                  "StringLike": {
+                    "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
+                  }
+                }
+              }
+            ]
+          }

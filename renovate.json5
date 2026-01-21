@@ -9,5 +9,9 @@
       "matchFileNames": ["helm/aws-ebs-csi-driver-app/values.yaml"],
       "enabled": false,
     },
+    {
+      "matchFileNames": ["helm/aws-ebs-csi-driver-bundle/values.yaml"],
+      "enabled": false,
+    },
   ],
 }

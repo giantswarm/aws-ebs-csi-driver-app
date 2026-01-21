@@ -1,0 +1,12 @@
+apiVersion: v2
+name: aws-ebs-csi-driver-bundle
+description: A Helm chart for AWS EBS CSI Driver with IAM resources
+version: ""
+appVersion: 1.51.0
+home: https://github.com/giantswarm/aws-ebs-csi-driver-app
+icon: https://s.giantswarm.io/app-icons/aws/2/dark.svg
+kubeVersion: ">=1.17.0-0"
+sources:
+  - https://github.com/giantswarm/aws-ebs-csi-driver-app
+annotations:
+  application.giantswarm.io/team: phoenix
