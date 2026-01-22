@@ -29,9 +29,6 @@ spec:
   kubeConfig:
     secretRef:
       name: {{ .Values.clusterID }}-kubeconfig
-  dependsOn:
-    - name: {{ .Values.clusterID }}-cloud-provider-aws
-      namespace: {{ .Release.Namespace }}
   chartRef:
     kind: OCIRepository
     name: {{ .Values.clusterID }}-aws-ebs-csi-driver
