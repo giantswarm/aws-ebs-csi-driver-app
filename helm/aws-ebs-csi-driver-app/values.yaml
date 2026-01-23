@@ -570,7 +570,7 @@ storageClasses:
     storageclass.kubernetes.io/is-default-class: "true"
   volumeBindingMode: WaitForFirstConsumer
   reclaimPolicy: Delete
-  allowVolumeExpansion: "true"
+  allowVolumeExpansion: true
   parameters:
     encrypted: "true"
     type: gp3
