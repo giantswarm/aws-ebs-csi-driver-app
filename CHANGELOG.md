@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.1] - 2026-01-23
+
 ### Fixed
 
 - Correct boolean for volume expansion
@@ -501,7 +503,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.4.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.4.1...HEAD
+[3.4.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.4.0...v3.4.1
 [3.4.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v3.1.0...v3.2.0
