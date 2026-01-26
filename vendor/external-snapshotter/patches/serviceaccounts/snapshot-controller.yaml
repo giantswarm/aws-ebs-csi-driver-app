@@ -4,4 +4,4 @@ metadata:
   name: snapshot-controller
   namespace: kube-system
   annotations:
-    eks.amazonaws.com/role-arn: "{{ .Values.clusterID }}-ebs-csi-driver-role"
+    eks.amazonaws.com/role-arn: "{{ .Values.clusterID }}-ebs-csi-driver"

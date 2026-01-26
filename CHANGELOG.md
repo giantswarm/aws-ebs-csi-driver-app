@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Change IAM role name for the ebs-csi-driver-controller, to differentiate it from the old one managed by the iam-operator.
+
 ## [4.0.3] - 2026-01-23
 
 ### Fixed
