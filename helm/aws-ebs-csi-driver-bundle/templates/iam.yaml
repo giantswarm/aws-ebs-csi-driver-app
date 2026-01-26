@@ -6,7 +6,7 @@
 apiVersion: iam.aws.upbound.io/v1beta1
 kind: Role
 metadata:
-  name: {{ .Values.clusterID }}-ebs-csi-driver-role
+  name: {{ .Values.clusterID }}-ebs-csi-driver
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "aws-ebs-csi-driver-bundle.labels" . | nindent 4 }}
