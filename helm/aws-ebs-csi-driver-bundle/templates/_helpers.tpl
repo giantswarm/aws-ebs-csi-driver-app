@@ -51,13 +51,12 @@ giantswarm.io/cluster: {{ .Values.clusterID | quote }}
 Fetch crossplane config ConfigMap data
 */}}
 {{- define "aws-ebs-csi-driver-bundle.crossplaneConfigData" -}}
-{{- $clusterName := (include "cluster-name" .) -}}
-{{- $configmap := (lookup "v1" "ConfigMap" .Release.Namespace (printf "%s-crossplane-config" $clusterName)) -}}
+{{- $configmap := (lookup "v1" "ConfigMap" .Release.Namespace (printf "%s-crossplane-config" .Values.clusterID)) -}}
 {{- $cmvalues := dict -}}
 {{- if and $configmap $configmap.data $configmap.data.values -}}
   {{- $cmvalues = fromYaml $configmap.data.values -}}
 {{- else -}}
-  {{- fail (printf "Crossplane config ConfigMap %s-crossplane-config not found in namespace %s or has no data" $clusterName .Release.Namespace) -}}
+  {{- fail (printf "Crossplane config ConfigMap %s-crossplane-config not found in namespace %s or has no data" .Values.clusterID .Release.Namespace) -}}
 {{- end -}}
 {{- $cmvalues | toYaml -}}
 {{- end -}}
