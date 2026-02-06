@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.1.1] - 2026-02-06
+
 ### Changed
 
 - Refactor crossplane config data retrieval. Fail installation if the ConfigMap can't be found, otherwise the chart was creating invalid IAM roles.
@@ -537,7 +539,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.0...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.1...HEAD
+[4.1.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.0.3...v4.1.0
 [4.0.3]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.0.1...v4.0.2
