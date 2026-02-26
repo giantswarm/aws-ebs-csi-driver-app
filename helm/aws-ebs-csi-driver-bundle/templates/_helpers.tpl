@@ -87,5 +87,31 @@ Set Giant Swarm specific values
 */}}
 {{- define "giantswarm.setValues" -}}
 {{- $cmvalues := (include "aws-ebs-csi-driver-bundle.crossplaneConfigData" .) | fromYaml -}}
-{{- $_ := set .Values.controller.serviceAccount.annotations "eks.amazonaws.com/role-arn" (printf "arn:%s:iam::%s:role/%s-ebs-csi-driver" $cmvalues.awsPartition $cmvalues.accountID .Values.clusterID) -}}
+{{- $roleArn := printf "arn:%s:iam::%s:role/%s-ebs-csi-driver" $cmvalues.awsPartition $cmvalues.accountID .Values.clusterID -}}
+{{- $audience := "sts.amazonaws.com" -}}
+{{- if eq $cmvalues.awsPartition "aws-cn" -}}
+{{- $audience = "sts.amazonaws.com.cn" -}}
+{{- end -}}
+{{/* ServiceAccount annotation */}}
+{{- $_ := set .Values.controller.serviceAccount.annotations "eks.amazonaws.com/role-arn" $roleArn -}}
+{{/* AWS region — the inner chart renders this as the AWS_REGION env var */}}
+{{- $_ := set .Values.controller "region" $cmvalues.region -}}
+{{/* IRSA env vars */}}
+{{- $irsaEnv := list
+  (dict "name" "AWS_ROLE_ARN" "value" $roleArn)
+  (dict "name" "AWS_WEB_IDENTITY_TOKEN_FILE" "value" "/var/run/secrets/eks.amazonaws.com/serviceaccount/token")
+-}}
+{{- $_ := set .Values.controller "env" (concat $irsaEnv .Values.controller.env) -}}
+{{/* Projected ServiceAccountToken volume */}}
+{{- $irsaVolume := list
+  (dict "name" "aws-iam-token" "projected" (dict "sources" (list
+    (dict "serviceAccountToken" (dict "audience" $audience "expirationSeconds" 86400 "path" "token"))
+  )))
+-}}
+{{- $_ := set .Values.controller "volumes" (concat $irsaVolume .Values.controller.volumes) -}}
+{{/* Volume mount for the projected token */}}
+{{- $irsaVolumeMount := list
+  (dict "name" "aws-iam-token" "mountPath" "/var/run/secrets/eks.amazonaws.com/serviceaccount/" "readOnly" true)
+-}}
+{{- $_ := set .Values.controller "volumeMounts" (concat $irsaVolumeMount .Values.controller.volumeMounts) -}}
 {{- end -}}
