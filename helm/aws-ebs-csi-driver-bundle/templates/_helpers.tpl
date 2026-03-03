@@ -83,9 +83,70 @@ Get trust policy statements for all provided OIDC domains
 {{- end -}}
 
 {{/*
-Set Giant Swarm specific values
+Generate workload chart values from bundle values.
+Transforms flat bundle values into nested structure with upstream: key.
+Incorporates IAM role ARN injection (replaces giantswarm.setValues).
+Handles:
+  - proxy/cluster keys → global.proxy/global.clusterProxy (not in upstream schema)
+  - sidecar images → prepend registry to repository (upstream has no containerRegistry for sidecars)
+  - main image → set containerRegistry with trailing slash (upstream supports this)
 */}}
-{{- define "giantswarm.setValues" -}}
+{{- define "giantswarm.workloadValues" -}}
 {{- $cmvalues := (include "aws-ebs-csi-driver-bundle.crossplaneConfigData" .) | fromYaml -}}
-{{- $_ := set .Values.controller.serviceAccount.annotations "eks.amazonaws.com/role-arn" (printf "arn:%s:iam::%s:role/%s-ebs-csi-driver" $cmvalues.awsPartition $cmvalues.accountID .Values.clusterID) -}}
+{{- $iamRoleArn := printf "arn:%s:iam::%s:role/%s-ebs-csi-driver" $cmvalues.awsPartition $cmvalues.accountID .Values.clusterID -}}
+
+{{- /* Keys that should not be forwarded under upstream */ -}}
+{{- $excludeKeys := list "clusterID" "bundleNameOverride" "fullBundleNameOverride" "ociRepositoryUrl" "global" "proxy" "cluster" -}}
+
+{{- /* Build upstream values from all non-excluded keys */ -}}
+{{- $upstream := dict -}}
+{{- range $key, $val := .Values -}}
+  {{- if not (has $key $excludeKeys) -}}
+    {{- $_ := set $upstream $key $val -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Always set nameOverride */ -}}
+{{- $_ := set $upstream "nameOverride" "aws-ebs-csi-driver" -}}
+
+{{- /* Add containerRegistry (with trailing slash) to main image */ -}}
+{{- /* Upstream uses image.containerRegistry for both main image and sidecars */ -}}
+{{- $registry := .Values.global.image.registry -}}
+{{- if $registry -}}
+  {{- $registryWithSlash := printf "%s/" $registry -}}
+  {{- if index $upstream "image" -}}
+    {{- $_ := set (index $upstream "image") "containerRegistry" $registryWithSlash -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Set IAM role ARN in controller.serviceAccount.annotations */ -}}
+{{- if index $upstream "controller" -}}
+  {{- $controller := index $upstream "controller" -}}
+  {{- if index $controller "serviceAccount" -}}
+    {{- $sa := index $controller "serviceAccount" -}}
+    {{- if not (index $sa "annotations") -}}
+      {{- $_ := set $sa "annotations" (dict) -}}
+    {{- end -}}
+    {{- $_ := set (index $sa "annotations") "eks.amazonaws.com/role-arn" $iamRoleArn -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Build global values: merge image registry + proxy settings */ -}}
+{{- $globalVal := dict -}}
+{{- $_ := set $globalVal "image" .Values.global.image -}}
+{{- /* Map bundle proxy → global.proxy, cluster.proxy → global.clusterProxy */ -}}
+{{- if .Values.proxy -}}
+  {{- $_ := set $globalVal "proxy" .Values.proxy -}}
+{{- end -}}
+{{- if and .Values.cluster .Values.cluster.proxy -}}
+  {{- $_ := set $globalVal "clusterProxy" .Values.cluster.proxy -}}
+{{- end -}}
+
+{{- /* Build output */ -}}
+{{- $output := dict -}}
+{{- $_ := set $output "clusterID" .Values.clusterID -}}
+{{- $_ := set $output "upstream" $upstream -}}
+{{- $_ := set $output "global" $globalVal -}}
+
+{{- $output | toYaml -}}
 {{- end -}}

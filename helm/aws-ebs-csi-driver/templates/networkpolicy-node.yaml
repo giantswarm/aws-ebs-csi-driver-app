@@ -9,7 +9,6 @@ spec:
   podSelector:
     matchLabels:
       app: ebs-csi-node
-      {{- include "aws-ebs-csi-driver.selectorLabels" . | nindent 6 }}
   policyTypes:
   - Egress
   egress:

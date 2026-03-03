@@ -1,49 +1,24 @@
 {{/* vim: set filetype=mustache: */}}
 {{/*
-Expand the name of the chart.
+Selector labels — intentionally empty.
+The GS fork removed selectorLabels from Deployment/DaemonSet spec.selector.matchLabels.
+The upstream chart hardcodes `app: ebs-csi-controller` / `app: ebs-csi-node` in selectors.
+Overriding this to empty preserves selector compatibility during upgrades.
 */}}
-{{- define "aws-ebs-csi-driver.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- define "aws-ebs-csi-driver.selectorLabels" -}}
+{{- "" -}}
 {{- end -}}
 
 {{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
-*/}}
-{{- define "aws-ebs-csi-driver.fullname" -}}
-{{- if .Values.fullnameOverride -}}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- if contains $name .Release.Name -}}
-{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Create chart name and version as used by the chart label.
-*/}}
-{{- define "aws-ebs-csi-driver.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.AppVersion | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
-Determine image
-*/}}
-{{- define "aws-ebs-csi-driver.fullImagePath" -}}
-{{ printf "%s/%s:%s%s" (default "" .Values.global.image.registry) .Values.image.repository (default (printf "v%s" .Chart.AppVersion) (.Values.image.tag | toString)) (.Values.fips | ternary "-fips" "") }}
-{{- end -}}
-
-{{/*
-Common labels
+Common labels — override to include GS labels and the selector labels that
+were removed from selectorLabels above.
+Note: this template is called from both the subchart context and the parent
+chart context. Use safe accessors that work in both.
 */}}
 {{- define "aws-ebs-csi-driver.labels" -}}
-{{ include "aws-ebs-csi-driver.selectorLabels" . }}
+app.kubernetes.io/name: {{ include "aws-ebs-csi-driver.name" . }}
 {{- if ne .Release.Name "kustomize" }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 helm.sh/chart: {{ include "aws-ebs-csi-driver.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -56,64 +31,4 @@ application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantsw
 {{- if .Values.customLabels }}
 {{ toYaml .Values.customLabels }}
 {{- end }}
-{{- end -}}
-
-{{/*
-Common selector labels
-*/}}
-{{- define "aws-ebs-csi-driver.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "aws-ebs-csi-driver.name" . }}
-{{- if ne .Release.Name "kustomize" }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-{{- end -}}
-
-{{/*
-Convert the `--extra-tags` command line arg from a map.
-*/}}
-{{- define "aws-ebs-csi-driver.extra-volume-tags" -}}
-{{- $result := dict "pairs" (list) -}}
-{{- range $key, $value := .Values.controller.extraVolumeTags -}}
-{{- $noop := printf "%s=%v" $key $value | append $result.pairs | set $result "pairs" -}}
-{{- end -}}
-{{- if gt (len $result.pairs) 0 -}}
-{{- printf "- \"--extra-tags=%s\"" (join "," $result.pairs) -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Handle http proxy env vars
-*/}}
-{{- define "aws-ebs-csi-driver.http-proxy" -}}
-{{- $proxy := deepCopy .Values.cluster.proxy | mustMerge .Values.proxy }}
-{{- if $proxy.http }}
-- name: HTTP_PROXY
-  value: {{ $proxy.http | quote }}
-{{- end}}
-{{- if $proxy.https }}
-- name: HTTPS_PROXY
-  value: {{ $proxy.https | quote }}
-{{- end}}
-{{- if $proxy.noProxy }}
-- name: NO_PROXY
-  value: {{ $proxy.noProxy | quote }}
-{{- end}}
-{{- end -}}
-
-{{/*
-Recommended daemonset tolerations
-*/}}
-{{- define "aws-ebs-csi-driver.daemonset-tolerations" -}}
-# Prevents stateful workloads from being scheduled to node before CSI Driver reports volume attachment limit
-- key: "ebs.csi.aws.com/agent-not-ready"
-  operator: "Exists"
-# Prevents undesired eviction by Cluster Autoscalar
-- key: "ToBeDeletedByClusterAutoscaler"
-  operator: Exists
-# Prevents undesired eviction by v1 Karpenter
-- key: "karpenter.sh/disrupted"
-  operator: Exists
-# Prevents undesired eviction by v1beta1 Karpenter
-- key: "karpenter.sh/disruption"
-  operator: Exists
 {{- end -}}
