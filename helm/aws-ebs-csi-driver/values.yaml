@@ -387,15 +387,3 @@ upstream:
   nodeComponentOnly: false
   helmTester:
     enabled: false
-
-global:
-  image:
-    registry: "gsoci.azurecr.io"
-  proxy:
-    http: ""
-    https: ""
-    noProxy: ""
-  clusterProxy:
-    http: ""
-    https: ""
-    noProxy: ""

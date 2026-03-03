@@ -27,6 +27,10 @@
                     }
                 }
             }
+        },
+        "upstream": {
+            "type": "object",
+            "additionalProperties": true
         }
     }
 }

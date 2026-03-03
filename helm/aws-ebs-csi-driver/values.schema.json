@@ -5,19 +5,6 @@
     "properties": {
         "clusterID": {
             "type": "string"
-        },
-        "global": {
-            "type": "object",
-            "properties": {
-                "image": {
-                    "type": "object",
-                    "properties": {
-                        "registry": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
         }
     }
 }

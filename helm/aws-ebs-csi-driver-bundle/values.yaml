@@ -1,193 +1,16 @@
-# Bundle-specific values
+# ==============================================================================
+# Bundle values — consumed only by bundle templates, NOT forwarded to sub-charts
+# ==============================================================================
 clusterID: ""
 bundleNameOverride: ""
 fullBundleNameOverride: ""
 ociRepositoryUrl: oci://gsoci.azurecr.io/charts/giantswarm/aws-ebs-csi-driver
 
-# GS image overrides — forwarded under upstream: by the workloadValues helper
-image:
-  repository: giantswarm/aws-ebs-csi-driver
-  tag: v1.56.0
-  pullPolicy: IfNotPresent
-customLabels: {}
-fips: false
-sidecars:
-  provisioner:
-    image:
-      pullPolicy: IfNotPresent
-      repository: giantswarm/csi-provisioner
-      tag: "v5.3.0"
-    resources:
-      requests:
-        cpu: 10m
-        memory: 40Mi
-      limits:
-        cpu: 100m
-        memory: 256Mi
-  attacher:
-    image:
-      pullPolicy: IfNotPresent
-      repository: giantswarm/csi-attacher
-      tag: "v4.9.0"
-    resources:
-      requests:
-        cpu: 10m
-        memory: 40Mi
-      limits:
-        cpu: 100m
-        memory: 256Mi
-  snapshotter:
-    forceEnable: true
-    image:
-      pullPolicy: IfNotPresent
-      repository: giantswarm/csi-snapshotter
-      tag: "v8.3.0"
-    resources:
-      requests:
-        cpu: 10m
-        memory: 40Mi
-      limits:
-        cpu: 100m
-        memory: 256Mi
-  livenessProbe:
-    image:
-      pullPolicy: IfNotPresent
-      repository: giantswarm/livenessprobe
-      tag: "v2.16.0"
-    resources:
-      requests:
-        cpu: 10m
-        memory: 40Mi
-      limits:
-        cpu: 100m
-        memory: 256Mi
-  resizer:
-    image:
-      pullPolicy: IfNotPresent
-      repository: giantswarm/csi-resizer
-      tag: "v1.14.0"
-    resources:
-      requests:
-        cpu: 10m
-        memory: 40Mi
-      limits:
-        cpu: 100m
-        memory: 256Mi
-  nodeDriverRegistrar:
-    image:
-      pullPolicy: IfNotPresent
-      repository: giantswarm/csi-node-driver-registrar
-      tag: "v2.14.0"
-    resources:
-      requests:
-        cpu: 10m
-        memory: 40Mi
-      limits:
-        cpu: 100m
-        memory: 256Mi
-  volumemodifier:
-    image:
-      pullPolicy: IfNotPresent
-      repository: giantswarm/volume-modifier-for-k8s
-      tag: "v0.8.0"
-    resources:
-      requests:
-        cpu: 10m
-        memory: 40Mi
-      limits:
-        cpu: 100m
-        memory: 256Mi
+global:
+  image:
+    registry: "gsoci.azurecr.io"
 
-# GS scheduling and controller overrides
-controller:
-  affinity:
-    nodeAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1
-          preference:
-            matchExpressions:
-              - key: eks.amazonaws.com/compute-type
-                operator: NotIn
-                values:
-                  - fargate
-                  - auto
-                  - hybrid
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - ebs-csi-controller
-            topologyKey: kubernetes.io/hostname
-          weight: 100
-  replicaCount: 2
-  resources:
-    requests:
-      cpu: 10m
-      memory: 40Mi
-    limits:
-      cpu: 100m
-      memory: 256Mi
-  serviceAccount:
-    create: true
-    name: ebs-csi-controller-sa
-    annotations: {}
-    automountServiceAccountToken: true
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-    - effect: NoExecute
-      operator: Exists
-      tolerationSeconds: 300
-
-# GS node overrides
-node:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: eks.amazonaws.com/compute-type
-                operator: NotIn
-                values:
-                  - fargate
-                  - auto
-                  - hybrid
-              - key: node.kubernetes.io/instance-type
-                operator: NotIn
-                values:
-                  - a1.medium
-                  - a1.large
-                  - a1.xlarge
-                  - a1.2xlarge
-                  - a1.4xlarge
-  resources:
-    requests:
-      cpu: 10m
-      memory: 40Mi
-    limits:
-      cpu: 100m
-      memory: 256Mi
-
-# GS StorageClass defaults
-storageClasses:
-  - name: gp3
-    annotations:
-      storageclass.kubernetes.io/is-default-class: "true"
-    volumeBindingMode: WaitForFirstConsumer
-    reclaimPolicy: Delete
-    allowVolumeExpansion: true
-    parameters:
-      encrypted: "true"
-      type: gp3
-
-# CSI Driver compatibility
-useOldCSIDriver: true
-
-# Proxy settings
+# Proxy settings — resolved by the bundle helper and mapped to upstream format
 proxy:
   noProxy: ""
   http: ""
@@ -198,6 +21,185 @@ cluster:
     http: ""
     https: ""
 
-global:
+# ==============================================================================
+# Upstream chart values — forwarded under the `upstream:` key to the workload
+# chart, which passes them to the upstream aws-ebs-csi-driver sub-chart.
+# ==============================================================================
+upstream:
   image:
-    registry: "gsoci.azurecr.io"
+    repository: giantswarm/aws-ebs-csi-driver
+    tag: v1.56.0
+    pullPolicy: IfNotPresent
+  customLabels: {}
+  fips: false
+  sidecars:
+    provisioner:
+      image:
+        pullPolicy: IfNotPresent
+        repository: giantswarm/csi-provisioner
+        tag: "v5.3.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 40Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+    attacher:
+      image:
+        pullPolicy: IfNotPresent
+        repository: giantswarm/csi-attacher
+        tag: "v4.9.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 40Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+    snapshotter:
+      forceEnable: true
+      image:
+        pullPolicy: IfNotPresent
+        repository: giantswarm/csi-snapshotter
+        tag: "v8.3.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 40Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+    livenessProbe:
+      image:
+        pullPolicy: IfNotPresent
+        repository: giantswarm/livenessprobe
+        tag: "v2.16.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 40Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+    resizer:
+      image:
+        pullPolicy: IfNotPresent
+        repository: giantswarm/csi-resizer
+        tag: "v1.14.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 40Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+    nodeDriverRegistrar:
+      image:
+        pullPolicy: IfNotPresent
+        repository: giantswarm/csi-node-driver-registrar
+        tag: "v2.14.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 40Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+    volumemodifier:
+      image:
+        pullPolicy: IfNotPresent
+        repository: giantswarm/volume-modifier-for-k8s
+        tag: "v0.8.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 40Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+
+  controller:
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+                - key: eks.amazonaws.com/compute-type
+                  operator: NotIn
+                  values:
+                    - fargate
+                    - auto
+                    - hybrid
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - ebs-csi-controller
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
+    serviceAccount:
+      create: true
+      name: ebs-csi-controller-sa
+      annotations: {}
+      automountServiceAccountToken: true
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+        tolerationSeconds: 300
+
+  node:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: eks.amazonaws.com/compute-type
+                  operator: NotIn
+                  values:
+                    - fargate
+                    - auto
+                    - hybrid
+                - key: node.kubernetes.io/instance-type
+                  operator: NotIn
+                  values:
+                    - a1.medium
+                    - a1.large
+                    - a1.xlarge
+                    - a1.2xlarge
+                    - a1.4xlarge
+    resources:
+      requests:
+        cpu: 10m
+        memory: 40Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
+
+  storageClasses:
+    - name: gp3
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+      volumeBindingMode: WaitForFirstConsumer
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      parameters:
+        encrypted: "true"
+        type: gp3
+
+  useOldCSIDriver: true
