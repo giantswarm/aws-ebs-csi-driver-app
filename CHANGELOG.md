@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Breaking
 
 - **Workload chart renamed** from `aws-ebs-csi-driver-app` to `aws-ebs-csi-driver`. The OCI catalog artifact name changes accordingly.
-- **Bundle values restructured**: all upstream chart values must now be placed under the `upstream:` key. Custom ConfigMap overrides using flat keys (e.g., `controller.replicaCount`) must be moved to `upstream.controller.replicaCount`.
-- **Extras are top-level**: `verticalPodAutoscaler`, `networkPolicy`, and `global.podSecurityStandards` live at the top level in the workload chart, not under `upstream:`.
+- **Bundle values restructured**: upstream chart values are now under the `upstream:` key in the bundle `values.yaml`. The `giantswarm.workloadValues` helper handles the transformation automatically, so bundle users only need to place overrides under `upstream:` in their App CR ConfigMap.
+- **Direct workload chart install**: if installing the workload chart directly (without the bundle), all upstream values must be under the `upstream:` key, and extras (`verticalPodAutoscaler`, `networkPolicy`, `global.podSecurityStandards`) are at the top level.
 
 ### Changed
 
