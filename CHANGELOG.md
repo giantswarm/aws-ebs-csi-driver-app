@@ -10,10 +10,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update ABS config to replace `.appVersion` in Chart.yaml with version detected by ABS.
+- Migrate from forked upstream chart to unmodified upstream as Helm dependency (alias `upstream`).
+- Rename workload chart from `aws-ebs-csi-driver-app` to `aws-ebs-csi-driver`.
+- Restructure bundle values into explicit BUNDLE-ONLY / UPSTREAM / EXTRAS sections.
+- Extract `giantswarm.combineImage` and `giantswarm.setValues` into separate reusable helpers.
+- Add `clusterID` derivation from release name as fallback.
+- Use `clusterID` helper consistently across all bundle templates.
+- Gate NetworkPolicy templates with `networkPolicy.enabled`.
+- Rewrite README with architecture diagram, terminology table, value flow, and upgrade notes.
 
 ### Fixed
 
 - Use `.Chart.AppVersion` instead of `.Chart.Version` for OCIRepository tag.
+
+### Added
+
+- Add VPA templates for controller (Deployment) and node (DaemonSet).
+- Add Kyverno PolicyException template for Pod Security Standards.
+- Add `ignorePaths` to `.kube-linter.yaml` for upstream subchart.
+- Forward `verticalPodAutoscaler`, `networkPolicy`, and `global.podSecurityStandards` as extras.
 
 ## [4.1.1] - 2026-02-06
 
