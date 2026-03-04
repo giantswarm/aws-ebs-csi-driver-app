@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Breaking
+
+- **Workload chart renamed** from `aws-ebs-csi-driver-app` to `aws-ebs-csi-driver`. The OCI catalog artifact name changes accordingly.
+- **Bundle values restructured**: all upstream chart values must now be placed under the `upstream:` key. Custom ConfigMap overrides using flat keys (e.g., `controller.replicaCount`) must be moved to `upstream.controller.replicaCount`.
+- **Extras are top-level**: `verticalPodAutoscaler`, `networkPolicy`, and `global.podSecurityStandards` live at the top level in the workload chart, not under `upstream:`.
+
 ### Changed
 
 - Update ABS config to replace `.appVersion` in Chart.yaml with version detected by ABS.
 - Migrate from forked upstream chart to unmodified upstream as Helm dependency (alias `upstream`).
-- Rename workload chart from `aws-ebs-csi-driver-app` to `aws-ebs-csi-driver`.
 - Restructure bundle values into explicit BUNDLE-ONLY / UPSTREAM / EXTRAS sections.
 - Extract `giantswarm.combineImage` and `giantswarm.setValues` into separate reusable helpers.
 - Add `clusterID` derivation from release name as fallback.
