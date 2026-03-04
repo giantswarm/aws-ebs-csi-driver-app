@@ -5,6 +5,22 @@
     "properties": {
         "clusterID": {
             "type": "string"
+        },
+        "upstream": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "networkPolicy": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "verticalPodAutoscaler": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "global": {
+            "type": "object",
+            "additionalProperties": true
         }
     }
 }

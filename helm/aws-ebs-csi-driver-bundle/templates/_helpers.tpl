@@ -32,6 +32,25 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
+Resolve clusterID: use .Values.clusterID if set, otherwise derive from
+the release name by stripping known chart name suffixes.
+*/}}
+{{- define "aws-ebs-csi-driver-bundle.clusterID" -}}
+{{- if .Values.clusterID -}}
+  {{- .Values.clusterID -}}
+{{- else -}}
+  {{- $name := .Release.Name -}}
+  {{- range $suffix := list (printf "-%s" $.Chart.Name) "-aws-ebs-csi-driver-bundle" -}}
+    {{- $name = trimSuffix $suffix $name -}}
+  {{- end -}}
+  {{- if eq $name .Release.Name -}}
+    {{- fail "clusterID not set and cannot derive cluster name from release name" -}}
+  {{- end -}}
+  {{- $name -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Common labels
 */}}
 {{- define "aws-ebs-csi-driver-bundle.labels" -}}
@@ -44,19 +63,20 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 giantswarm.io/service-type: "managed"
 application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
-giantswarm.io/cluster: {{ .Values.clusterID | quote }}
+giantswarm.io/cluster: {{ include "aws-ebs-csi-driver-bundle.clusterID" . | quote }}
 {{- end -}}
 
 {{/*
 Fetch crossplane config ConfigMap data
 */}}
 {{- define "aws-ebs-csi-driver-bundle.crossplaneConfigData" -}}
-{{- $configmap := (lookup "v1" "ConfigMap" .Release.Namespace (printf "%s-crossplane-config" .Values.clusterID)) -}}
+{{- $clusterName := (include "aws-ebs-csi-driver-bundle.clusterID" .) -}}
+{{- $configmap := (lookup "v1" "ConfigMap" .Release.Namespace (printf "%s-crossplane-config" $clusterName)) -}}
 {{- $cmvalues := dict -}}
 {{- if and $configmap $configmap.data $configmap.data.values -}}
   {{- $cmvalues = fromYaml $configmap.data.values -}}
 {{- else -}}
-  {{- fail (printf "Crossplane config ConfigMap %s-crossplane-config not found in namespace %s or has no data" .Values.clusterID .Release.Namespace) -}}
+  {{- fail (printf "Crossplane config ConfigMap %s-crossplane-config not found in namespace %s or has no data" $clusterName .Release.Namespace) -}}
 {{- end -}}
 {{- $cmvalues | toYaml -}}
 {{- end -}}
@@ -83,27 +103,59 @@ Get trust policy statements for all provided OIDC domains
 {{- end -}}
 
 {{/*
-Generate workload chart values from bundle values.
-Builds the nested structure expected by the workload chart:
+Set Giant Swarm specific values — computes IRSA role ARN and injects it.
+*/}}
+{{- define "giantswarm.setValues" -}}
+{{- $cmvalues := (include "aws-ebs-csi-driver-bundle.crossplaneConfigData" .) | fromYaml -}}
+{{- $clusterID := (include "aws-ebs-csi-driver-bundle.clusterID" .) -}}
+{{- $_ := set .Values.upstream.controller.serviceAccount.annotations "eks.amazonaws.com/role-arn" (printf "arn:%s:iam::%s:role/%s-ebs-csi-driver" $cmvalues.awsPartition $cmvalues.accountID $clusterID) -}}
+{{- end -}}
+
+{{/*
+Reusable: combine GS split registry+repository into upstream single repository.
+Input: a dict with .registry and .repository keys.
+Output: dict with registry removed and repository set to "registry/repository".
+*/}}
+{{- define "giantswarm.combineImage" -}}
+{{- $result := deepCopy . -}}
+{{- $_ := set $result "repository" (printf "%s/%s" .registry .repository) -}}
+{{- $_ := unset $result "registry" -}}
+{{- $result | toYaml -}}
+{{- end -}}
+
+{{/*
+Transform flat bundle values into the nested workload chart structure.
+Builds:
   clusterID: ...
-  upstream: ...
-Incorporates:
-  - proxy/cluster keys → upstream.proxy.http_proxy/no_proxy (upstream format)
-  - global.image.registry → upstream.image.containerRegistry (with trailing slash)
-  - controller.serviceAccount.annotations → IAM role ARN injection
+  upstream:
+    nameOverride: aws-ebs-csi-driver
+    image: (with containerRegistry from global.image.registry)
+    controller: (with IRSA annotation)
+    ...
+  verticalPodAutoscaler: ...
+  networkPolicy: ...
+  global: ...
 */}}
 {{- define "giantswarm.workloadValues" -}}
-{{- $cmvalues := (include "aws-ebs-csi-driver-bundle.crossplaneConfigData" .) | fromYaml -}}
-{{- $iamRoleArn := printf "arn:%s:iam::%s:role/%s-ebs-csi-driver" $cmvalues.awsPartition $cmvalues.accountID .Values.clusterID -}}
+{{- include "giantswarm.setValues" . -}}
+{{- $clusterID := (include "aws-ebs-csi-driver-bundle.clusterID" .) -}}
 
-{{- /* Start from the explicit upstream values */ -}}
+{{/* Keys that belong to the bundle chart itself (never forwarded) */}}
+{{- $bundleOnlyKeys := list "ociRepositoryUrl" "clusterID" "bundleNameOverride" "fullBundleNameOverride" "proxy" "cluster" "global" -}}
+{{/* Keys forwarded as workload extras (not under upstream:) */}}
+{{- $extrasKeys := list "networkPolicy" "verticalPodAutoscaler" -}}
+{{/* Keys with special handling */}}
+{{- $specialKeys := list "upstream" -}}
+{{- $reservedKeys := concat $bundleOnlyKeys $extrasKeys $specialKeys -}}
+
+{{/* Start from the explicit upstream values */}}
 {{- $upstream := deepCopy .Values.upstream -}}
 
-{{- /* Always set nameOverride */ -}}
+{{/* Preserve the original chart name for selector compatibility */}}
 {{- $_ := set $upstream "nameOverride" "aws-ebs-csi-driver" -}}
 
-{{- /* Add containerRegistry (with trailing slash) to main image */ -}}
-{{- /* Upstream uses image.containerRegistry as prefix for all images (main + sidecars) */ -}}
+{{/* Add containerRegistry (with trailing slash) to main image */}}
+{{/* Upstream uses image.containerRegistry as prefix for all images (main + sidecars) */}}
 {{- $registry := .Values.global.image.registry -}}
 {{- if $registry -}}
   {{- $registryWithSlash := printf "%s/" $registry -}}
@@ -112,20 +164,8 @@ Incorporates:
   {{- end -}}
 {{- end -}}
 
-{{- /* Set IAM role ARN in controller.serviceAccount.annotations */ -}}
-{{- if index $upstream "controller" -}}
-  {{- $controller := index $upstream "controller" -}}
-  {{- if index $controller "serviceAccount" -}}
-    {{- $sa := index $controller "serviceAccount" -}}
-    {{- if not (index $sa "annotations") -}}
-      {{- $_ := set $sa "annotations" (dict) -}}
-    {{- end -}}
-    {{- $_ := set (index $sa "annotations") "eks.amazonaws.com/role-arn" $iamRoleArn -}}
-  {{- end -}}
-{{- end -}}
-
-{{- /* Map proxy settings to upstream format (proxy.http_proxy / proxy.no_proxy) */ -}}
-{{- /* Merge cluster.proxy (base) with proxy (override); local proxy values win */ -}}
+{{/* Map proxy settings to upstream format (proxy.http_proxy / proxy.no_proxy) */}}
+{{/* Merge cluster.proxy (base) with proxy (override); local proxy values win */}}
 {{- $httpProxy := "" -}}
 {{- $noProxy := "" -}}
 {{- if and .Values.cluster .Values.cluster.proxy -}}
@@ -144,10 +184,23 @@ Incorporates:
   {{- $_ := set $upstream "proxy" (dict "http_proxy" $httpProxy "no_proxy" $noProxy) -}}
 {{- end -}}
 
-{{- /* Build output */ -}}
-{{- $output := dict -}}
-{{- $_ := set $output "clusterID" .Values.clusterID -}}
-{{- $_ := set $output "upstream" $upstream -}}
+{{/* Pass through any non-reserved value to upstream (future-proofing) */}}
+{{- range $key, $val := .Values -}}
+  {{- if not (has $key $reservedKeys) -}}
+    {{- $_ := set $upstream $key $val -}}
+  {{- end -}}
+{{- end -}}
 
-{{- $output | toYaml -}}
+{{/* Assemble workload values: clusterID + upstream + extras */}}
+{{- $workloadValues := dict "upstream" $upstream -}}
+{{- $_ := set $workloadValues "clusterID" $clusterID -}}
+{{- if .Values.verticalPodAutoscaler -}}
+{{- $_ := set $workloadValues "verticalPodAutoscaler" .Values.verticalPodAutoscaler -}}
+{{- end -}}
+{{- if .Values.networkPolicy -}}
+{{- $_ := set $workloadValues "networkPolicy" .Values.networkPolicy -}}
+{{- end -}}
+{{- $_ := set $workloadValues "global" (dict "podSecurityStandards" (dict "enforced" (dig "global" "podSecurityStandards" "enforced" true .Values))) -}}
+
+{{- $workloadValues | toYaml -}}
 {{- end -}}

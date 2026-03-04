@@ -1,0 +1,39 @@
+{{- if .Values.global.podSecurityStandards.enforced }}
+apiVersion: kyverno.io/v2
+kind: PolicyException
+metadata:
+  name: aws-ebs-csi-driver
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "aws-ebs-csi-driver.labels" . | nindent 4 }}
+spec:
+  exceptions:
+    - policyName: disallow-privilege-escalation
+      ruleNames:
+        - restrict-privilege-escalation
+        - autogen-restrict-privilege-escalation
+    - policyName: disallow-privileged-containers
+      ruleNames:
+        - privileged-containers
+        - autogen-privileged-containers
+    - policyName: require-run-as-nonroot
+      ruleNames:
+        - run-as-non-root
+        - autogen-run-as-non-root
+    - policyName: disallow-host-path
+      ruleNames:
+        - host-path
+        - autogen-host-path
+    - policyName: restrict-volume-types
+      ruleNames:
+        - restricted-volumes
+        - autogen-restricted-volumes
+  match:
+    any:
+      - resources:
+          namespaces:
+            - {{ .Release.Namespace }}
+          names:
+            - ebs-csi-node-*
+            - ebs-csi-controller-*
+{{- end }}

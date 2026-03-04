@@ -1,7 +1,45 @@
-# GS extras values (top level)
+# ─── EXTRAS ──────────────────────────────────────────────────────────────────
 clusterID: ""
 
-# Upstream subchart values
+networkPolicy:
+  enabled: true
+
+verticalPodAutoscaler:
+  enabled: true
+  controller:
+    containerPolicies:
+      - containerName: ebs-plugin
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: csi-provisioner
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: csi-attacher
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: csi-resizer
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: liveness-probe
+        controlledValues: RequestsAndLimits
+        mode: Auto
+  node:
+    containerPolicies:
+      - containerName: ebs-plugin
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: node-driver-registrar
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: liveness-probe
+        controlledValues: RequestsAndLimits
+        mode: Auto
+
+global:
+  podSecurityStandards:
+    enforced: true
+
+# ─── UPSTREAM ────────────────────────────────────────────────────────────────
 upstream:
   nameOverride: aws-ebs-csi-driver
   image:

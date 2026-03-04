@@ -203,3 +203,45 @@ upstream:
         type: gp3
 
   useOldCSIDriver: true
+
+# ==============================================================================
+# Extras values — forwarded at top level (NOT under upstream:) to the workload
+# chart, consumed by GS extras templates (NetworkPolicy, VPA, PSS exceptions).
+# ==============================================================================
+verticalPodAutoscaler:
+  enabled: true
+  controller:
+    containerPolicies:
+      - containerName: ebs-plugin
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: csi-provisioner
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: csi-attacher
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: csi-resizer
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: liveness-probe
+        controlledValues: RequestsAndLimits
+        mode: Auto
+  node:
+    containerPolicies:
+      - containerName: ebs-plugin
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: node-driver-registrar
+        controlledValues: RequestsAndLimits
+        mode: Auto
+      - containerName: liveness-probe
+        controlledValues: RequestsAndLimits
+        mode: Auto
+
+networkPolicy:
+  enabled: true
+
+global:
+  podSecurityStandards:
+    enforced: true

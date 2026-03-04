@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: {{ .Values.clusterID }}-aws-ebs-csi-driver
+  name: {{ include "aws-ebs-csi-driver-bundle.clusterID" . }}-aws-ebs-csi-driver
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "aws-ebs-csi-driver-bundle.labels" . | nindent 4 }}
@@ -14,7 +14,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: {{ .Values.clusterID }}-aws-ebs-csi-driver
+  name: {{ include "aws-ebs-csi-driver-bundle.clusterID" . }}-aws-ebs-csi-driver
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "aws-ebs-csi-driver-bundle.labels" . | nindent 4 }}
@@ -28,16 +28,16 @@ spec:
       retries: -1
   kubeConfig:
     secretRef:
-      name: {{ .Values.clusterID }}-kubeconfig
+      name: {{ include "aws-ebs-csi-driver-bundle.clusterID" . }}-kubeconfig
   chartRef:
     kind: OCIRepository
-    name: {{ .Values.clusterID }}-aws-ebs-csi-driver
+    name: {{ include "aws-ebs-csi-driver-bundle.clusterID" . }}-aws-ebs-csi-driver
     namespace: {{ .Release.Namespace }}
   releaseName: aws-ebs-csi-driver
   targetNamespace: kube-system
   storageNamespace: kube-system
   valuesFrom:
     - kind: ConfigMap
-      name: {{ .Values.clusterID }}-aws-ebs-csi-driver-app-config
+      name: {{ include "aws-ebs-csi-driver-bundle.clusterID" . }}-aws-ebs-csi-driver-app-config
       valuesKey: values
       optional: false

@@ -1,22 +1,19 @@
-{{- $configmap := (lookup "v1" "ConfigMap" .Release.Namespace (printf "%s-crossplane-config" .Values.clusterID)) -}}
-{{- $cmvalues := dict -}}
-{{- if and $configmap $configmap.data $configmap.data.values -}}
-  {{- $cmvalues = fromYaml $configmap.data.values -}}
-{{- end -}}
+{{- $clusterID := (include "aws-ebs-csi-driver-bundle.clusterID" .) -}}
+{{- $cmvalues := (include "aws-ebs-csi-driver-bundle.crossplaneConfigData" .) | fromYaml -}}
 apiVersion: iam.aws.upbound.io/v1beta1
 kind: Role
 metadata:
-  name: {{ .Values.clusterID }}-ebs-csi-driver
+  name: {{ $clusterID }}-ebs-csi-driver
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "aws-ebs-csi-driver-bundle.labels" . | nindent 4 }}
 spec:
   providerConfigRef:
-    name: {{ .Values.clusterID }}
+    name: {{ $clusterID }}
   forProvider:
     tags:
-      giantswarm.io/cluster: {{ .Values.clusterID }}
-      sigs.k8s.io/cluster-api-provider-aws/cluster/{{ .Values.clusterID }}: owned
+      giantswarm.io/cluster: {{ $clusterID }}
+      sigs.k8s.io/cluster-api-provider-aws/cluster/{{ $clusterID }}: owned
     assumeRolePolicy: |
       {
         "Version": "2012-10-17",
