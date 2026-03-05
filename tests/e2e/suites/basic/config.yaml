@@ -1,2 +1,9 @@
+appName: "aws-ebs-csi-driver-bundle"
+repoName: "aws-ebs-csi-driver-app"
+appCatalog: "giantswarm"
+
+providers:
+  - capa
+
 helmReleaseSourceRef:
   name: giantswarm-test-catalog
