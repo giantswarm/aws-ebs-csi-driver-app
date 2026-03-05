@@ -9,6 +9,8 @@ ociRepositoryUrl: oci://gsoci.azurecr.io/charts/giantswarm/aws-ebs-csi-driver
 global:
   image:
     registry: "gsoci.azurecr.io"
+  podSecurityStandards:
+    enforced: true
 
 # Proxy settings — resolved by the bundle helper and mapped to upstream format
 proxy:
@@ -241,7 +243,3 @@ verticalPodAutoscaler:
 
 networkPolicy:
   enabled: true
-
-global:
-  podSecurityStandards:
-    enforced: true
