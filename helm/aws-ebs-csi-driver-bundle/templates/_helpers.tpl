@@ -112,18 +112,6 @@ Set Giant Swarm specific values — computes IRSA role ARN and injects it.
 {{- end -}}
 
 {{/*
-Reusable: combine GS split registry+repository into upstream single repository.
-Input: a dict with .registry and .repository keys.
-Output: dict with registry removed and repository set to "registry/repository".
-*/}}
-{{- define "giantswarm.combineImage" -}}
-{{- $result := deepCopy . -}}
-{{- $_ := set $result "repository" (printf "%s/%s" .registry .repository) -}}
-{{- $_ := unset $result "registry" -}}
-{{- $result | toYaml -}}
-{{- end -}}
-
-{{/*
 Transform flat bundle values into the nested workload chart structure.
 Builds:
   clusterID: ...

@@ -40,25 +40,22 @@ global:
     enforced: true
 
 # ─── UPSTREAM ────────────────────────────────────────────────────────────────
+# Only GS-specific overrides — everything else is inherited from the subchart defaults.
 upstream:
   nameOverride: aws-ebs-csi-driver
+
+  # GS image mirror
   image:
     containerRegistry: "gsoci.azurecr.io/"
     repository: giantswarm/aws-ebs-csi-driver
     tag: v1.56.0
-    pullPolicy: IfNotPresent
-  customLabels: {}
-  fips: false
+
+  # GS image mirrors + resource limits + security hardening for sidecars
   sidecars:
     provisioner:
-      env: []
       image:
-        pullPolicy: IfNotPresent
         repository: giantswarm/csi-provisioner
         tag: "v5.3.0"
-      logLevel: 2
-      additionalArgs: []
-      additionalClusterRoleRules:
       resources:
         requests:
           cpu: 10m
@@ -66,8 +63,6 @@ upstream:
         limits:
           cpu: 100m
           memory: 256Mi
-      leaderElection:
-        enabled: true
       securityContext:
         capabilities:
           drop:
@@ -77,16 +72,9 @@ upstream:
         readOnlyRootFilesystem: true
         allowPrivilegeEscalation: false
     attacher:
-      env: []
       image:
-        pullPolicy: IfNotPresent
         repository: giantswarm/csi-attacher
         tag: "v4.9.0"
-      leaderElection:
-        enabled: true
-      logLevel: 2
-      additionalArgs: []
-      additionalClusterRoleRules: []
       resources:
         requests:
           cpu: 10m
@@ -104,14 +92,9 @@ upstream:
         allowPrivilegeEscalation: false
     snapshotter:
       forceEnable: true
-      env: []
       image:
-        pullPolicy: IfNotPresent
         repository: giantswarm/csi-snapshotter
         tag: "v8.3.0"
-      logLevel: 2
-      additionalArgs: []
-      additionalClusterRoleRules: []
       resources:
         requests:
           cpu: 10m
@@ -129,10 +112,8 @@ upstream:
         allowPrivilegeEscalation: false
     livenessProbe:
       image:
-        pullPolicy: IfNotPresent
         repository: giantswarm/livenessprobe
         tag: "v2.16.0"
-      additionalArgs: []
       resources:
         requests:
           cpu: 10m
@@ -147,16 +128,9 @@ upstream:
         readOnlyRootFilesystem: true
         allowPrivilegeEscalation: false
     resizer:
-      env: []
       image:
-        pullPolicy: IfNotPresent
         repository: giantswarm/csi-resizer
         tag: "v1.14.0"
-      leaderElection:
-        enabled: true
-      logLevel: 2
-      additionalArgs: []
-      additionalClusterRoleRules: []
       resources:
         requests:
           cpu: 10m
@@ -173,13 +147,9 @@ upstream:
         readOnlyRootFilesystem: true
         allowPrivilegeEscalation: false
     nodeDriverRegistrar:
-      env: []
       image:
-        pullPolicy: IfNotPresent
         repository: giantswarm/csi-node-driver-registrar
         tag: "v2.14.0"
-      logLevel: 2
-      additionalArgs: []
       resources:
         requests:
           cpu: 10m
@@ -203,15 +173,9 @@ upstream:
         periodSeconds: 90
         timeoutSeconds: 15
     volumemodifier:
-      env: []
       image:
-        pullPolicy: IfNotPresent
         repository: giantswarm/volume-modifier-for-k8s
         tag: "v0.8.0"
-      leaderElection:
-        enabled: true
-      logLevel: 2
-      additionalArgs: []
       resources:
         requests:
           cpu: 10m
@@ -227,67 +191,13 @@ upstream:
           type: RuntimeDefault
         readOnlyRootFilesystem: true
         allowPrivilegeEscalation: false
+
+  # GS overrides for controller
   controller:
-    batching: true
-    volumeModificationFeature:
-      enabled: false
-    additionalArgs: []
-    sdkDebugLog: false
-    loggingFormat: text
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-                - key: eks.amazonaws.com/compute-type
-                  operator: NotIn
-                  values:
-                    - fargate
-                    - auto
-                    - hybrid
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - ebs-csi-controller
-              topologyKey: kubernetes.io/hostname
-            weight: 100
-    defaultFsType: ext4
-    env: []
-    envFrom: []
-    extraCreateMetadata: true
-    extraVolumeTags: {}
-    enableMetrics: false
     enablePrometheusAnnotations: false
     serviceMonitor:
-      forceEnable: false
       labels:
         release: prometheus
-      interval: "15s"
-    k8sTagClusterId:
-    logLevel: 2
-    userAgentExtra: "helm"
-    nodeSelector: {}
-    deploymentAnnotations: {}
-    podAnnotations: {}
-    podLabels: {}
-    podDisruptionBudget:
-      enabled: true
-    priorityClassName: system-cluster-critical
-    region:
-    replicaCount: 2
-    revisionHistoryLimit: 10
-    socketDirVolume:
-      emptyDir: {}
-    updateStrategy:
-      type: RollingUpdate
-      rollingUpdate:
-        maxUnavailable: 1
     resources:
       requests:
         cpu: 10m
@@ -295,18 +205,6 @@ upstream:
       limits:
         cpu: 100m
         memory: 256Mi
-    serviceAccount:
-      create: true
-      name: ebs-csi-controller-sa
-      annotations: {}
-      automountServiceAccountToken: true
-    tolerations:
-      - key: CriticalAddonsOnly
-        operator: Exists
-      - effect: NoExecute
-        operator: Exists
-        tolerationSeconds: 300
-    topologySpreadConstraints: []
     securityContext:
       runAsNonRoot: true
       runAsUser: 1000
@@ -314,8 +212,6 @@ upstream:
       fsGroup: 1000
       seccompProfile:
         type: RuntimeDefault
-    volumes: []
-    volumeMounts: []
     containerSecurityContext:
       capabilities:
         drop:
@@ -324,20 +220,11 @@ upstream:
         type: RuntimeDefault
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
-    initContainers: []
-    otelTracing: {}
-    dnsConfig: {}
+
+  # GS overrides for node
   node:
-    selinux: false
-    env: []
-    envFrom: []
-    kubeletPath: /var/lib/kubelet
-    loggingFormat: text
-    logLevel: 2
-    enableMetrics: false
     enablePrometheusAnnotations: false
-    priorityClassName:
-    additionalArgs: []
+    enableWindows: false
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -357,16 +244,6 @@ upstream:
                     - a1.xlarge
                     - a1.2xlarge
                     - a1.4xlarge
-    nodeSelector: {}
-    daemonSetAnnotations: {}
-    podAnnotations: {}
-    podLabels: {}
-    terminationGracePeriodSeconds: 30
-    tolerateAllTaints: true
-    tolerations:
-      - operator: Exists
-        effect: NoExecute
-        tolerationSeconds: 300
     resources:
       requests:
         cpu: 10m
@@ -374,41 +251,18 @@ upstream:
       limits:
         cpu: 100m
         memory: 256Mi
-    revisionHistoryLimit: 10
-    probeDirVolume:
-      emptyDir: {}
-    serviceAccount:
-      create: true
-      name: ebs-csi-node-sa
-      annotations: {}
-      automountServiceAccountToken: true
-      disableMutation: false
-    enableLinux: true
-    enableWindows: false
-    legacyXFS: false
-    reservedVolumeAttachments:
-    volumeAttachLimit:
     updateStrategy:
       type: RollingUpdate
       rollingUpdate:
         maxUnavailable: "25%"
-    hostNetwork: false
-    securityContext:
-      runAsNonRoot: false
-      runAsUser: 0
-      runAsGroup: 0
-      fsGroup: 0
-    namespaceOverride: ""
-    volumes: []
-    volumeMounts: []
     containerSecurityContext:
       capabilities:
         drop:
           - ALL
       readOnlyRootFilesystem: true
       privileged: true
-    initContainers: []
-    otelTracing: {}
+
+  # GS storage configuration
   storageClasses:
     - name: gp3
       annotations:
@@ -418,10 +272,8 @@ upstream:
       parameters:
         encrypted: "true"
         type: gp3
-  defaultStorageClass:
-    enabled: false
-  volumeSnapshotClasses: []
+
+  # GS-specific settings that differ from upstream defaults
   useOldCSIDriver: true
-  nodeComponentOnly: false
   helmTester:
     enabled: false
