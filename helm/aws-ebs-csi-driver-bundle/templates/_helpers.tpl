@@ -188,7 +188,16 @@ Builds:
 {{- if .Values.networkPolicy -}}
 {{- $_ := set $workloadValues "networkPolicy" .Values.networkPolicy -}}
 {{- end -}}
-{{- $_ := set $workloadValues "global" (dict "podSecurityStandards" (dict "enforced" (dig "global" "podSecurityStandards" "enforced" true .Values))) -}}
+{{- $pssEnforced := true -}}
+{{- if hasKey .Values "global" -}}
+  {{- $globalMap := .Values.global | deepCopy -}}
+  {{- if hasKey $globalMap "podSecurityStandards" -}}
+    {{- if hasKey $globalMap.podSecurityStandards "enforced" -}}
+      {{- $pssEnforced = $globalMap.podSecurityStandards.enforced -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $_ := set $workloadValues "global" (dict "podSecurityStandards" (dict "enforced" $pssEnforced)) -}}
 
 {{- $workloadValues | toYaml -}}
 {{- end -}}
