@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update ABS config to replace `.appVersion` in Chart.yaml with version detected by ABS.
+
 ### Fixed
 
-- Remove digest part from `Chart.Version` that is appended by flux. The reference with the digest does not exist in our OCI repositories.
+- Use `.Chart.AppVersion` instead of `.Chart.Version` for OCIRepository tag.
 
 ## [4.1.1] - 2026-02-06
 
