@@ -44,10 +44,10 @@ global:
 upstream:
   nameOverride: aws-ebs-csi-driver
 
-  # GS image mirror
+  # GS image mirror (combined registry/repository path)
   image:
-    containerRegistry: "gsoci.azurecr.io/"
-    repository: giantswarm/aws-ebs-csi-driver
+    containerRegistry: ""
+    repository: gsoci.azurecr.io/giantswarm/aws-ebs-csi-driver
     tag: v1.56.0
 
   # GS image mirrors + resource limits + security hardening for sidecars

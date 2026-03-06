@@ -3,7 +3,7 @@
 Expand the name of the chart.
 */}}
 {{- define "aws-ebs-csi-driver-bundle.name" -}}
-{{- default .Chart.Name .Values.bundleNameOverride | trunc 63 | trimSuffix "-" -}}
+{{- .Chart.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
@@ -12,15 +12,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "aws-ebs-csi-driver-bundle.fullname" -}}
-{{- if .Values.fullBundleNameOverride -}}
-{{- .Values.fullBundleNameOverride | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- $name := default .Chart.Name .Values.bundleNameOverride -}}
+{{- $name := .Chart.Name -}}
 {{- if contains $name .Release.Name -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -28,7 +24,7 @@ If release name contains chart name it will be used as a full name.
 Create chart name and version as used by the chart label.
 */}}
 {{- define "aws-ebs-csi-driver-bundle.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.AppVersion | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
@@ -95,7 +91,7 @@ Get trust policy statements for all provided OIDC domains
   "Action": "sts:AssumeRoleWithWebIdentity",
   "Condition": {
     "StringEquals": {
-      "{{ $oidcDomain }}:sub": "system:serviceaccount:kube-system:{{ $.Values.upstream.controller.serviceAccount.name }}"
+      "{{ $oidcDomain }}:sub": "system:serviceaccount:kube-system:{{ $.Values.controller.serviceAccount.name }}"
     }
   }
 }
@@ -103,101 +99,90 @@ Get trust policy statements for all provided OIDC domains
 {{- end -}}
 
 {{/*
-Set Giant Swarm specific values — computes IRSA role ARN and injects it.
+Set Giant Swarm specific values — computes IRSA role ARN.
 */}}
 {{- define "giantswarm.setValues" -}}
 {{- $cmvalues := (include "aws-ebs-csi-driver-bundle.crossplaneConfigData" .) | fromYaml -}}
 {{- $clusterID := (include "aws-ebs-csi-driver-bundle.clusterID" .) -}}
-{{- $_ := set .Values.upstream.controller.serviceAccount.annotations "eks.amazonaws.com/role-arn" (printf "arn:%s:iam::%s:role/%s-ebs-csi-driver" $cmvalues.awsPartition $cmvalues.accountID $clusterID) -}}
+{{- $_ := set .Values.controller.serviceAccount.annotations "eks.amazonaws.com/role-arn" (printf "arn:%s:iam::%s:role/%s-ebs-csi-driver" $cmvalues.awsPartition $cmvalues.accountID $clusterID) -}}
+{{- if and (not .Values.clusterName) -}}
+{{- $_ := set .Values "clusterName" $clusterID -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Reusable: combine GS split registry+repository into upstream single repository.
+Preserves all other keys (tag, pullPolicy, etc.) from the input dict.
+*/}}
+{{- define "giantswarm.combineImage" -}}
+{{- $result := deepCopy . -}}
+{{- $_ := set $result "repository" (printf "%s/%s" .registry .repository) -}}
+{{- $_ := unset $result "registry" -}}
+{{- $result | toYaml -}}
 {{- end -}}
 
 {{/*
 Transform flat bundle values into the nested workload chart structure.
-Builds:
-  clusterID: ...
-  upstream:
-    nameOverride: aws-ebs-csi-driver
-    image: (with containerRegistry from global.image.registry)
-    controller: (with IRSA annotation)
-    ...
-  verticalPodAutoscaler: ...
-  networkPolicy: ...
-  global: ...
+The workload chart expects:
+  - upstream: {} — values for the upstream subchart dependency
+  - networkPolicy: {} — extras
+  - verticalPodAutoscaler: {} — extras
+  - global: {} — extras
+
+Keys listed in $bundleOnlyKeys and $extrasKeys are excluded from upstream.
+Any other key in .Values passes through to upstream automatically.
 */}}
 {{- define "giantswarm.workloadValues" -}}
 {{- include "giantswarm.setValues" . -}}
-{{- $clusterID := (include "aws-ebs-csi-driver-bundle.clusterID" .) -}}
+{{- $upstreamValues := dict -}}
 
 {{/* Keys that belong to the bundle chart itself (never forwarded) */}}
-{{- $bundleOnlyKeys := list "ociRepositoryUrl" "clusterID" "bundleNameOverride" "fullBundleNameOverride" "proxy" "cluster" "global" -}}
+{{- $bundleOnlyKeys := list "ociRepositoryUrl" "clusterID" "clusterName" -}}
 {{/* Keys forwarded as workload extras (not under upstream:) */}}
-{{- $extrasKeys := list "networkPolicy" "verticalPodAutoscaler" -}}
+{{- $extrasKeys := list "networkPolicy" "verticalPodAutoscaler" "global" -}}
 {{/* Keys with special handling */}}
-{{- $specialKeys := list "upstream" -}}
+{{- $specialKeys := list "image" "sidecars" "controller" "node" "storageClasses" -}}
 {{- $reservedKeys := concat $bundleOnlyKeys $extrasKeys $specialKeys -}}
 
-{{/* Start from the explicit upstream values */}}
-{{- $upstream := deepCopy .Values.upstream -}}
+{{/* Image: combine GS split format; set containerRegistry to empty since
+     the upstream chart prepends it to repository (fullImagePath helper) */}}
+{{- $combinedImage := include "giantswarm.combineImage" .Values.image | fromYaml -}}
+{{- $_ := set $combinedImage "containerRegistry" "" -}}
+{{- $_ := set $upstreamValues "image" $combinedImage -}}
 
-{{/* Preserve the original chart name for selector compatibility */}}
-{{- $_ := set $upstream "nameOverride" "aws-ebs-csi-driver" -}}
-
-{{/* Add containerRegistry (with trailing slash) to main image */}}
-{{/* Upstream uses image.containerRegistry as prefix for all images (main + sidecars) */}}
-{{- $registry := .Values.global.image.registry -}}
-{{- if $registry -}}
-  {{- $registryWithSlash := printf "%s/" $registry -}}
-  {{- if index $upstream "image" -}}
-    {{- $_ := set (index $upstream "image") "containerRegistry" $registryWithSlash -}}
+{{/* Sidecars: combine GS split format for each */}}
+{{- $sidecars := deepCopy .Values.sidecars -}}
+{{- range $name, $sidecar := .Values.sidecars -}}
+  {{- if and $sidecar.image $sidecar.image.registry $sidecar.image.repository -}}
+    {{- $_ := set (index $sidecars $name) "image" (include "giantswarm.combineImage" $sidecar.image | fromYaml) -}}
   {{- end -}}
 {{- end -}}
+{{- $_ := set $upstreamValues "sidecars" $sidecars -}}
 
-{{/* Map proxy settings to upstream format (proxy.http_proxy / proxy.no_proxy) */}}
-{{/* Merge cluster.proxy (base) with proxy (override); local proxy values win */}}
-{{- $httpProxy := "" -}}
-{{- $noProxy := "" -}}
-{{- if and .Values.cluster .Values.cluster.proxy -}}
-  {{- $httpProxy = default "" .Values.cluster.proxy.http -}}
-  {{- $noProxy = default "" .Values.cluster.proxy.noProxy -}}
-{{- end -}}
-{{- if .Values.proxy -}}
-  {{- if .Values.proxy.http -}}
-    {{- $httpProxy = .Values.proxy.http -}}
-  {{- end -}}
-  {{- if .Values.proxy.noProxy -}}
-    {{- $noProxy = .Values.proxy.noProxy -}}
-  {{- end -}}
-{{- end -}}
-{{- if $httpProxy -}}
-  {{- $_ := set $upstream "proxy" (dict "http_proxy" $httpProxy "no_proxy" $noProxy) -}}
+{{/* Controller + Node: direct pass-through */}}
+{{- $_ := set $upstreamValues "controller" (deepCopy .Values.controller) -}}
+{{- $_ := set $upstreamValues "node" (deepCopy .Values.node) -}}
+
+{{/* storageClasses: forwarded to upstream */}}
+{{- if .Values.storageClasses -}}
+{{- $_ := set $upstreamValues "storageClasses" .Values.storageClasses -}}
 {{- end -}}
 
-{{/* Pass through any non-reserved value to upstream (future-proofing) */}}
+{{/* Preserve the original chart name so selectors stay compatible with pre-dependency upgrades */}}
+{{- $_ := set $upstreamValues "nameOverride" "aws-ebs-csi-driver" -}}
+
+{{/* Pass through any non-reserved value to upstream (e.g. useFIPS, imagePullSecrets) */}}
 {{- range $key, $val := .Values -}}
   {{- if not (has $key $reservedKeys) -}}
-    {{- $_ := set $upstream $key $val -}}
+  {{- $_ := set $upstreamValues $key $val -}}
   {{- end -}}
 {{- end -}}
 
-{{/* Assemble workload values: clusterID + upstream + extras */}}
-{{- $workloadValues := dict "upstream" $upstream -}}
-{{- $_ := set $workloadValues "clusterID" $clusterID -}}
-{{- if .Values.verticalPodAutoscaler -}}
-{{- $_ := set $workloadValues "verticalPodAutoscaler" .Values.verticalPodAutoscaler -}}
-{{- end -}}
-{{- if .Values.networkPolicy -}}
+{{/* Assemble workload values: upstream + extras */}}
+{{- $workloadValues := dict "upstream" $upstreamValues -}}
 {{- $_ := set $workloadValues "networkPolicy" .Values.networkPolicy -}}
-{{- end -}}
-{{- $pssEnforced := true -}}
-{{- if hasKey .Values "global" -}}
-  {{- $globalMap := .Values.global | deepCopy -}}
-  {{- if hasKey $globalMap "podSecurityStandards" -}}
-    {{- if hasKey $globalMap.podSecurityStandards "enforced" -}}
-      {{- $pssEnforced = $globalMap.podSecurityStandards.enforced -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-{{- $_ := set $workloadValues "global" (dict "podSecurityStandards" (dict "enforced" $pssEnforced)) -}}
+{{- $_ := set $workloadValues "verticalPodAutoscaler" .Values.verticalPodAutoscaler -}}
+{{- $_ := set $workloadValues "global" .Values.global -}}
 
 {{- $workloadValues | toYaml -}}
 {{- end -}}

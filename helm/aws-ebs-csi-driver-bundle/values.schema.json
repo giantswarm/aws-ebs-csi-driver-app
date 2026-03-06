@@ -3,34 +3,8 @@
     "type": "object",
     "additionalProperties": true,
     "properties": {
-        "clusterID": {
-            "type": "string"
-        },
-        "bundleNameOverride": {
-            "type": "string"
-        },
-        "fullBundleNameOverride": {
-            "type": "string"
-        },
         "ociRepositoryUrl": {
             "type": "string"
-        },
-        "global": {
-            "type": "object",
-            "properties": {
-                "image": {
-                    "type": "object",
-                    "properties": {
-                        "registry": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "upstream": {
-            "type": "object",
-            "additionalProperties": true
         }
     }
 }
