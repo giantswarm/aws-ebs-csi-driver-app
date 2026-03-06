@@ -128,6 +128,14 @@ Builds:
 {{- include "giantswarm.setValues" . -}}
 {{- $clusterID := (include "aws-ebs-csi-driver-bundle.clusterID" .) -}}
 
+{{/* Keys that belong to the bundle chart itself (never forwarded) */}}
+{{- $bundleOnlyKeys := list "ociRepositoryUrl" "clusterID" "bundleNameOverride" "fullBundleNameOverride" "proxy" "cluster" "global" -}}
+{{/* Keys forwarded as workload extras (not under upstream:) */}}
+{{- $extrasKeys := list "networkPolicy" "verticalPodAutoscaler" -}}
+{{/* Keys with special handling */}}
+{{- $specialKeys := list "upstream" -}}
+{{- $reservedKeys := concat $bundleOnlyKeys $extrasKeys $specialKeys -}}
+
 {{/* Start from the explicit upstream values */}}
 {{- $upstream := deepCopy .Values.upstream -}}
 
@@ -162,6 +170,13 @@ Builds:
 {{- end -}}
 {{- if $httpProxy -}}
   {{- $_ := set $upstream "proxy" (dict "http_proxy" $httpProxy "no_proxy" $noProxy) -}}
+{{- end -}}
+
+{{/* Pass through any non-reserved value to upstream (future-proofing) */}}
+{{- range $key, $val := .Values -}}
+  {{- if not (has $key $reservedKeys) -}}
+    {{- $_ := set $upstream $key $val -}}
+  {{- end -}}
 {{- end -}}
 
 {{/* Assemble workload values: clusterID + upstream + extras */}}
