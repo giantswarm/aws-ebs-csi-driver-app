@@ -7,13 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Breaking
+
+- **Workload chart renamed** from `aws-ebs-csi-driver-app` to `aws-ebs-csi-driver`. The OCI catalog artifact name changes accordingly.
+- **Bundle values restructured**: upstream chart values are now under the `upstream:` key in the bundle `values.yaml`. The `giantswarm.workloadValues` helper handles the transformation automatically, so bundle users only need to place overrides under `upstream:` in their App CR ConfigMap.
+- **Direct workload chart install**: if installing the workload chart directly (without the bundle), all upstream values must be under the `upstream:` key, and extras (`verticalPodAutoscaler`, `networkPolicy`, `global.podSecurityStandards`) are at the top level.
+
 ### Changed
 
 - Update ABS config to replace `.appVersion` in Chart.yaml with version detected by ABS.
+- Migrate from forked upstream chart to unmodified upstream as Helm dependency (alias `upstream`).
+- Restructure bundle values into explicit BUNDLE-ONLY / UPSTREAM / EXTRAS sections.
+- Extract `giantswarm.combineImage` and `giantswarm.setValues` into separate reusable helpers.
+- Add `clusterID` derivation from release name as fallback.
+- Use `clusterID` helper consistently across all bundle templates.
+- Gate NetworkPolicy templates with `networkPolicy.enabled`.
+- Rewrite README with architecture diagram, terminology table, value flow, and upgrade notes.
 
 ### Fixed
 
 - Use `.Chart.AppVersion` instead of `.Chart.Version` for OCIRepository tag.
+
+### Added
+
+- Add VPA templates for controller (Deployment) and node (DaemonSet).
+- Add Kyverno PolicyException template for Pod Security Standards.
+- Add `ignorePaths` to `.kube-linter.yaml` for upstream subchart.
+- Forward `verticalPodAutoscaler`, `networkPolicy`, and `global.podSecurityStandards` as extras.
 
 ## [4.1.1] - 2026-02-06
 
