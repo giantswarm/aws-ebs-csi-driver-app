@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "additionalDaemonSets": {
-            "type": "null"
+            "type": ["null", "object"]
         },
         "awsAccessSecret": {
             "type": "object",
@@ -200,13 +200,13 @@
                     "type": "object"
                 },
                 "httpEndpoint": {
-                    "type": "null"
+                    "type": ["null", "string"]
                 },
                 "initContainers": {
                     "type": "array"
                 },
                 "k8sTagClusterId": {
-                    "type": "null"
+                    "type": ["null", "string"]
                 },
                 "logLevel": {
                     "type": "integer"
@@ -238,7 +238,7 @@
                     "type": "string"
                 },
                 "region": {
-                    "type": "null"
+                    "type": ["null", "string"]
                 },
                 "replicaCount": {
                     "type": "integer"
@@ -416,7 +416,7 @@
             "minimum": 10
         },
         "fullnameOverride": {
-            "type": "null"
+            "type": ["null", "string"]
         },
         "global": {
             "type": "object",
@@ -460,7 +460,7 @@
             "type": "array"
         },
         "nameOverride": {
-            "type": "null"
+            "type": ["null", "string"]
         },
         "node": {
             "type": "object",
@@ -591,7 +591,7 @@
                     "type": "object"
                 },
                 "priorityClassName": {
-                    "type": "null"
+                    "type": ["null", "string"]
                 },
                 "probeDirVolume": {
                     "type": "object",
@@ -602,7 +602,7 @@
                     }
                 },
                 "reservedVolumeAttachments": {
-                    "type": "null"
+                    "type": ["null", "integer"]
                 },
                 "resources": {
                     "type": "object",
@@ -714,7 +714,7 @@
                     }
                 },
                 "volumeAttachLimit": {
-                    "type": "null"
+                    "type": ["null", "integer"]
                 },
                 "volumeMounts": {
                     "type": "array"
@@ -1023,7 +1023,7 @@
                             "type": "array"
                         },
                         "additionalClusterRoleRules": {
-                            "type": "null"
+                            "type": ["null", "array"]
                         },
                         "env": {
                             "type": "array"

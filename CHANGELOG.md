@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add IRSA environment variables (`AWS_ROLE_ARN`, `AWS_WEB_IDENTITY_TOKEN_FILE`), projected ServiceAccountToken volume, and `AWS_REGION` to the EBS CSI controller, enabling IRSA authentication in CAPA clusters.
 
+### Fixed
+
+- Fix values schema fields that only accepted `null` to also accept their actual types (`string`, `integer`, `object`, or `array`), preventing Helm validation errors when values are provided.
+
 ## [4.1.2] - 2026-03-09
 
 ### Changed
