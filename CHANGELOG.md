@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add IRSA environment variables (`AWS_ROLE_ARN`, `AWS_WEB_IDENTITY_TOKEN_FILE`), projected ServiceAccountToken volume, and `AWS_REGION` to the EBS CSI controller, enabling IRSA authentication in CAPA clusters.
 
+## [4.1.2] - 2026-03-09
+
+### Changed
+
+- Update ABS config to replace `.appVersion` in Chart.yaml with version detected by ABS.
+
+### Fixed
+
+- Use `.Chart.AppVersion` instead of `.Chart.Version` for OCIRepository tag.
+
 ## [4.1.1] - 2026-02-06
 
 ### Changed
@@ -543,7 +553,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.1...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.2...HEAD
+[4.1.2]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.1...v4.1.2
 [4.1.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.0.3...v4.1.0
 [4.0.3]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.0.2...v4.0.3
