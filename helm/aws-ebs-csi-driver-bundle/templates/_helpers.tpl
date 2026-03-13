@@ -108,6 +108,20 @@ Set Giant Swarm specific values — computes IRSA role ARN.
 {{- if and (not .Values.clusterName) -}}
 {{- $_ := set .Values "clusterName" $clusterID -}}
 {{- end -}}
+{{/* Default extraVolumeTags: tag EBS volumes with the cluster name so we know
+     which cluster they belong to. User-supplied tags (root or controller level)
+     are merged on top. */}}
+{{- $evtDefaults := dict "sigs.k8s.io/cluster-name" $clusterID -}}
+{{- $evtUser := dict -}}
+{{- if .Values.extraVolumeTags -}}
+  {{- $evtUser = .Values.extraVolumeTags -}}
+{{- end -}}
+{{- if .Values.controller -}}
+  {{- if .Values.controller.extraVolumeTags -}}
+    {{- $evtUser = merge $evtUser .Values.controller.extraVolumeTags -}}
+  {{- end -}}
+{{- end -}}
+{{- $_ := set .Values "controller" (merge (dict "extraVolumeTags" (merge $evtUser $evtDefaults)) (default dict .Values.controller)) -}}
 {{- end -}}
 
 {{/*
@@ -141,7 +155,7 @@ Any other key in .Values passes through to upstream automatically.
 {{/* Keys forwarded as workload extras (not under upstream:) */}}
 {{- $extrasKeys := list "networkPolicy" "verticalPodAutoscaler" "global" -}}
 {{/* Keys with special handling */}}
-{{- $specialKeys := list "image" "sidecars" "controller" "node" "storageClasses" -}}
+{{- $specialKeys := list "image" "sidecars" "controller" "node" "storageClasses" "extraVolumeTags" -}}
 {{- $reservedKeys := concat $bundleOnlyKeys $extrasKeys $specialKeys -}}
 
 {{/* Image: combine GS split format; set containerRegistry to empty since
