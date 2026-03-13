@@ -45,7 +45,7 @@ sidecars:
     image:
       registry: gsoci.azurecr.io
       repository: giantswarm/csi-provisioner
-      tag: "v5.3.0"
+      tag: "v6.1.1"
     resources:
       requests:
         cpu: 10m
@@ -57,7 +57,7 @@ sidecars:
     image:
       registry: gsoci.azurecr.io
       repository: giantswarm/csi-attacher
-      tag: "v4.9.0"
+      tag: "v4.11.0"
     resources:
       requests:
         cpu: 10m
@@ -70,7 +70,7 @@ sidecars:
     image:
       registry: gsoci.azurecr.io
       repository: giantswarm/csi-snapshotter
-      tag: "v8.3.0"
+      tag: "v8.5.0"
     resources:
       requests:
         cpu: 10m
@@ -82,7 +82,7 @@ sidecars:
     image:
       registry: gsoci.azurecr.io
       repository: giantswarm/livenessprobe
-      tag: "v2.16.0"
+      tag: "v2.18.0"
     resources:
       requests:
         cpu: 10m
@@ -94,7 +94,7 @@ sidecars:
     image:
       registry: gsoci.azurecr.io
       repository: giantswarm/csi-resizer
-      tag: "v1.14.0"
+      tag: "v2.1.0"
     resources:
       requests:
         cpu: 10m
@@ -106,7 +106,7 @@ sidecars:
     image:
       registry: gsoci.azurecr.io
       repository: giantswarm/csi-node-driver-registrar
-      tag: "v2.14.0"
+      tag: "v2.16.0"
     resources:
       requests:
         cpu: 10m
@@ -118,7 +118,7 @@ sidecars:
     image:
       registry: gsoci.azurecr.io
       repository: giantswarm/volume-modifier-for-k8s
-      tag: "v0.8.0"
+      tag: "v0.9.3"
     resources:
       requests:
         cpu: 10m
