@@ -6,7 +6,6 @@ appVersion: 4.1.2
 home: https://github.com/giantswarm/aws-ebs-csi-driver-app
 icon: https://s.giantswarm.io/app-icons/aws/2/dark.svg
 annotations:
-  application.giantswarm.io/team: phoenix
   io.giantswarm.application.audience: all
   io.giantswarm.application.managed: "true"
   io.giantswarm.application.team: phoenix

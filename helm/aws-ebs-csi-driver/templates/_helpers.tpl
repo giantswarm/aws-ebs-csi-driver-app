@@ -52,7 +52,7 @@ app.kubernetes.io/component: csi-driver
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 giantswarm.io/service-type: managed
-application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
+application.giantswarm.io/team: {{ index .Chart.Annotations "io.giantswarm.application.team" | quote }}
 {{- if .Values.customLabels }}
 {{ toYaml .Values.customLabels }}
 {{- end }}
