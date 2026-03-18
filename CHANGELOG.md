@@ -15,6 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add `io.giantswarm.application.audience: all` annotation to publish the app to the customer Backstage catalog.
+- Migrate chart metadata annotations to `io.giantswarm.application.*` format for both the app and bundle charts.
+
+## [4.1.2] - 2026-03-09
+
+### Changed
+
 - Update ABS config to replace `.appVersion` in Chart.yaml with version detected by ABS.
 - Migrate from forked upstream chart to unmodified upstream as Helm dependency (alias `upstream`).
 - Restructure bundle values into explicit BUNDLE-ONLY / UPSTREAM / EXTRAS sections.
@@ -567,7 +574,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.1...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.2...HEAD
+[4.1.2]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.1...v4.1.2
 [4.1.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.0.3...v4.1.0
 [4.0.3]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.0.2...v4.0.3
