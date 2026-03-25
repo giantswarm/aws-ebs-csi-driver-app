@@ -1,0 +1,6 @@
+appName: "aws-ebs-csi-driver-bundle"
+repoName: "aws-ebs-csi-driver-app"
+appCatalog: "default"
+
+providers:
+  - capa

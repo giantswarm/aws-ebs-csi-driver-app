@@ -1,0 +1,39 @@
+{{- if .Values.verticalPodAutoscaler.enabled }}
+{{- if not .Values.upstream.nodeComponentOnly }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: ebs-csi-controller
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "aws-ebs-csi-driver.labels" . | nindent 4 }}
+spec:
+  resourcePolicy:
+    containerPolicies:
+    {{- toYaml .Values.verticalPodAutoscaler.controller.containerPolicies | nindent 4 }}
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ebs-csi-controller
+  updatePolicy:
+    updateMode: Auto
+{{- end }}
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: ebs-csi-node
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "aws-ebs-csi-driver.labels" . | nindent 4 }}
+spec:
+  resourcePolicy:
+    containerPolicies:
+    {{- toYaml .Values.verticalPodAutoscaler.node.containerPolicies | nindent 4 }}
+  targetRef:
+    apiVersion: apps/v1
+    kind: DaemonSet
+    name: ebs-csi-node
+  updatePolicy:
+    updateMode: Auto
+{{- end }}
