@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.2.0] - 2026-03-25
+
 ### Breaking
 
 - **Workload chart renamed** from `aws-ebs-csi-driver-app` to `aws-ebs-csi-driver`. The OCI catalog artifact name changes accordingly.
@@ -574,7 +576,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.2...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.2.0...HEAD
+[4.2.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.2...v4.2.0
 [4.1.2]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.1...v4.1.2
 [4.1.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.0.3...v4.1.0
