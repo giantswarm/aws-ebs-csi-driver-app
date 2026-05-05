@@ -185,6 +185,7 @@ upstream:
 
   # GS overrides for controller
   controller:
+    enableMetrics: true
     enablePrometheusAnnotations: false
     serviceMonitor:
       labels:
