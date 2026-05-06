@@ -188,6 +188,7 @@ upstream:
     enableMetrics: true
     enablePrometheusAnnotations: false
     serviceMonitor:
+      forceEnable: true
       labels:
         release: prometheus
     resources:

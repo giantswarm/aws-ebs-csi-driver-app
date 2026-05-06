@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Bring back metrics port for controller
+- Re-enable metrics, force use of `ServiceMonitor` to avoid rendering without them if CRDs are not installed yet
 
 ## [4.2.0] - 2026-03-25
 
