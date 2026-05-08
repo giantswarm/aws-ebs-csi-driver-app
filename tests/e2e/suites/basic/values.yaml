@@ -1,1 +1,2 @@
 # Default values - bundle defaults should work
+configmap: {}
