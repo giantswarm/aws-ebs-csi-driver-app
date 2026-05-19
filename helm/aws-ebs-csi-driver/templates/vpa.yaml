@@ -35,5 +35,5 @@ spec:
     kind: DaemonSet
     name: ebs-csi-node
   updatePolicy:
-    updateMode: Auto
+    updateMode: Initial
 {{- end }}
