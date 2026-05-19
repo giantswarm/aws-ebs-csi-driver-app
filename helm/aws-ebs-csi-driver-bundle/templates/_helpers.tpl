@@ -181,7 +181,7 @@ Any other key in .Values passes through to upstream automatically.
 {{/* Keys forwarded as workload extras (not under upstream:) */}}
 {{- $extrasKeys := list "networkPolicy" "verticalPodAutoscaler" "global" -}}
 {{/* Keys with special handling */}}
-{{- $specialKeys := list "image" "sidecars" "controller" "node" "storageClasses" "extraVolumeTags" -}}
+{{- $specialKeys := list "image" "sidecars" "controller" "node" "storageClasses" "extraVolumeTags" "proxy" -}}
 {{- $reservedKeys := concat $bundleOnlyKeys $extrasKeys $specialKeys -}}
 
 {{/* Image: combine GS split format; set containerRegistry to empty since
@@ -206,6 +206,22 @@ Any other key in .Values passes through to upstream automatically.
 {{/* storageClasses: forwarded to upstream */}}
 {{- if .Values.storageClasses -}}
 {{- $_ := set $upstreamValues "storageClasses" .Values.storageClasses -}}
+{{- end -}}
+
+{{/* Proxy: translate bundle keys (http, noProxy) into the keys the upstream
+     chart expects (http_proxy, no_proxy). Only forwarded when set, so the
+     upstream's empty defaults remain in effect otherwise. */}}
+{{- if .Values.proxy -}}
+  {{- $upstreamProxy := dict -}}
+  {{- if .Values.proxy.http -}}
+    {{- $_ := set $upstreamProxy "http_proxy" .Values.proxy.http -}}
+  {{- end -}}
+  {{- if .Values.proxy.noProxy -}}
+    {{- $_ := set $upstreamProxy "no_proxy" .Values.proxy.noProxy -}}
+  {{- end -}}
+  {{- if $upstreamProxy -}}
+    {{- $_ := set $upstreamValues "proxy" $upstreamProxy -}}
+  {{- end -}}
 {{- end -}}
 
 {{/* Preserve the original chart name so selectors stay compatible with pre-dependency upgrades */}}
