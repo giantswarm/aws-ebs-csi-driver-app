@@ -1,4 +1,4 @@
-appName: "aws-ebs-csi-driver-bundle"
+appName: "aws-ebs-csi-driver" # Needs to match the name in the release
 repoName: "aws-ebs-csi-driver-app"
 appCatalog: "default"
 
