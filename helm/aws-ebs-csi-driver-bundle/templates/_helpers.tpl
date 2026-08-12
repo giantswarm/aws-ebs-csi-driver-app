@@ -177,7 +177,7 @@ Any other key in .Values passes through to upstream automatically.
 {{- $upstreamValues := dict -}}
 
 {{/* Keys that belong to the bundle chart itself (never forwarded) */}}
-{{- $bundleOnlyKeys := list "ociRepositoryUrl" "clusterID" "clusterName" -}}
+{{- $bundleOnlyKeys := list "clusterID" "clusterName" "ociRepositoryUrl" "helmRelease" -}}
 {{/* Keys forwarded as workload extras (not under upstream:) */}}
 {{- $extrasKeys := list "networkPolicy" "verticalPodAutoscaler" "global" -}}
 {{/* Keys with special handling */}}

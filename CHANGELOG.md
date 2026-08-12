@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- HelmRelease: Add dependencies.
+
 ### Changed
 
 - Run the e2e test suites automatically on release PRs by adding `.github/release-pr-body.md`.
