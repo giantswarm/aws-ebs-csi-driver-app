@@ -23,6 +23,12 @@
 # They are excluded from the workload chart ConfigMap.
 
 ociRepositoryUrl: oci://gsoci.azurecr.io/charts/giantswarm/aws-ebs-csi-driver
+helmRelease:
+  dependsOn:
+  - cilium
+  - cloud-provider-aws
+  - kyverno-crds
+  - vertical-pod-autoscaler-crd
 
 # clusterID is set automatically from the App CR / cluster-values ConfigMap.
 # It drives IRSA role naming and Flux resource prefixes.

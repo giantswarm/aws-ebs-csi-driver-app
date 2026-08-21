@@ -33,6 +33,13 @@ spec:
     kind: OCIRepository
     name: {{ include "aws-ebs-csi-driver-bundle.clusterID" . }}-aws-ebs-csi-driver
     namespace: {{ .Release.Namespace }}
+  {{- if .Values.helmRelease.dependsOn }}
+  dependsOn:
+  {{- range .Values.helmRelease.dependsOn }}
+  - name: {{ include "aws-ebs-csi-driver-bundle.clusterID" $ }}-{{ . }}
+    namespace: {{ $.Release.Namespace }}
+  {{- end }}
+  {{- end }}
   releaseName: aws-ebs-csi-driver
   targetNamespace: kube-system
   storageNamespace: kube-system
