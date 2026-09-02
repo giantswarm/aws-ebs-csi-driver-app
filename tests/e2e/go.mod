@@ -11,7 +11,7 @@ require (
 	github.com/fluxcd/helm-controller/api v1.4.5
 	github.com/giantswarm/apptest-framework/v2 v2.2.1
 	github.com/giantswarm/clustertest/v2 v2.2.2
-	github.com/onsi/ginkgo/v2 v2.32.0
+	github.com/onsi/ginkgo/v2 v2.32.1
 	github.com/onsi/gomega v1.40.0
 	k8s.io/api v0.35.1
 	k8s.io/apimachinery v0.35.1
