@@ -24,11 +24,12 @@
 
 ociRepositoryUrl: oci://gsoci.azurecr.io/charts/giantswarm/aws-ebs-csi-driver
 helmRelease:
+  # Each value is evaluated as a Go template. Dependencies whose value does not result in `true` are skipped.
   dependsOn:
-  - cilium
-  - cloud-provider-aws
-  - kyverno-crds
-  - vertical-pod-autoscaler-crd
+    cilium: true
+    cloud-provider-aws: true
+    kyverno-crds: '{{ $.Values.global.podSecurityStandards.enforced }}'
+    vertical-pod-autoscaler-crd: '{{ $.Values.verticalPodAutoscaler.enabled }}'
 
 # clusterID is set automatically from the App CR / cluster-values ConfigMap.
 # It drives IRSA role naming and Flux resource prefixes.
