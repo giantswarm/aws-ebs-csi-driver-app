@@ -3,3 +3,6 @@ replace-chart-version-with-git: true
 replace-app-version-with-git: true
 generate-metadata: true
 catalog-base-url: https://giantswarm.github.io/default-catalog/
+
+# The chart reads its Crossplane config from a live ConfigMap via `lookup`
+disable-helm-template-validator: true
