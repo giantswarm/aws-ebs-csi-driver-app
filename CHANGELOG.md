@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Allow alloy-metrics to scrape the controller metrics ports 3301-3306. The controller NetworkPolicy only allowed egress, so the default deny in `kube-system` dropped every scrape.
+
 ## [4.3.2] - 2026-10-01
 
 ### Changed
