@@ -12,6 +12,19 @@ spec:
       app: ebs-csi-controller
   policyTypes:
   - Egress
+  - Ingress
   egress:
   - {}
+  # Metrics of the driver (3301) and its sidecars (3302-3306), scraped by alloy-metrics. Without
+  # this, the default deny in kube-system drops the scrapes.
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/instance: alloy-metrics
+          app.kubernetes.io/name: alloy
+    ports:
+    - protocol: TCP
+      port: 3301
+      endPort: 3306
 {{- end }}
