@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Allow Alloy to scrape the EBS CSI controller metrics ports, which the `default-deny-all` network policy of `network-policies-app` blocked.
+- Label the controller ServiceMonitors with the team label so that Alloy scrapes them, and scrape them every 60 seconds instead of every 15.
+
 ## [4.3.2] - 2026-10-01
 
 ### Changed
