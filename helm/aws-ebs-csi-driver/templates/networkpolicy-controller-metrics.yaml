@@ -1,0 +1,40 @@
+{{- /* Drop once upstream ships the controller ingress rules of https://github.com/kubernetes-sigs/aws-ebs-csi-driver/pull/2965 */ -}}
+{{- if and .Values.networkPolicy.enabled (not .Values.upstream.nodeComponentOnly) .Values.upstream.controller.enableMetrics -}}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ebs-csi-controller-metrics
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "aws-ebs-csi-driver.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      app: ebs-csi-controller
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: alloy
+    ports:
+    # Metrics endpoints of `ebs-plugin` and its sidecars, as in the upstream `metrics.yaml`
+    - port: 3301
+      protocol: TCP
+    - port: 3302
+      protocol: TCP
+    - port: 3303
+      protocol: TCP
+    - port: 3304
+      protocol: TCP
+    - port: 3305
+      protocol: TCP
+    - port: 3306
+      protocol: TCP
+    - port: 3307
+      protocol: TCP
+{{- end }}
