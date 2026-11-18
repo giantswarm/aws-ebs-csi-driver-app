@@ -1,4 +1,4 @@
-{{- if .Values.global.podSecurityStandards.enforced }}
+{{- if and .Values.global.podSecurityStandards.enforced .Values.kyvernoPolicyExceptions.enabled .Values.kyvernoPolicyExceptions.legacy.enabled }}
 apiVersion: kyverno.io/v2
 kind: PolicyException
 metadata:
@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "aws-ebs-csi-driver.labels" . | nindent 4 }}
+    policy.giantswarm.io/migrated-to-cel: "true"
 spec:
   exceptions:
     - policyName: disallow-privilege-escalation

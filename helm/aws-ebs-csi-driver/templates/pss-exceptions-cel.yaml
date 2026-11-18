@@ -1,0 +1,73 @@
+{{- if and .Values.global.podSecurityStandards.enforced .Values.kyvernoPolicyExceptions.enabled }}
+apiVersion: policies.kyverno.io/v1
+kind: PolicyException
+metadata:
+  name: aws-ebs-csi-driver
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "aws-ebs-csi-driver.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+spec:
+  policyRefs:
+    - name: disallow-privilege-escalation
+      kind: ValidatingPolicy
+    - name: disallow-privileged-containers
+      kind: ValidatingPolicy
+    - name: require-run-as-nonroot
+      kind: ValidatingPolicy
+    - name: disallow-host-path
+      kind: ValidatingPolicy
+    - name: restrict-volume-types
+      kind: ValidatingPolicy
+    # check-resources-request-and-limits-ratio is a supplemental policy and usually
+    # not enabled. It is excepted because the ebs-csi-node DaemonSet and the
+    # ebs-csi-controller Deployment fail it when the policy is enforced.
+    - name: check-resources-request-and-limits-ratio
+      kind: ValidatingPolicy
+    # require-emptydir-requests-and-limits is a supplemental policy and usually not
+    # enabled. It is excepted because the ebs-csi-node DaemonSet and the
+    # ebs-csi-controller Deployment fail it when the policy is enforced.
+    - name: require-emptydir-requests-and-limits
+      kind: ValidatingPolicy
+    # require-non-root-groups is missing from the legacy exception. It is excepted
+    # because the ebs-csi-node DaemonSet fails it.
+    - name: require-non-root-groups
+      kind: ValidatingPolicy
+    # require-pod-probes is a supplemental policy and usually not enabled. It is
+    # excepted because the ebs-csi-node DaemonSet and the ebs-csi-controller and
+    # snapshot-controller Deployments fail it when the policy is enforced.
+    - name: require-pod-probes
+      kind: ValidatingPolicy
+    # restrict-sa-automount-sa-token is a supplemental policy and usually not
+    # enabled. It is excepted because the ebs-csi-node-sa, ebs-csi-controller-sa
+    # and snapshot-controller ServiceAccounts fail it when the policy is enforced.
+    - name: restrict-sa-automount-sa-token
+      kind: ValidatingPolicy
+    # require-container-requests-and-limits is a supplemental policy and usually
+    # not enabled. It is excepted because the snapshot-controller Deployment fails
+    # it when the policy is enforced.
+    - name: require-container-requests-and-limits
+      kind: ValidatingPolicy
+  matchConditions:
+    # The first block is the legacy match. Its `-*` names match only the Pods (and
+    # the ServiceAccounts), not the ebs-csi-node DaemonSet and the
+    # ebs-csi-controller Deployment themselves, which fail the policies too. The
+    # second block matches them. The third block matches the snapshot-controller
+    # Deployment, its Pods and its ServiceAccount, which the legacy exception
+    # does not cover.
+    - name: aws-ebs-csi-driver-workloads
+      expression: >-
+        (request.namespace == '{{ .Release.Namespace }}' &&
+        has(object.metadata.name) &&
+        (object.metadata.name.startsWith('ebs-csi-node-') ||
+        object.metadata.name.startsWith('ebs-csi-controller-'))) ||
+        (request.kind.kind in ['DaemonSet', 'Deployment'] &&
+        request.namespace == '{{ .Release.Namespace }}' &&
+        has(object.metadata.name) &&
+        object.metadata.name in ['ebs-csi-node', 'ebs-csi-controller']) ||
+        (request.kind.kind in ['Deployment', 'Pod', 'ServiceAccount'] &&
+        request.namespace == '{{ .Release.Namespace }}' &&
+        has(object.metadata.name) &&
+        (object.metadata.name == 'snapshot-controller' || object.metadata.name.startsWith('snapshot-controller-')))
+{{- end }}
