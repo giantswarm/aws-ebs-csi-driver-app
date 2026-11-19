@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.3.3] - 2026-11-19
+
 ### Fixed
 
 - Allow Alloy to scrape the EBS CSI controller metrics ports, which the `default-deny-all` network policy of `network-policies-app` blocked.
@@ -609,7 +611,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.2...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.3...HEAD
+[4.3.3]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.2...v4.3.3
 [4.3.2]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.1...v4.3.2
 [4.3.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.0...v4.3.1
 [4.3.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.2.0...v4.3.0
