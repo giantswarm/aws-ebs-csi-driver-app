@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `cluster.x-k8s.io/cluster-name` label to the HelmReleases.
 
+### Changed
+
+- Update upstream `aws-ebs-csi-driver` chart to v2.68.1.
+
 ## [4.3.3] - 2026-11-19
 
 ### Fixed
