@@ -3,6 +3,21 @@
     "type": "object",
     "additionalProperties": true,
     "properties": {
+        "helmRelease": {
+            "type": "object",
+            "properties": {
+                "dependsOn": {
+                    "type": "object",
+                    "description": "HelmReleases the aws-ebs-csi-driver HelmRelease depends on, keyed by name without the cluster ID prefix. Each value is evaluated as a Go template, so a dependency can be made conditional; only values resulting in `true` are kept.",
+                    "additionalProperties": {
+                        "type": [
+                            "boolean",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        },
         "ociRepositoryUrl": {
             "type": "string"
         }

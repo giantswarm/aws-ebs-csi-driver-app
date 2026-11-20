@@ -9,7 +9,7 @@ Here we define the `aws-ebs-csi-driver-bundle` and `aws-ebs-csi-driver` charts w
 
 | Term | Where it lives | What it does |
 |------|---------------|--------------|
-| **BUNDLE-ONLY** | Management cluster only | Never forwarded to workload chart. Examples: `clusterID`, `ociRepositoryUrl` |
+| **BUNDLE-ONLY** | Management cluster only | Never forwarded to workload chart. Examples: `clusterID`, `ociRepositoryUrl`, `helmRelease` |
 | **UPSTREAM** | Workload cluster, under `upstream:` key | Routed to the unmodified upstream subchart. Controls the actual EBS CSI driver: images, controller/node settings, service accounts, storage classes, etc. |
 | **EXTRAS** | Workload cluster, at top level (not under `upstream:`) | Consumed by GS extras templates: `networkPolicy`, `verticalPodAutoscaler`, `global.podSecurityStandards`, etc. |
 
@@ -53,7 +53,7 @@ Management Cluster                          Workload Cluster
    - Maps proxy settings from GS format to upstream format (`proxy.http_proxy` / `proxy.no_proxy`).
    - Routes upstream values under the `upstream:` key.
    - Routes extras (`verticalPodAutoscaler`, `networkPolicy`, `global`) at the top level.
-   - Excludes bundle-only keys (`ociRepositoryUrl`, `clusterID`, etc.).
+   - Excludes bundle-only keys (`clusterID`, `ociRepositoryUrl`, `helmRelease`, etc.).
 3. The resulting values are stored in a ConfigMap on the management cluster.
 4. Flux `HelmRelease` pulls the workload chart from the `OCIRepository` and applies values from the ConfigMap.
 5. On the workload cluster, the `upstream:` values flow into the unmodified upstream subchart, while top-level extras are consumed by GS templates.

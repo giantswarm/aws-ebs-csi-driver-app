@@ -14,4 +14,19 @@
       "enabled": false,
     },
   ],
+  "customManagers": [
+    {
+      // Keep `appVersion` in helm/aws-ebs-csi-driver/Chart.yaml in sync with
+      // the upstream aws-ebs-csi-driver chart dependency version
+      "customType": "regex",
+      "managerFilePatterns": ["/^helm/aws-ebs-csi-driver/Chart\\.yaml$/"],
+      "matchStrings": [
+        "appVersion:\\s*\"?(?<currentValue>[^\"\\s]+)\"?",
+      ],
+      "depNameTemplate": "aws-ebs-csi-driver",
+      "packageNameTemplate": "aws-ebs-csi-driver",
+      "datasourceTemplate": "helm",
+      "registryUrlTemplate": "https://kubernetes-sigs.github.io/aws-ebs-csi-driver",
+    },
+  ],
 }

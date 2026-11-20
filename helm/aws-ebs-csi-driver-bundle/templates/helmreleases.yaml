@@ -1,4 +1,4 @@
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: {{ include "aws-ebs-csi-driver-bundle.clusterID" . }}-aws-ebs-csi-driver
@@ -33,6 +33,23 @@ spec:
     kind: OCIRepository
     name: {{ include "aws-ebs-csi-driver-bundle.clusterID" . }}-aws-ebs-csi-driver
     namespace: {{ .Release.Namespace }}
+  {{- /* `dependsOn` is templated so that a dependency can be made conditional */}}
+  {{- $dependsOn := list }}
+  {{- range $dependency, $enabled := .Values.helmRelease.dependsOn }}
+  {{- if kindIs "string" $enabled }}
+  {{- $enabled = eq (tpl $enabled $ | trim) "true" }}
+  {{- end }}
+  {{- if $enabled }}
+  {{- $dependsOn = append $dependsOn $dependency }}
+  {{- end }}
+  {{- end }}
+  {{- if $dependsOn }}
+  dependsOn:
+  {{- range $dependsOn }}
+  - name: {{ include "aws-ebs-csi-driver-bundle.clusterID" $ }}-{{ . }}
+    namespace: {{ $.Release.Namespace }}
+  {{- end }}
+  {{- end }}
   releaseName: aws-ebs-csi-driver
   targetNamespace: kube-system
   storageNamespace: kube-system

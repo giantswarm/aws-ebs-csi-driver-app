@@ -185,10 +185,15 @@ upstream:
 
   # GS overrides for controller
   controller:
+    enableMetrics: true
     enablePrometheusAnnotations: false
     serviceMonitor:
+      forceEnable: true
       labels:
         release: prometheus
+        # Alloy only selects ServiceMonitors that carry a team or tenant label
+        application.giantswarm.io/team: phoenix
+      interval: 60s
     resources:
       requests:
         cpu: 10m
