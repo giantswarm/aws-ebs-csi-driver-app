@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.4.0] - 2026-11-20
+
 ### Added
 
 - Add `cluster.x-k8s.io/cluster-name` label to the HelmReleases.
+
+### Changed
+
+- Update upstream `aws-ebs-csi-driver` chart to v2.68.1.
 
 ## [4.3.3] - 2026-11-19
 
@@ -615,7 +621,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.1] - 2020-11-24
 
-[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.3...HEAD
+[Unreleased]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.4.0...HEAD
+[4.4.0]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.3...v4.4.0
 [4.3.3]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.2...v4.3.3
 [4.3.2]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.1...v4.3.2
 [4.3.1]: https://github.com/giantswarm/aws-ebs-csi-driver-app/compare/v4.3.0...v4.3.1
