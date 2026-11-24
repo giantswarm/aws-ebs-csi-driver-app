@@ -9,7 +9,7 @@ replace (
 
 require (
 	github.com/fluxcd/helm-controller/api v1.7.2
-	github.com/giantswarm/apptest-framework/v5 v5.4.5
+	github.com/giantswarm/apptest-framework/v5 v5.4.6
 	github.com/onsi/ginkgo/v2 v2.34.0
 	github.com/onsi/gomega v1.44.0
 	k8s.io/api v0.37.2
